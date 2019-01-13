@@ -1,0 +1,27 @@
+<nav id="topMenu" class="hide-on-small-only">
+    <div class="nav-wrapper indigo darken-4">
+        <a href="#" class="brand-logo left">Logo</a>
+
+        <ul class="right">
+            <li><a href="{{ path('trick.home') }}">Home</a></li>
+            <li><a href="{{ path('trick.showall') }}">Tricks</a></li>
+            <li><a href="#">Signin</a></li>
+            <li><a href="#">SignUp</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+<nav id="mobileMenu" class="hide-on-med-and-up">
+    <div class="nav-wrapper indigo darken-4">
+        <div class="row">
+            <div class="col s4 center-align"><a href="{{ path('trick.home') }}"><i class="material-icons">home</i></a>
+            </div>
+            <div class="col s4 center-align"><a href="{{ path('trick.showall') }}"><i
+                            class="material-icons">turned_in</i></a></div>
+            <div class="col s4 center-align"><a href="#"><i class="material-icons">exit_to_app</i></a></div>
+
+        </div>
+
+    </div>
+</nav>

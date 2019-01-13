@@ -1,22 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TricksController!{% endblock %}
+{% block title %}SnowTricks{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <!-- Header image with slogan -->
+    <div class="valign-wrapper vh100" id="st-header-image">
 
-    <h1>FrontPage</h1>
+        <h1 class="header-text-title center-align w100">Phrase Accroche</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/symfony/SnowTricks/src/Controller/TrickController.php'|file_link(0) }}">src/Controller/TricksController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/symfony/SnowTricks/templates/trick/index.html.twig'|file_link(0) }}">templates/tricks/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <!-- The tricks cards -->
+    <div class="row mx-xl-5 mt-xl-5 mt-l-3 mt-s-1">
+        {% for i in 0..10 %}
+            <div class="col xl2 l3 m6 s12 xl5ths">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="https://via.placeholder.com/150x100">
+
+                    </div>
+                    <div class="card-content">
+                        <p>
+                            Trick Name
+                            <span class="right">
+                            <a class="waves-effect waves-light"><i class="material-icons">create</i></a>
+                            <a class="waves-effect waves-light"><i class="material-icons">delete</i></a>
+                        </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {# TODO: Load More #}
+
 {% endblock %}

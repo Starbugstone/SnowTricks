@@ -1,0 +1,20 @@
+// Forcing a flex display for the image and video list
+#trick-images {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#trick-images .col {
+  margin-left: 0; // Removing the margin-left auto from the materialize grid system
+
+}
+
+.trick-image-header {
+  position: relative;
+}
+
+.trick-edit-button {
+  position: absolute;
+  right: 0;
+}
