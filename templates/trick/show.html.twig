@@ -18,14 +18,14 @@
             </div>
 
             <img src="https://via.placeholder.com/350x150" alt="" class="responsive-img w100">
-
+            <h1 class="trick-name center-align w100 font-coiny m-0 text-shadow">Trick name</h1>
         </div>
 
         <!-- Images and videos -->
         <div class="row" id="trick-images">
             {% for i in 0..10 %}
                 <div class="col xl2 l3 m6 s12 mt-3">
-                    <img src="https://via.placeholder.com/350x150" alt="" class="responsive-img w100">
+                    <img src="https://via.placeholder.com/350x150" alt="" class="responsive-img w100 z-depth-2">
                 </div>
 
             {% endfor %}
@@ -133,27 +133,34 @@
         <hr class="seperator">
 
         <!-- List comments -->
-        {% for i in 0..5 %}
-            <div class="row valign-wrapper my-3">
-                <div class="col s2 hide-on-med-and-down"></div>
-                <div class="col s3 l2">
-                    <p><img src="https://via.placeholder.com/150x150" alt="" class="responsive-img circle"></p>
-                    <p class="center-align">Author Name</p>
-                </div>
-                <div class="col s8 l7 z-depth-2 px-4 py-3 mr-s-2">
-                    <div>
-                        <h1>Title</h1>
-                        <h2>Date</h2>
-                        <p>Accusamus blanditiis consequatur deserunt doloribus et ex labore perspiciatis qui, quis, quo
-                            saepe sed
-                            velit. Adipisci atque corporis fugit illum iusto labore maiores mollitia, praesentium qui
-                            reiciendis unde
-                            voluptate, voluptatem.</p>
+        <div id="trick-comments">
+            {% for i in 0..5 %}
+                <div class="row valign-wrapper my-3">
+                    <div class="col s2 hide-on-med-and-down"></div>
+                    <div class="col s3 l2">
+                        <p><img src="https://via.placeholder.com/150x150" alt="" class="responsive-img circle"></p>
+                        <p class="center-align">Author Name</p>
                     </div>
+                    <div class="col s8 l7 z-depth-1 px-4 py-3 mr-s-2">
+                        <div>
+                            <h1 class="center">Title</h1>
+                            <hr class="my-1 seperator">
+
+                            <p>Accusamus blanditiis consequatur deserunt doloribus et ex labore perspiciatis qui, quis,
+                                quo
+                                saepe sed
+                                velit. Adipisci atque corporis fugit illum iusto labore maiores mollitia, praesentium
+                                qui
+                                reiciendis unde
+                                voluptate, voluptatem.</p>
+                            <p class="right m-0">Date</p>
+                        </div>
+                    </div>
+                    <div class="col s2 hide-on-med-and-down"></div>
                 </div>
-                <div class="col s2 hide-on-med-and-down"></div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
+
         <div class="row valign-wrapper pb-5">
             <div class="col s12 my-3 center-align">
                 <a href="" class="btn">Load More</a>

@@ -3,18 +3,35 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-}
 
-#trick-images .col {
-  margin-left: 0; // Removing the margin-left auto from the materialize grid system
+  .col {
+    margin-left: 0; // Removing the margin-left auto from the materialize grid system
 
+  }
 }
 
 .trick-image-header {
   position: relative;
+
+  .trick-edit-button {
+    position: absolute;
+    right: 0;
+  }
+
+  .trick-name {
+    position: absolute;
+    top: 50%;
+  }
 }
 
-.trick-edit-button {
-  position: absolute;
-  right: 0;
+#trick-comments {
+  h1 {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 0;
+  }
 }
