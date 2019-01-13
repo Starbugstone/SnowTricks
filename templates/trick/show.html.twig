@@ -22,7 +22,7 @@
         </div>
 
         <!-- Images and videos -->
-        <div class="row" id="trick-images">
+        <div class="row flex-center" id="trick-images">
             {% for i in 0..10 %}
                 <div class="col xl2 l3 m6 s12 mt-3">
                     <img src="https://via.placeholder.com/350x150" alt="" class="responsive-img w100 z-depth-2">
@@ -104,13 +104,17 @@
         </article>
 
         <!-- Info tags -->
-        <!-- @todo MAKE THIS BETTER! CRAP IN MOBILE -->
-        <div class="info center-align py-4">
-            <span class="z-depth-2 mx-3 p-2">Creation : 01/01/2019</span>
-            <span class="z-depth-2 mx-3 p-2">Group</span>
-            <span class="z-depth-2 mx-3 p-2">Modification : 05/01/2019</span>
+        <div class="row flex-center mt-3">
+            <div class="col s3 mx-2 p-1 z-depth-1 valign-wrapper">
+                <p class="center w100">Creation : 01/01/2019</p>
+            </div>
+            <div class="col s3 mx-2 p-1 z-depth-1 valign-wrapper">
+                <p class="center w100">Group</p>
+            </div>
+            <div class="col s3 mx-2 p-1 z-depth-1 valign-wrapper">
+                <p class="center w100">Modification : 05/01/2019</p>
+            </div>
         </div>
-
 
         <hr class="mt-3 seperator">
 
