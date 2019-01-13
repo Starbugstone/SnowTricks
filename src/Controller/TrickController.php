@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TrickController extends AbstractController
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/", name="trick.home")
      */
     public function index()
     {
@@ -17,4 +17,14 @@ class TrickController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/trick/{id}" name="trick.show")
+     */
+    public function show($id) //todo: change ID to slug
+    {
+        return $this->render('trick/show.html.twig', [
+            'controller_name' => 'TricksController',
+        ]);
+    }
 }
