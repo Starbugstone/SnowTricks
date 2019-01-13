@@ -19,6 +19,16 @@ class TrickController extends AbstractController
 
 
     /**
+     * @Route("/trick/all", name="trick.showall")
+     */
+    public function showAll()
+    {
+        return $this->render('trick/showall.html.twig', [
+            'controller_name' => 'TricksController',
+        ]);
+    }
+
+    /**
      * @Route("/trick/{id}", name="trick.show")
      */
     public function show($id) //todo: change ID to slug
