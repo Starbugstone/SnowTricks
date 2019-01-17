@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SnowTricks - search trick{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="input-field col s8 offset-s2 center">
+            <i class="material-icons prefix">search</i>
+            <input placeholder="search tricks" id="first_name" type="text" class="validate">
+            <!-- <label for="first_name">Search tricks</label> -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col l3 xl2">
+            {#
+                TODO: Slide out menu on small, see materialize
+                TODO: better formatting and spacing
+            #}
+            <ul>
+                <li>All</li>
+                <li>Class1</li>
+                <li>Class2</li>
+                <li>Class3</li>
+                <li>Class4</li>
+            </ul>
+
+        </div>
+        <div class="col l9 xl10">
+            <div class="row flex-center">
+                {% for i in 0..10 %}
+                    <div class="col l3 m6 s12 xl5ths">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="https://via.placeholder.com/150x100">
+
+                            </div>
+                            <div class="card-content">
+                                <p>
+                                    Trick Name
+                                    <span class="right">
+                            <a class="waves-effect waves-light"><i class="material-icons">create</i></a>
+                            <a class="waves-effect waves-light"><i class="material-icons">delete</i></a>
+                        </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
