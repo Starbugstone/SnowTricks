@@ -23,7 +23,7 @@
                         <p>
                             {{ trick.name }}
                             <span class="right">
-                            <a class="waves-effect waves-light"><i class="material-icons">create</i></a>
+                            <a class="waves-effect waves-light" href="{{ path('trick.edit', {id:trick.id}) }}"><i class="material-icons">create</i></a>
                             <a class="waves-effect waves-light"><i class="material-icons">delete</i></a>
                         </span>
                         </p>

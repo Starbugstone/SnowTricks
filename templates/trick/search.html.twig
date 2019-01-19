@@ -28,7 +28,7 @@
         </div>
         <div class="col l9 xl10">
             <div class="row flex-center">
-                {% for i in 0..10 %}
+                {% for trick in tricks %}
                     <div class="col l3 m6 s12 xl5ths">
                         <div class="card">
                             <div class="card-image">
@@ -37,7 +37,7 @@
                             </div>
                             <div class="card-content">
                                 <p>
-                                    Trick Name
+                                    {{ trick.name }}
                                     <span class="right">
                             <a class="waves-effect waves-light"><i class="material-icons">create</i></a>
                             <a class="waves-effect waves-light"><i class="material-icons">delete</i></a>

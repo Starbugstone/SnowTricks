@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Trick;
 use App\Repository\TrickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,10 +34,10 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{id}", name="trick.show")
      */
-    public function show($id) //todo: change ID to slug
+    public function show(Trick $trick) //todo: change ID to slug
     {
         return $this->render('trick/show.html.twig', [
-            'controller_name' => 'TricksController',
+            'trick' => $trick,
         ]);
     }
 
@@ -45,8 +46,9 @@ class TrickController extends AbstractController
      */
     public function search()
     {
+        $tricks = $this->repository->findAll();
         return $this->render('trick/search.html.twig', [
-            'controller_name' => 'TricksController',
+            'tricks' => $tricks,
         ]);
     }
 }
