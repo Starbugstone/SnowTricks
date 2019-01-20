@@ -10,14 +10,6 @@
         <!-- Header image with edit buttons -->
         <div class="trick-image-header">
 
-
-            <div class="trick-edit-button z-depth-2 px-3 mt-3 mr-2 indigo lighten-5">
-
-                <a class="waves-effect waves-light p-1"><i class="material-icons">create</i></a>
-                <a class="waves-effect waves-light p-1"><i class="material-icons">delete</i></a>
-
-            </div>
-
             <img src="https://via.placeholder.com/350x150" alt="" class="responsive-img w100">
             <h1 class="trick-name center-align w100 font-coiny m-0 text-shadow">{{ trick.name }}</h1>
         </div>
@@ -37,8 +29,6 @@
 
         {{ form_start(form) }}
         {{ form_widget(form) }}
-        <a class="waves-effect waves-light btn">Delete <i class="material-icons right">delete</i></a>
-        <button class="waves-effect waves-light btn">Save <i class="material-icons right">send</i></button>
         {{ form_end(form) }}
 
     </div>

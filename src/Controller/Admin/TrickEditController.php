@@ -7,6 +7,7 @@ use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,10 +23,25 @@ class TrickEditController extends AbstractController
      */
     private $em;
 
+    private function deleteTrick(Trick $trick)
+    {
+        $this->em->remove($trick);
+        $this->em->flush();
+    }
+
     public function __construct(TrickRepository $repository, ObjectManager $em)
     {
         $this->repository = $repository;
         $this->em = $em;
+    }
+
+    /**
+     * @Route("/trick/{id}/delete", name="trick.delete")
+     */
+    public function delete(Trick $trick)
+    {
+        $this->deleteTrick($trick);
+        return $this->redirectToRoute('trick.home');
     }
 
     /**
@@ -35,11 +51,24 @@ class TrickEditController extends AbstractController
     {
 
         $form = $this->createForm(TrickType::class, $trick);
+        $form
+            ->remove('name')
+            ->add('save', SubmitType::class, ['label' => 'Save'])
+            ->add('delete', SubmitType::class, ['label' => 'Delete']);
 
         $form->handleRequest($request);
+
+
+        if ($form->getClickedButton() && $form->getClickedButton()->getName() === 'delete') {
+            $this->deleteTrick($trick);
+            return $this->redirectToRoute('trick.home');
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->flush();
-            return $this->redirectToRoute('trick.home');
+            return $this->redirectToRoute('trick.show', [
+                'id' => $trick->getId(),
+            ]);
         }
 
         return $this->render('trick/admin/edit.html.twig', [
@@ -51,11 +80,25 @@ class TrickEditController extends AbstractController
     /**
      * @Route("/trick/new", name="trick.new")
      */
-    public function new()
+    public function new(Request $request)
     {
+        $trick = new Trick();
+
+        $form = $this->createForm(TrickType::class, $trick);
+        $form->add('save', SubmitType::class, ['label' => 'Save']);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($trick);
+            $this->em->flush();
+            return $this->redirectToRoute('trick.show', [
+                'id' => $trick->getId(),
+            ]);
+        }
 
         return $this->render('trick/admin/new.html.twig', [
-            'controller_name' => 'TricksController',
+            'form' => $form->createView(),
         ]);
     }
 }

@@ -30,21 +30,7 @@
             <div class="row flex-center">
                 {% for trick in tricks %}
                     <div class="col l3 m6 s12 xl5ths">
-                        <div class="card">
-                            <div class="card-image">
-                                <img src="https://via.placeholder.com/150x100">
-
-                            </div>
-                            <div class="card-content">
-                                <p>
-                                    {{ trick.name }}
-                                    <span class="right">
-                            <a class="waves-effect waves-light"><i class="material-icons">create</i></a>
-                            <a class="waves-effect waves-light"><i class="material-icons">delete</i></a>
-                        </span>
-                                </p>
-                            </div>
-                        </div>
+                        {% include 'trick/_trick-card.html.twig' with {'trick': trick} %}
                     </div>
                 {% endfor %}
             </div>
