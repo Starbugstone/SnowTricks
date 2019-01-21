@@ -27,9 +27,7 @@
 
         <h1>edit {{ trick.name }}</h1>
 
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        {{ form_end(form) }}
+            {% include 'trick/admin/_edit-form.html.twig' with {'form': form} %}
 
     </div>
 

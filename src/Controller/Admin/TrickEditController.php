@@ -53,8 +53,18 @@ class TrickEditController extends AbstractController
         $form = $this->createForm(TrickType::class, $trick);
         $form
             ->remove('name')
-            ->add('save', SubmitType::class, ['label' => 'Save'])
-            ->add('delete', SubmitType::class, ['label' => 'Delete']);
+            ->add('save', SubmitType::class, [
+                'label' => 'Save',
+                'attr' => [
+                    'class' => 'waves-effect waves-light btn right mr-2'
+                ]
+            ])
+            ->add('delete', SubmitType::class, [
+                'label' => 'Delete',
+                'attr' => [
+                    'class' => 'waves-effect waves-light btn right mr-2'
+                ]
+            ]);
 
         $form->handleRequest($request);
 
@@ -85,7 +95,12 @@ class TrickEditController extends AbstractController
         $trick = new Trick();
 
         $form = $this->createForm(TrickType::class, $trick);
-        $form->add('save', SubmitType::class, ['label' => 'Save']);
+        $form->add('save', SubmitType::class, [
+            'label' => 'Save',
+            'attr' => [
+                'class' => 'waves-effect waves-light btn right'
+            ]
+        ]);
 
         $form->handleRequest($request);
 
