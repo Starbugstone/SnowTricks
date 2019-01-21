@@ -12,13 +12,12 @@
 
             <div class="trick-edit-button z-depth-2 px-3 mt-3 mr-2 indigo lighten-5">
 
-                <a class="waves-effect waves-light p-1"><i class="material-icons">create</i></a>
-                <a class="waves-effect waves-light p-1"><i class="material-icons">delete</i></a>
+                {% include 'trick/_trick-edit-icons.html.twig' with {'trick': trick} %}
 
             </div>
 
             <img src="https://via.placeholder.com/350x150" alt="" class="responsive-img w100">
-            <h1 class="trick-name center-align w100 font-coiny m-0 text-shadow">Trick name</h1>
+            <h1 class="trick-name center-align w100 font-coiny m-0 text-shadow">{{ trick.name }}</h1>
         </div>
 
         <!-- Images and videos -->
@@ -33,86 +32,19 @@
         </div>
 
         <article class="px-5">
-            <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet beatae culpa deleniti dolore
-                enim
-                eum iusto, magnam minima, nemo placeat porro quas qui reiciendis sint suscipit ullam unde voluptatum.
-            </div>
-            <div>Ex fuga iste nobis. Amet doloremque ea illum, ipsum non omnis quos similique unde ut vel. Asperiores
-                corporis deserunt error excepturi nemo porro provident ratione temporibus vel, velit? Dolores, pariatur?
-            </div>
-            <div>Accusantium deserunt dolores illo labore modi sapiente sit ut. Autem blanditiis commodi, consequatur,
-                deleniti doloremque doloribus enim expedita in labore nam natus numquam officia praesentium quasi quia
-                quibusdam tempore velit!
-            </div>
-            <div>Accusamus aut expedita recusandae! A accusamus animi assumenda culpa debitis doloremque doloribus ea et
-                eveniet expedita inventore laborum magnam modi necessitatibus nesciunt nihil nobis qui quibusdam,
-                quisquam
-                sunt, suscipit totam?
-            </div>
-            <div>Ad architecto debitis dicta dignissimos doloremque earum eligendi eveniet in itaque iusto, labore
-                laboriosam magnam minima molestias neque nobis non nulla numquam pariatur quos rerum sunt, temporibus ut
-                vel
-                veniam!
-            </div>
-            <div>Reprehenderit veritatis, voluptatibus! Autem blanditiis dicta distinctio eligendi et harum, impedit
-                ipsum
-                libero, molestias nam natus nihil officiis quae quidem quisquam ratione repellat reprehenderit ullam ut
-                voluptates? Aliquid, beatae maiores.
-            </div>
-            <div>Atque consectetur hic labore, nesciunt numquam possimus quas quia? Alias aliquid, blanditiis commodi
-                distinctio dolor earum enim esse, et eveniet ex explicabo nihil optio, provident quas quos repellat
-                sequi
-                similique.
-            </div>
-            <div>Beatae commodi cumque ducimus eligendi et, ex facilis impedit ipsam iste omnis perferendis quas quos,
-                veritatis. Alias aliquid consectetur dolorum eius esse explicabo, facere itaque optio recusandae
-                reiciendis
-                sint veniam?
-            </div>
-            <div>Autem laudantium optio praesentium reiciendis sed voluptatibus. Ab aliquam consequatur culpa debitis
-                dicta
-                eligendi et fugit illum ipsa iure libero, molestiae nesciunt, officiis quis reiciendis reprehenderit
-                rerum
-                similique ullam veniam.
-            </div>
-            <div>Dignissimos dolor dolore impedit magni maxime nemo veritatis. Consequatur corporis culpa delectus ea
-                eaque,
-                eius esse expedita harum incidunt itaque nemo officia omnis quaerat quia repellendus repudiandae, totam
-                vero. Voluptatibus!
-            </div>
-            <div>Aliquid amet consectetur corporis cumque deleniti dicta enim esse id illum, iure iusto laboriosam,
-                laudantium molestias neque nihil nostrum odit possimus, quaerat quibusdam quod repellendus veniam
-                voluptatem
-                voluptates! Et, ipsa.
-            </div>
-            <div>Ab aperiam architecto beatae consequuntur corporis dicta esse et fuga illum in iusto numquam qui quis
-                quisquam repellendus, rerum sed tempora tenetur? Aliquam dolorem ipsum molestias recusandae rerum sit
-                ullam!
-            </div>
-            <div>Accusamus aliquid commodi consequuntur distinctio dolorem eius facilis fugiat nam officiis porro, quae
-                rerum voluptatum! Animi dicta ea harum praesentium quidem quo veritatis? A architecto autem enim et hic
-                officia!
-            </div>
-            <div>Ab architecto assumenda blanditiis dolorem, enim error ex facilis fuga fugit illo ipsa libero maiores
-                molestiae nulla qui quod quos reiciendis rerum saepe sapiente soluta sunt tempora vel velit vero.
-            </div>
-            <div>Accusamus blanditiis consequatur deserunt doloribus et ex labore perspiciatis qui, quis, quo saepe sed
-                velit. Adipisci atque corporis fugit illum iusto labore maiores mollitia, praesentium qui reiciendis
-                unde
-                voluptate, voluptatem.
-            </div>
+            {{ trick.text|escape|markdown}}
         </article>
 
         <!-- Info tags -->
         <div class="row flex-center mt-3">
             <div class="col s3 mx-2 p-1 z-depth-1 valign-wrapper">
-                <p class="center w100">Creation : 01/01/2019</p>
+                <p class="center w100">Creation : {{ trick.createdAt |date('d/m/y') }}</p>
             </div>
             <div class="col s3 mx-2 p-1 z-depth-1 valign-wrapper">
                 <p class="center w100">Group</p>
             </div>
             <div class="col s3 mx-2 p-1 z-depth-1 valign-wrapper">
-                <p class="center w100">Modification : 05/01/2019</p>
+                <p class="center w100">Modification : {{ trick.editedAt | date('d/m/y') }}</p>
             </div>
         </div>
 
