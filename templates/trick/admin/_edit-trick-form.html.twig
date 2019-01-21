@@ -1,0 +1,24 @@
+<div class="trick-form px-5">
+    {{ form_start(form) }}
+
+    {% if form.name is defined %}
+        <div class="row">
+            <div class="input-field col s12">
+                {{ form_row(form.name) }}
+            </div>
+        </div>
+
+    {% endif %}
+
+    {% if form.text is defined %}
+        <div class="row">
+            <div class="input-field col s12">
+                {{ form_row(form.text) }}
+            </div>
+        </div>
+
+    {% endif %}
+
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+</div>

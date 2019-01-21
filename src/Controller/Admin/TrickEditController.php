@@ -36,12 +36,33 @@ class TrickEditController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id}/delete", name="trick.delete")
+     * @Route("/trick/new", name="trick.new")
      */
-    public function delete(Trick $trick)
+    public function new(Request $request)
     {
-        $this->deleteTrick($trick);
-        return $this->redirectToRoute('trick.home');
+        $trick = new Trick();
+
+        $form = $this->createForm(TrickType::class, $trick);
+        $form->add('save', SubmitType::class, [
+            'label' => 'Save',
+            'attr' => [
+                'class' => 'waves-effect waves-light btn right'
+            ]
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($trick);
+            $this->em->flush();
+            return $this->redirectToRoute('trick.show', [
+                'id' => $trick->getId(),
+            ]);
+        }
+
+        return $this->render('trick/admin/new.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -52,7 +73,6 @@ class TrickEditController extends AbstractController
 
         $form = $this->createForm(TrickType::class, $trick);
         $form
-            ->remove('name')
             ->add('save', SubmitType::class, [
                 'label' => 'Save',
                 'attr' => [
@@ -88,32 +108,15 @@ class TrickEditController extends AbstractController
     }
 
     /**
-     * @Route("/trick/new", name="trick.new")
+     * @Route("/trick/{id}/delete", name="trick.delete")
      */
-    public function new(Request $request)
+    public function delete(Trick $trick)
     {
-        $trick = new Trick();
-
-        $form = $this->createForm(TrickType::class, $trick);
-        $form->add('save', SubmitType::class, [
-            'label' => 'Save',
-            'attr' => [
-                'class' => 'waves-effect waves-light btn right'
-            ]
-        ]);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->persist($trick);
-            $this->em->flush();
-            return $this->redirectToRoute('trick.show', [
-                'id' => $trick->getId(),
-            ]);
-        }
-
-        return $this->render('trick/admin/new.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        $this->deleteTrick($trick);
+        return $this->redirectToRoute('trick.home');
     }
+
+
+
+
 }
