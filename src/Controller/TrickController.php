@@ -37,6 +37,7 @@ class TrickController extends AbstractController
     public function show(Trick $trick, string $slug)
     {
 
+        //Checking if slug is equal to the ID. This is for SEO and external links
         if ($trick->getSlug() !== $slug) {
             return $this->redirectToRoute('trick.show', [
                 'id' => $trick->getId(),

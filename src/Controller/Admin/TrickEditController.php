@@ -57,6 +57,7 @@ class TrickEditController extends AbstractController
             $this->em->flush();
             return $this->redirectToRoute('trick.show', [
                 'id' => $trick->getId(),
+                'slug' => $trick->getSlug(),
             ]);
         }
 
@@ -98,6 +99,7 @@ class TrickEditController extends AbstractController
             $this->em->flush();
             return $this->redirectToRoute('trick.show', [
                 'id' => $trick->getId(),
+                'slug' => $trick->getSlug(),
             ]);
         }
 
@@ -115,8 +117,6 @@ class TrickEditController extends AbstractController
         $this->deleteTrick($trick);
         return $this->redirectToRoute('trick.home');
     }
-
-
 
 
 }
