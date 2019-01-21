@@ -7,12 +7,7 @@
         <p>
             {{ trick.name }}
             <span class="right">
-                <a href="{{ path('trick.edit', {id:trick.id}) }}" class="waves-effect waves-light">
-                    <i class="material-icons">create</i>
-                </a>
-                <a href="{{ path('trick.delete', {id:trick.id}) }}" class="waves-effect waves-light">
-                    <i class="material-icons">delete</i>
-                </a>
+                {% include 'trick/_trick-edit-icons.html.twig' with {'trick': trick} %}
             </span>
         </p>
     </div>

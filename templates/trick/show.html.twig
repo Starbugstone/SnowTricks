@@ -12,8 +12,7 @@
 
             <div class="trick-edit-button z-depth-2 px-3 mt-3 mr-2 indigo lighten-5">
 
-                <a class="waves-effect waves-light p-1"><i class="material-icons">create</i></a>
-                <a class="waves-effect waves-light p-1"><i class="material-icons">delete</i></a>
+                {% include 'trick/_trick-edit-icons.html.twig' with {'trick': trick} %}
 
             </div>
 
