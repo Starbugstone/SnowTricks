@@ -19,6 +19,19 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
+    /**
+     * @return Trick[] Returns an array of Trick objects
+     */
+    public function findLatestEdited($limit = Trick::NUMBER_OF_DISPLAYED_TRICKS)
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.editedAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Trick[] Returns an array of Trick objects
     //  */

@@ -13,6 +13,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Trick
 {
+
+    const NUMBER_OF_DISPLAYED_TRICKS = 10;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
