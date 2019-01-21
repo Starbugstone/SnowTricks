@@ -5,7 +5,7 @@
     </div>
     <div class="card-content">
         <p>
-            {{ trick.name }}
+            <a href="{{ path('trick.show', {id:trick.id, slug:trick.slug}) }}">{{ trick.name }}</a>
             <span class="right">
                 {% include 'trick/_trick-edit-icons.html.twig' with {'trick': trick} %}
             </span>

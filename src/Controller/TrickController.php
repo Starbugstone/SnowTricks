@@ -32,10 +32,18 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id}", name="trick.show")
+     * @Route("/trick/{id}-{slug}", name="trick.show", requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function show(Trick $trick) //todo: change ID to slug
+    public function show(Trick $trick, string $slug)
     {
+
+        if ($trick->getSlug() !== $slug) {
+            return $this->redirectToRoute('trick.show', [
+                'id' => $trick->getId(),
+                'slug' => $trick->getSlug()
+            ], 301);
+        }
+
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
         ]);
