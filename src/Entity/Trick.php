@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrickRepository")
- * @UniqueEntity(fields="slug", message="this title already exists")
+ * @UniqueEntity(fields="name", message="this trick already exists")
  */
 class Trick
 {
@@ -25,6 +25,12 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *     min=5,
+     *     max=255,
+     *     minMessage = "Title must be at least {{ limit }} characters",
+     *     maxMessage = "Title can not exceed {{ limit }} characters"
+     * )
      */
     private $name;
 
