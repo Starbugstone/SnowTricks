@@ -32,7 +32,7 @@
         </div>
 
         <article class="px-5">
-            {{ trick.text | nl2br}}
+            {{ trick.text|escape|markdown}}
         </article>
 
         <!-- Info tags -->
