@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Edit trick {{ trick.name }}
+{% endblock %}
+
+{% block body %}
+    <div class="trick-container container z-depth-1 mt-5">
+
+        <!-- Header image with edit buttons -->
+        <div class="trick-image-header">
+
+            <img src="https://via.placeholder.com/350x150" alt="" class="responsive-img w100">
+            <h1 class="trick-name center-align w100 font-coiny m-0 text-shadow">{{ trick.name }}</h1>
+        </div>
+
+        <!-- Images and videos -->
+        <div class="row flex-center" id="trick-images">
+            {% for i in 0..10 %}
+                <div class="col xl2 l3 m6 s12 mt-3">
+                    <img src="https://via.placeholder.com/350x150" alt="" class="responsive-img w100 z-depth-2">
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <h1>edit {{ trick.name }}</h1>
+
+            {% include 'trick/admin/_edit-trick-form.html.twig' with {'form': form} %}
+
+    </div>
+
+{% endblock %}
+
+
+
