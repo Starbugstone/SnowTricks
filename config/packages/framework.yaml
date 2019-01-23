@@ -10,6 +10,7 @@ framework:
         handler_id: ~
         cookie_secure: auto
         cookie_samesite: lax
+        cookie_lifetime: 15778800 #needed for the login remember me, setting cookie to 1/2 year, forcing the cookie to persist (else it's tht php.ini file config that is used)
 
     #esi: true
     #fragments: true
