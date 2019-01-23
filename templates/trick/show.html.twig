@@ -9,12 +9,13 @@
         <!-- Header image with edit buttons -->
         <div class="trick-image-header">
 
-
+            {% if is_granted('ROLE_USER') %}
             <div class="trick-edit-button z-depth-2 px-3 mt-3 mr-2 indigo lighten-5">
 
                 {% include 'trick/_trick-edit-icons.html.twig' with {'trick': trick} %}
 
             </div>
+            {% endif %}
 
             <img src="https://via.placeholder.com/350x150" alt="" class="responsive-img w100">
             <h1 class="trick-name center-align w100 font-coiny m-0 text-shadow">{{ trick.name }}</h1>

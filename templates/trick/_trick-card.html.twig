@@ -5,12 +5,14 @@
     </div>
     <div class="card-content">
         <div class="row">
-            <div class="col s12 m8">
+            <div class="col s12 {{ is_granted('ROLE_USER') ? 'm8' }}">
                 <a href="{{ path('trick.show', {id:trick.id, slug:trick.slug}) }}">{{ trick.name }}</a>
             </div>
-            <div class="col s12 m4 px-m-0 center">
-                {% include 'trick/_trick-edit-icons.html.twig' with {'trick': trick} %}
-            </div>
+            {% if is_granted('ROLE_USER') %}
+                <div class="col s12 m4 px-m-0 center">
+                    {% include 'trick/_trick-edit-icons.html.twig' with {'trick': trick} %}
+                </div>
+            {% endif %}
         </div>
 
     </div>
