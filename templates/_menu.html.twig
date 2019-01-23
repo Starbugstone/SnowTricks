@@ -5,9 +5,13 @@
         <ul class="right">
             <li><a href="{{ path('trick.home') }}">Home</a></li>
             <li><a href="{{ path('trick.search') }}">Tricks</a></li>
-            <li><a href="{{ path('trick.new') }}">New Trick</a></li>
-            <li><a href="{{ path('app_login') }}">Signin</a></li>
-            <li><a href="#">SignUp</a></li>
+            {% if is_granted('ROLE_USER') %}
+                <li><a href="{{ path('trick.new') }}">New Trick</a></li>
+                <li><a href="{{ path('app_logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ path('app_login') }}">Signin</a></li>
+                <li><a href="#">SignUp</a></li>
+            {% endif %}
         </ul>
     </div>
 </nav>
@@ -16,11 +20,20 @@
 <nav id="mobileMenu" class="hide-on-med-and-up">
     <div class="nav-wrapper indigo darken-4">
         <div class="row">
-            <div class="col s4 center-align"><a href="{{ path('trick.home') }}"><i class="material-icons">home</i></a>
+            <div class="col s4 center-align">
+                <a href="{{ path('trick.home') }}"><i class="material-icons">home</i></a>
             </div>
-            <div class="col s4 center-align"><a href="{{ path('trick.search') }}"><i
-                            class="material-icons">turned_in</i></a></div>
-            <div class="col s4 center-align"><a href="#"><i class="material-icons">exit_to_app</i></a></div>
+            <div class="col s4 center-align">
+                <a href="{{ path('trick.search') }}"><i class="material-icons">turned_in</i></a>
+            </div>
+
+            <div class="col s4 center-align">
+                {% if is_granted('ROLE_USER') %}
+                    <a href="{{ path('app_logout') }}"><i class="material-icons">exit_to_app</i></a>
+                {% else %}
+                    <a href="{{ path('app_login') }}"><i class="material-icons">person</i></a>
+                {% endif %}
+            </div>
 
         </div>
 
