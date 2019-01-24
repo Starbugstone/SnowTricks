@@ -28,6 +28,9 @@ security:
                 lifetime: 604800 # 1 week in seconds
                 path: /
 
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER #The admin user will also have the ROLE_USER
+
             # activate different ways to authenticate
 
             # http_basic: true

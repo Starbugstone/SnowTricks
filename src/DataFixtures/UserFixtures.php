@@ -28,6 +28,19 @@ class UserFixtures extends Fixture
             $user,
             'admin'
         ))
+        ->setRoles(['ROLE_ADMIN'])
+        ;
+
+        // $product = new Product();
+        $manager->persist($user);
+
+        $user = new User();
+        $user->setEmail('user@localhost.com')
+            ->setUserName('user')
+            ->setPassword($this->passwordEncoder->encodePassword(
+                $user,
+                'user'
+            ))
         ;
 
         // $product = new Product();
