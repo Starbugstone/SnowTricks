@@ -4,44 +4,53 @@
 
 {% block body %}
 
-    <div class="row">
-        <div class="col s12 m6 l4 offset-m3 offset-l4 px-m-5 px-s-1 pb-2 mt-m-5 z-depth-2">
+    <div class="row mx-3 mx-m-0">
+        <div class="col s12 m6 l4 offset-m3 offset-l4 px-m-4 px-s-1 pb-2 mt-3 mt-m-5 z-depth-2">
             <form method="post">
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
+                <div class="row center">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
 
-                <h1 class="mb-3 center-align">Please sign in</h1>
-                <label for="inputEmail" class="center-align w100">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
-                       placeholder="Email" required autofocus>
-                <label for="inputPassword" class="center-align w100">Password</label>
-                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password"
-                       required>
+                    <h1 class="mb-1">Login</h1>
 
-                <input type="hidden" name="_csrf_token"
-                       value="{{ csrf_token('authenticate') }}"
-                >
+                    <div class="input-field col s12">
+                        <label for="inputEmail">Email</label>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="validate"
+                               required autofocus>
+                    </div>
 
-                {#
-                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                    See https://symfony.com/doc/current/security/remember_me.html
-                #}
-                <div class="checkbox mb-3">
-                    <label for="remember_me">
-                        <input type="checkbox" name="_remember_me" id="remember_me" class="filled-in" />
-                        <span>Remember me</span>
-                    </label>
+                    <div class="input-field col s12">
+                        <label for="inputPassword">Password</label>
+                        <input type="password" name="password" id="inputPassword" class="validate" required>
+                    </div>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <div class="col s12">
+                        <label for="remember_me">
+                            <input type="checkbox" name="_remember_me" id="remember_me" class="filled-in"/>
+                            <span>Remember me</span>
+                        </label>
+                    </div>
+
+                    <div class="col s12 hide-on-small-only">
+                        <p><a href="#">Forgot Password ?</a></p>
+                    </div>
+
+                    <div class="mt-2 mt-m-0 col s12">
+                        <button class="btn btn-lg btn-primary" type="submit">
+                            Sign in
+                        </button>
+                    </div>
+
+                    <div class="hide-on-med-and-up col s12">
+                        <p><a href="#">Register</a></p>
+                        <p><a href="#">Forgot Password ?</a></p>
+                    </div>
                 </div>
-
-
-                <button class="btn btn-lg btn-primary" type="submit">
-                    Sign in
-                </button>
             </form>
-            <div class="hide-on-med-and-up center">
-                <p><a href="#">Don't have an account, create one here</a> </p>
-            </div>
+
         </div>
     </div>
 
