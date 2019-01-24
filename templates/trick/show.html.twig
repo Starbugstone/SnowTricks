@@ -10,11 +10,11 @@
         <div class="trick-image-header">
 
             {% if is_granted('ROLE_USER') %}
-            <div class="trick-edit-button z-depth-2 px-3 mt-3 mr-2 indigo lighten-5">
+                <div class="trick-edit-button z-depth-2 px-3 mt-3 mr-2 indigo lighten-5">
 
-                {% include 'trick/_trick-edit-icons.html.twig' with {'trick': trick} %}
+                    {% include 'trick/_trick-edit-icons.html.twig' with {'trick': trick} %}
 
-            </div>
+                </div>
             {% endif %}
 
             <img src="https://via.placeholder.com/350x150" alt="" class="responsive-img w100">
@@ -33,7 +33,7 @@
         </div>
 
         <article class="px-5">
-            {{ trick.text|escape|markdown}}
+            {{ trick.text|escape|markdown }}
         </article>
 
         <!-- Info tags -->
@@ -52,22 +52,23 @@
         <hr class="mt-3 seperator">
 
         <!-- Add comment -->
-        <form>
-            <div class="row">
-                <div class="input-field col s6 offset-s2">
-                    <i class="material-icons prefix">mode_edit</i>
-                    <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
-                    <label for="icon_prefix2">Comment</label>
+        {% if is_granted('ROLE_USER') %}
+
+            <form>
+                <div class="row">
+                    <div class="input-field col s6 offset-s2">
+                        <i class="material-icons prefix">mode_edit</i>
+                        <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+                        <label for="icon_prefix2">Comment</label>
+                    </div>
+                    <div class="col s2 valign-wrapper my-3">
+                        <a href="" class="btn">Submit</a>
+                    </div>
                 </div>
-                <div class="col s2 valign-wrapper my-3">
-                    <a href="" class="btn">Submit</a>
-                </div>
+            </form>
 
-            </div>
-
-        </form>
-
-        <hr class="seperator">
+            <hr class="seperator">
+        {% endif %}
 
         <!-- List comments -->
         <div id="trick-comments">
