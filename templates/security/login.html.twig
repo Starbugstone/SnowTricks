@@ -5,7 +5,7 @@
 {% block body %}
 
     <div class="row">
-        <div class="col s12 m6 l4 offset-m3 offset-l4 px-m-5 px-s-1 pb-2 mt-5 z-depth-2">
+        <div class="col s12 m6 l4 offset-m3 offset-l4 px-m-5 px-s-1 pb-2 mt-m-5 z-depth-2">
             <form method="post">
                 {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -39,6 +39,9 @@
                     Sign in
                 </button>
             </form>
+            <div class="hide-on-med-and-up center">
+                <p><a href="#">Don't have an account, create one here</a> </p>
+            </div>
         </div>
     </div>
 
