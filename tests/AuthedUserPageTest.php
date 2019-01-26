@@ -21,9 +21,19 @@ class AuthedUserPageTest extends WebTestCase
     public function testCreatePage()
     {
         //going to a page that needs user auth
-        $this->client->request('GET', '/trick/new');
+        $crawler = $this->client->request('GET', '/trick/new');
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+
+        $form = $crawler->selectButton('trick_save')->form();
+
+        $form['trick[name]'] = 'php unit test';
+        $form['trick[text]'] = 'Hey there!';
+
+        $this->client->submit($form);
+
+        //TODO if already exists, then doesn't make so need to check else test is inefficient
+
     }
 
     public function testEditPage()
@@ -39,7 +49,7 @@ class AuthedUserPageTest extends WebTestCase
     public function testDeletePage()
     {
         $link = $this->goToSearchPageLink('delete');
-
+        $this->client->click($link->link());
         //$this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
 
@@ -52,6 +62,7 @@ class AuthedUserPageTest extends WebTestCase
 
         //get the 1st edit link
         $link = $crawler
+            ->filter('div.card:contains("php unit test")')
             ->filter('a:contains(' . $linkText . ')')// find all links with the text
             ->eq(0) // select the 1st link in the list
         ;
