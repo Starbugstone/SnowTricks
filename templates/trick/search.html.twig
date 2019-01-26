@@ -10,8 +10,14 @@
             <!-- <label for="first_name">Search tricks</label> -->
         </div>
     </div>
+    {% if is_granted('ROLE_USER') %}
+        <div class="hide-on-med-and-up center">
+            <p><a href="{{ path('trick.new') }}">Create a new trick</a></p>
+        </div>
+
+    {% endif %}
     <div class="row">
-        <div class="col l3 xl2 w100">
+        <div class="col s12 m4 l3 xl2 w100">
             {#
                 TODO: Slide out menu on small, see materialize
                 TODO: better formatting and spacing
@@ -26,7 +32,7 @@
             </ul>
 
         </div>
-        <div class="col l9 xl10">
+        <div class="col s12 m8 l9 xl10">
             <div class="row flex-center">
                 {% for trick in tricks %}
                     <div class="col l3 m6 s12 xl5ths">
