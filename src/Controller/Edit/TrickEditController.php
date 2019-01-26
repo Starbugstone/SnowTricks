@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\Edit;
 
 use App\Entity\Trick;
 use App\Form\TrickType;
@@ -10,7 +10,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+/**
+ * Class TrickEditController
+ * @package App\Controller\Edit
+ *
+ * Require the user to be connected for everything here
+ * @IsGranted("ROLE_USER")
+ */
 class TrickEditController extends AbstractController
 {
 
