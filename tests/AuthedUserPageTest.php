@@ -9,6 +9,10 @@ class AuthedUserPageTest extends WebTestCase
 
     private $dummyTitle = "PHP Unit test";
     private $dummyText = "Some test text";
+    private $dummyTitleEdit = "PHP Unit Edited test";
+    private $dummyTextEdit = "Edited test text";
+
+    private $createdTestTrickId = 0;
 
     private $client = null;
 
@@ -32,64 +36,75 @@ class AuthedUserPageTest extends WebTestCase
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
+        //Filling out the form
         $form = $crawler->selectButton('trick_save')->form();
 
         $form['trick[name]'] = $this->dummyTitle;
         $form['trick[text]'] = $this->dummyText;
 
+        //Submitting the form and following redirect
         $this->client->submit($form);
 
-        //TODO if already exists, then doesn't make so need to check else test is inefficient
-        //TODO 2 Get rid of the go to search page link. Shouldn't be needed. We should grab the ID and navigate directly.
-        //TODO The tests here are for the CRUD, testing the search page is for another tester.
+        $this->assertTrue($this->client->getResponse()->isRedirect()); //we should redirect the the show page
+        $crawler = $this->client->followRedirect();
+
 
         //----------------
-        // EDIT
+        // READ
         //----------------
 
-        //get the edit link
-        $link = $this->goToSearchPageLink('create');
-        //click the link to go to the edit page and check if available
-        $this->client->click($link->link());
+        $this->readShowPage($crawler, $this->dummyTitle);
+
+
+        //----------------
+        // UPDATE
+        //----------------
+
+        //Go to the edit page
+        $crawler = $this->client->request('GET', '/trick/' . $this->createdTestTrickId . '/edit');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
-        //TODO edit the page and check if edited
+        //making sure we are on the edit page thanks to the ID on each container
+        $this->assertGreaterThan(0, $crawler->filter('div#trickEditContainer')->count());
+
+        //Edit the trick via the form
+        $form = $crawler->selectButton('trick[save]')->form();
+        $form['trick[name]'] = $this->dummyTitleEdit;
+        $form['trick[text]'] = $this->dummyTextEdit;
+
+        $this->client->submit($form);
+
+        $this->assertTrue($this->client->getResponse()->isRedirect()); //we should redirect the the show page
+        $crawler = $this->client->followRedirect();
+
+        $this->readShowPage($crawler, $this->dummyTitleEdit);
+
 
         //----------------
         // DELETE
         //----------------
 
-        $link = $this->goToSearchPageLink('delete');
-        $this->client->click($link->link());
-        //$this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->client->request('GET', '/trick/' . $this->createdTestTrickId . '/delete'); //delete our trick
+        $this->assertTrue($this->client->getResponse()->isRedirect()); //we should redirect the the home page
+        //$crawler = $this->client->followRedirect();
 
-        //TODO make sure the page is deleted
+        //test if the trick is deleted, we should get a 404
+        $this->client->request('GET', '/trick/' . $this->createdTestTrickId . '-falseslug');
+        $this->assertEquals(404, $this->client->getResponse()->getStatusCode());
+
     }
 
-    private function goToSearchPageLink(string $linkText)
+    private function readShowPage($crawler, $dummyTitle)
     {
-        //going to the search page
-        $crawler = $this->client->request('GET', '/search');
-        //making sure the search page exists
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        //making sure we are on the show page thanks to the ID on each container
+        $this->assertGreaterThan(0, $crawler->filter('div#trickShowContainer')->count());
 
-        //get the 1st edit link
-        $link = $crawler
-            ->filter('div.card:contains('.$this->dummyTitle.')') //get our test created article
-            ->filter('a:contains(' . $linkText . ')')// find all links with the text
-            ->eq(0) // select the 1st link in the list
-        ;
+        //Checking we have the same title
+        $title = $crawler->filter('div#trickShowContainer h1.trick-name')->first()->text();
+        $this->assertEquals($dummyTitle, $title); //checking if the title is realy what we sent
 
-        //make sure the link is available, only visible if authed
-        $this->assertGreaterThan(
-            0,
-            $link->count()
-        );
-
-        return $link;
-
-
+        //Grabbing the ID
+        $this->createdTestTrickId = $crawler->filter('div#trickShowContainer')->first()->attr('data-id');
     }
-
-
+    
 }
