@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class AuthedUserPageTest extends WebTestCase
 {
 
+    private $dummyTitle = "PHP Unit test";
+    private $dummyText = "Some test text";
+
     private $client = null;
 
     public function setUp()
@@ -15,7 +18,6 @@ class AuthedUserPageTest extends WebTestCase
             'PHP_AUTH_USER' => 'user@localhost.com',
             'PHP_AUTH_PW' => 'user',
         ]);
-
     }
 
     public function testCRUD()
@@ -32,8 +34,8 @@ class AuthedUserPageTest extends WebTestCase
 
         $form = $crawler->selectButton('trick_save')->form();
 
-        $form['trick[name]'] = 'php unit test';
-        $form['trick[text]'] = 'Hey there!';
+        $form['trick[name]'] = $this->dummyTitle;
+        $form['trick[text]'] = $this->dummyText;
 
         $this->client->submit($form);
 
@@ -49,7 +51,7 @@ class AuthedUserPageTest extends WebTestCase
         $this->client->click($link->link());
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
-        //TODO edit the page
+        //TODO edit the page and check if edited
 
         //----------------
         // DELETE
@@ -58,6 +60,8 @@ class AuthedUserPageTest extends WebTestCase
         $link = $this->goToSearchPageLink('delete');
         $this->client->click($link->link());
         //$this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+
+        //TODO make sure the page is deleted
     }
 
     private function goToSearchPageLink(string $linkText)
@@ -69,7 +73,7 @@ class AuthedUserPageTest extends WebTestCase
 
         //get the 1st edit link
         $link = $crawler
-            ->filter('div.card:contains("php unit test")') //get our test created article
+            ->filter('div.card:contains('.$this->dummyTitle.')') //get our test created article
             ->filter('a:contains(' . $linkText . ')')// find all links with the text
             ->eq(0) // select the 1st link in the list
         ;
