@@ -25,7 +25,20 @@ class VisitorPageTest extends WebTestCase
                 ->filter('div.card')
                 ->count()
         );
+    }
+
+    public function testPrivateSectionRedirect()
+    {
+        //going to the create page
+        $this->client->request('GET', '/trick/new');
+
+        $this->assertTrue($this->client->getResponse()->isRedirect()); //not authed, should be a redirect
+        $crawler = $this->client->followRedirect();
+
+        //making sure we are on the login page
+        $this->assertGreaterThan(0, $crawler->filter('div#trickLoginContainer')->count());
 
 
+        //TODO check the edit page
     }
 }
