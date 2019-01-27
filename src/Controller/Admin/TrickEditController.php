@@ -13,11 +13,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TrickEditController extends AbstractController
 {
-
-    /**
-     * @var TrickRepository
-     */
-    private $repository;
     /**
      * @var ObjectManager
      */
@@ -29,9 +24,8 @@ class TrickEditController extends AbstractController
         $this->em->flush();
     }
 
-    public function __construct(TrickRepository $repository, ObjectManager $em)
+    public function __construct(ObjectManager $em)
     {
-        $this->repository = $repository;
         $this->em = $em;
     }
 
