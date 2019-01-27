@@ -40,6 +40,8 @@ class AuthedUserPageTest extends WebTestCase
         $this->client->submit($form);
 
         //TODO if already exists, then doesn't make so need to check else test is inefficient
+        //TODO 2 Get rid of the go to search page link. Shouldn't be needed. We should grab the ID and navigate directly.
+        //TODO The tests here are for the CRUD, testing the search page is for another tester.
 
         //----------------
         // EDIT
