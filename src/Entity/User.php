@@ -45,6 +45,16 @@ class User implements UserInterface
      */
     private $image;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $verified;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $verifiedHash;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -138,6 +148,30 @@ class User implements UserInterface
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getVerified(): ?bool
+    {
+        return $this->verified;
+    }
+
+    public function setVerified(bool $verified): self
+    {
+        $this->verified = $verified;
+
+        return $this;
+    }
+
+    public function getVerifiedHash(): ?string
+    {
+        return $this->verifiedHash;
+    }
+
+    public function setVerifiedHash(string $verifiedHash): self
+    {
+        $this->verifiedHash = $verifiedHash;
 
         return $this;
     }

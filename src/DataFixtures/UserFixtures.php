@@ -23,13 +23,14 @@ class UserFixtures extends Fixture
     {
         $user = new User();
         $user->setEmail('admin@localhost.com')
-        ->setUserName('admin')
-        ->setPassword($this->passwordEncoder->encodePassword(
-            $user,
-            'admin'
-        ))
-        ->setRoles(['ROLE_ADMIN'])
-        ;
+            ->setUserName('admin')
+            ->setPassword($this->passwordEncoder->encodePassword(
+                $user,
+                'admin'
+            ))
+            ->setRoles(['ROLE_ADMIN'])
+            ->setVerified(true)
+            ->setVerifiedHash('123456');
 
         // $product = new Product();
         $manager->persist($user);
@@ -41,7 +42,8 @@ class UserFixtures extends Fixture
                 $user,
                 'user'
             ))
-        ;
+            ->setVerified(false)
+            ->setVerifiedHash('123456');
 
         // $product = new Product();
         $manager->persist($user);

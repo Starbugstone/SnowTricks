@@ -76,7 +76,18 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        //is user and pass valid
+        if(!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])){
+            return false;
+        }
+
+        //is account email verified
+        if(!$user->getVerified()){
+            throw new CustomUserMessageAuthenticationException('Account email not verified');
+        }
+
+        //If we get here then all is good
+        return true;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
@@ -85,8 +96,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        // by default, return to the home page. TODO Update to profile admin page
         return new RedirectResponse($this->urlGenerator->generate('trick.home'));
     }
 
