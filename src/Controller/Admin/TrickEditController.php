@@ -4,8 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Trick;
 use App\Form\TrickType;
-use App\Repository\TrickRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +24,7 @@ class TrickEditController extends AbstractController
         $this->em->flush();
     }
 
-    public function __construct(ObjectManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
