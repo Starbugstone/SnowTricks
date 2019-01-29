@@ -38,8 +38,10 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $em->persist($user);
-            $em->flush();
+
+            //TODO : Set the authentication hash key here
+            $this->em->persist($user);
+            $this->em->flush();
 
             // do anything else you need here, like send an email
 
