@@ -30,7 +30,7 @@ class UserFixtures extends Fixture
             ))
             ->setRoles(['ROLE_ADMIN'])
             ->setVerified(true)
-            ->setVerifiedHash('123456');
+            ->setVerifiedHash(bin2hex(random_bytes(16)));
 
         // $product = new Product();
         $manager->persist($user);
@@ -43,7 +43,7 @@ class UserFixtures extends Fixture
                 'user'
             ))
             ->setVerified(false)
-            ->setVerifiedHash('123456');
+            ->setVerifiedHash(bin2hex(random_bytes(16)));
 
         // $product = new Product();
         $manager->persist($user);

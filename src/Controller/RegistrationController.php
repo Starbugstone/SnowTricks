@@ -38,8 +38,9 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $hash = bin2hex(random_bytes(16));
+            $user ->setVerifiedHash($hash);
 
-            //TODO : Set the authentication hash key here
             $this->em->persist($user);
             $this->em->flush();
 
