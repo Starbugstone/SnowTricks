@@ -75,7 +75,6 @@ class RegistrationController extends AbstractController
             $this->em->flush();
             return $this->redirectToRoute('app_login');
         }
-        dd($user);
         return $this->render('registration/error.html.twig', [
             'user' => $user
         ]);
