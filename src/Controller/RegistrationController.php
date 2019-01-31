@@ -39,12 +39,13 @@ class RegistrationController extends AbstractController
             );
 
             $hash = bin2hex(random_bytes(16));
-            $user ->setVerifiedHash($hash);
+            $user->setVerifiedHash($hash);
 
             $this->em->persist($user);
             $this->em->flush();
 
             // do anything else you need here, like send an email
+            //TODO Send email with URL/validate/id/token
 
             return $this->redirectToRoute('trick.home');
         }
@@ -52,5 +53,35 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/validate/{id}/{token}", name="app_validate", methods={"GET"}, requirements={
+     *     "id": "\d+",
+     *     "token": "[a-h0-9]*"
+     * })
+     *
+     */
+    public function validate(User $user, $token)
+    {
+        if($user->getVerified())
+        {
+            //Account already active
+            return $this->redirectToRoute('app_login');
+        }
+
+        //checking if the timestamp is valid and saving the result
+        $now = new \DateTime();
+        $timestampValid = $now->getTimestamp()-$user->getVerifiedDateTime()->getTimestamp()<= User::HASH_VALIDATION_TIME_LIMIT*60*60*24;
+
+        //checking the hash
+        if($user->getVerifiedHash() === $token && $timestampValid){
+            $user->setVerified(true);
+            $this->em->flush();
+            return $this->redirectToRoute('app_login');
+        }
+        else{
+            dd("Bad hash or time");
+        }
     }
 }

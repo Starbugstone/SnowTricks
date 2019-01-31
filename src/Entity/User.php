@@ -16,6 +16,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class User implements UserInterface
 {
+
+    const HASH_VALIDATION_TIME_LIMIT = 1; //number of days that the validation link is active
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
