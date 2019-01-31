@@ -44,8 +44,8 @@ class RegistrationController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
-            // do anything else you need here, like send an email
-            //TODO Send email with URL/validate/id/token
+            //send validation link
+            $this->sendHashToMail($user->getEmail());
 
             return $this->redirectToRoute('trick.home');
         }
@@ -64,24 +64,40 @@ class RegistrationController extends AbstractController
      */
     public function validate(User $user, $token)
     {
-        if($user->getVerified())
-        {
+        if ($user->getVerified()) {
             //Account already active
             return $this->redirectToRoute('app_login');
         }
 
         //checking if the timestamp is valid and saving the result
         $now = new \DateTime();
-        $timestampValid = $now->getTimestamp()-$user->getVerifiedDateTime()->getTimestamp()<= User::HASH_VALIDATION_TIME_LIMIT*60*60*24;
+        $timestampValid = $now->getTimestamp() - $user->getVerifiedDateTime()->getTimestamp() <= User::HASH_VALIDATION_TIME_LIMIT * 60 * 60 * 24;
 
         //checking the hash
-        if($user->getVerifiedHash() === $token && $timestampValid){
+        if ($user->getVerifiedHash() === $token && $timestampValid) {
             $user->setVerified(true);
             $this->em->flush();
             return $this->redirectToRoute('app_login');
         }
-        else{
-            dd("Bad hash or time");
-        }
+        return $this->render('registration/error.html.twig', [
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * @Route("/resendhash/{id}", name="app_resendhash", requirements={
+     *     "id": "\d+"
+     * })
+     */
+    public function sendVerifiedHash(User $user)
+    {
+        $this->sendHashToMail($user->getEmail());
+        return $this->redirectToRoute('trick.home');
+    }
+
+
+    private function sendHashToMail($email)
+    {
+        dd('sending hash validation mail to '.$email);
     }
 }
