@@ -69,16 +69,13 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        //checking if the timestamp is valid and saving the result
-        $now = new \DateTime();
-        $timestampValid = $now->getTimestamp() - $user->getVerifiedDateTime()->getTimestamp() <= User::HASH_VALIDATION_TIME_LIMIT * 60 * 60 * 24;
-
-        //checking the hash
-        if ($user->getVerifiedHash() === $token && $timestampValid) {
+        //checking the hash and valid date
+        if ($user->isHashValid($token) && $user->isVerifiedDateTimeValid()) {
             $user->setVerified(true);
             $this->em->flush();
             return $this->redirectToRoute('app_login');
         }
+        dd($user);
         return $this->render('registration/error.html.twig', [
             'user' => $user
         ]);

@@ -93,7 +93,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->userName;
+        return (string)$this->userName;
     }
 
     /**
@@ -120,7 +120,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -200,5 +200,24 @@ class User implements UserInterface
         $this->verifiedDateTime = $verifiedDateTime;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function isVerifiedDateTimeValid():bool
+    {
+        $now = new \DateTime();
+        return $now->getTimestamp() - $this->getVerifiedDateTime()->getTimestamp() <= self::HASH_VALIDATION_TIME_LIMIT * 60 * 60 * 24;
+    }
+
+    /**
+     * @param string $hash
+     * @return bool
+     */
+    public function isHashValid(string $hash):bool
+    {
+        return $this->getVerifiedHash() === $hash;
     }
 }
