@@ -6,10 +6,14 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class RegistrationController extends AbstractController
 {
@@ -18,13 +22,19 @@ class RegistrationController extends AbstractController
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
+
     }
 
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder,AuthorizationCheckerInterface $authChecker): Response
     {
+        //if we are authenticated, no reason to be here
+        if ($authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirectToRoute('trick.home');
+        }
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -62,8 +72,14 @@ class RegistrationController extends AbstractController
      * })
      *
      */
-    public function validate(User $user, $token)
+    public function validate(User $user, $token, EventDispatcherInterface $dispatcher, Request $request,AuthorizationCheckerInterface $authChecker)
     {
+
+        //if we are authenticated, no reason to be here
+        if ($authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirectToRoute('trick.home');
+        }
+
         if ($user->getVerified()) {
             //Account already active
             return $this->redirectToRoute('app_login');
@@ -73,6 +89,14 @@ class RegistrationController extends AbstractController
         if ($user->isHashValid($token) && $user->isVerifiedDateTimeValid()) {
             $user->setVerified(true);
             $this->em->flush();
+
+            //Login user
+            $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+            $this->get('security.token_storage')->setToken($token);
+            $this->get('session')->set('_security_main', serialize($token));
+            $event = new InteractiveLoginEvent($request, $token);
+            $dispatcher->dispatch("security.interactive_login", $event);
+
             return $this->redirectToRoute('app_login');
         }
         return $this->render('registration/error.html.twig', [
@@ -96,4 +120,5 @@ class RegistrationController extends AbstractController
     {
         dd('sending hash validation mail to '.$email);
     }
+
 }
