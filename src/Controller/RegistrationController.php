@@ -18,18 +18,26 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 class RegistrationController extends AbstractController
 {
     private $em;
+    /**
+     * @var \Swift_Mailer
+     */
+    private $mailer;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, \Swift_Mailer $mailer)
     {
         $this->em = $em;
 
+        $this->mailer = $mailer;
     }
 
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder,AuthorizationCheckerInterface $authChecker): Response
-    {
+    public function register(
+        Request $request,
+        UserPasswordEncoderInterface $passwordEncoder,
+        AuthorizationCheckerInterface $authChecker
+    ): Response {
         //if we are authenticated, no reason to be here
         if ($authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirectToRoute('trick.home');
@@ -55,7 +63,7 @@ class RegistrationController extends AbstractController
             $this->em->flush();
 
             //send validation link
-            $this->sendHashToMail($user->getEmail());
+            $this->sendHash($user);
 
             return $this->redirectToRoute('trick.home');
         }
@@ -72,8 +80,13 @@ class RegistrationController extends AbstractController
      * })
      *
      */
-    public function validate(User $user, $token, EventDispatcherInterface $dispatcher, Request $request,AuthorizationCheckerInterface $authChecker)
-    {
+    public function validate(
+        User $user,
+        $token,
+        EventDispatcherInterface $dispatcher,
+        Request $request,
+        AuthorizationCheckerInterface $authChecker
+    ) {
 
         //if we are authenticated, no reason to be here
         if ($authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -111,14 +124,30 @@ class RegistrationController extends AbstractController
      */
     public function sendVerifiedHash(User $user)
     {
-        $this->sendHashToMail($user->getEmail());
+        if(!$user->getVerified()){
+            $this->sendHash($user);
+        }
+
         return $this->redirectToRoute('trick.home');
     }
 
-
-    private function sendHashToMail($email)
+    /**
+     * Send the hash link to the user
+     * @param User $user
+     *
+     */
+    private function sendHash(User $user)
     {
-        dd('sending hash validation mail to '.$email);
+        $message = (new \Swift_Message('Email validation'))
+            ->setFrom('snowtricks@starbugstone.eu')
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderView(
+                    'emails/hash.html.twig',
+                    ['user'=>$user]
+                ),
+                'text/html'
+            );
+        $this->mailer->send($message);
     }
-
 }
