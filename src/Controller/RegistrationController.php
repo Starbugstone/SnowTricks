@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Services\Registration\RegistrationMailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -36,7 +37,8 @@ class RegistrationController extends AbstractController
     public function register(
         Request $request,
         UserPasswordEncoderInterface $passwordEncoder,
-        AuthorizationCheckerInterface $authChecker
+        AuthorizationCheckerInterface $authChecker,
+        RegistrationMailer $registrationMailer
     ): Response {
         //if we are authenticated, no reason to be here
         if ($authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -63,7 +65,7 @@ class RegistrationController extends AbstractController
             $this->em->flush();
 
             //send validation link
-            $this->sendHash($user);
+            $registrationMailer->sendHash($user);
 
             return $this->redirectToRoute('trick.home');
         }
@@ -122,32 +124,13 @@ class RegistrationController extends AbstractController
      *     "id": "\d+"
      * })
      */
-    public function sendVerifiedHash(User $user)
+    public function sendVerifiedHash(User $user, RegistrationMailer $registrationMailer)
     {
         if(!$user->getVerified()){
-            $this->sendHash($user);
+            $registrationMailer->sendHash($user);
         }
-
         return $this->redirectToRoute('trick.home');
     }
 
-    /**
-     * Send the hash link to the user
-     * @param User $user
-     *
-     */
-    private function sendHash(User $user)
-    {
-        $message = (new \Swift_Message('Email validation'))
-            ->setFrom('snowtricks@starbugstone.eu')
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->renderView(
-                    'emails/hash.html.twig',
-                    ['user'=>$user]
-                ),
-                'text/html'
-            );
-        $this->mailer->send($message);
-    }
+
 }
