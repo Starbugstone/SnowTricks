@@ -4,17 +4,16 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Services\Registration\RegistrationAutoLogon;
 use App\Services\Registration\RegistrationMailer;
+use App\Services\Registration\RegistrationSetHash;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class RegistrationController extends AbstractController
 {
@@ -38,7 +37,8 @@ class RegistrationController extends AbstractController
         Request $request,
         UserPasswordEncoderInterface $passwordEncoder,
         AuthorizationCheckerInterface $authChecker,
-        RegistrationMailer $registrationMailer
+        RegistrationMailer $registrationMailer,
+        RegistrationSetHash $registrationSetHash
     ): Response {
         //if we are authenticated, no reason to be here
         if ($authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -57,12 +57,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
-            $hash = bin2hex(random_bytes(16));
-            $user->setVerifiedHash($hash);
-
-            $this->em->persist($user);
-            $this->em->flush();
+            $registrationSetHash->setHash($user);
 
             //send validation link
             $registrationMailer->sendHash($user);
@@ -80,14 +75,19 @@ class RegistrationController extends AbstractController
      *     "id": "\d+",
      *     "token": "[a-h0-9]*"
      * })
-     *
+     * @param User $user
+     * @param $token
+     * @param AuthorizationCheckerInterface $authChecker
+     * @param RegistrationAutoLogon $autoLogon
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @throws \Exception
      */
     public function validate(
         User $user,
         $token,
-        EventDispatcherInterface $dispatcher,
-        Request $request,
-        AuthorizationCheckerInterface $authChecker
+        AuthorizationCheckerInterface $authChecker,
+        RegistrationAutoLogon $autoLogon,
+        Request $request
     ) {
 
         //if we are authenticated, no reason to be here
@@ -105,14 +105,10 @@ class RegistrationController extends AbstractController
             $user->setVerified(true);
             $this->em->flush();
 
-            //Login user
-            $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
-            $this->get('security.token_storage')->setToken($token);
-            $this->get('session')->set('_security_main', serialize($token));
-            $event = new InteractiveLoginEvent($request, $token);
-            $dispatcher->dispatch("security.interactive_login", $event);
+            //autologon
+            $autoLogon->autoLogon($user, $request);
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('trick.home');
         }
         return $this->render('registration/error.html.twig', [
             'user' => $user
@@ -124,9 +120,10 @@ class RegistrationController extends AbstractController
      *     "id": "\d+"
      * })
      */
-    public function sendVerifiedHash(User $user, RegistrationMailer $registrationMailer)
+    public function sendVerifiedHash(User $user, RegistrationMailer $registrationMailer, RegistrationSetHash $registrationSetHash)
     {
-        if(!$user->getVerified()){
+        if (!$user->getVerified()) {
+            $registrationSetHash->setHash($user);
             $registrationMailer->sendHash($user);
         }
         return $this->redirectToRoute('trick.home');
