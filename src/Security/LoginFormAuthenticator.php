@@ -88,6 +88,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
         //is account email verified
         if(!$user->getVerified()){
+            //here we have the user object, can redirect to the  resend link ?
+            //dd($user);
+            //Probably should trigger a listener or subscriber
             throw new CustomUserMessageAuthenticationException('Account email not verified');
         }
 
