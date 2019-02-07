@@ -4,8 +4,8 @@ namespace App\Controller\Edit;
 
 use App\Entity\Trick;
 use App\Form\TrickType;
-use App\Repository\TrickRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,11 +21,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  */
 class TrickEditController extends AbstractController
 {
-
-    /**
-     * @var TrickRepository
-     */
-    private $repository;
     /**
      * @var ObjectManager
      */
@@ -37,9 +32,8 @@ class TrickEditController extends AbstractController
         $this->em->flush();
     }
 
-    public function __construct(TrickRepository $repository, ObjectManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
-        $this->repository = $repository;
         $this->em = $em;
     }
 
