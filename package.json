@@ -13,8 +13,5 @@
         "watch": "encore dev --watch",
         "build": "encore production --progress"
     },
-    "dependencies": {
-        "animate.css": "^3.7.0",
-        "noty": "^3.2.0-beta"
-    }
+    "dependencies": {}
 }
