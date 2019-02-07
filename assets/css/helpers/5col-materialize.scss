@@ -1,0 +1,34 @@
+/**
+Grabbed from stack overflow
+https://stackoverflow.com/questions/39205432/materialize-grid-do-5-columns
+ */
+.s5ths,
+.m5ths,
+.l5ths,
+.xl5ths {
+  margin-left: auto;
+  left: auto;
+  right: auto;
+}
+
+.row .col.s5ths {
+  width: 20%;
+}
+
+@media only screen and (min-width: 600px) {
+  .row .col.m5ths {
+    width: 20%;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .row .col.l5ths {
+    width: 20%;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .row .col.xl5ths {
+    width: 20%;
+  }
+}

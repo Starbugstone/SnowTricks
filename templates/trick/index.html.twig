@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SnowTricks{% endblock %}
+
+{% block body %}
+    <!-- Header image with slogan -->
+    <div class="valign-wrapper vh100" id="st-header-image" style="background-image: url(https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg)">
+
+        <h1 class="header-text-title center-align w100 font-coiny text-shadow">Phrase Accroche</h1>
+
+    </div>
+
+    <!-- The tricks cards -->
+    <div class="row mx-xl-5 mt-xl-5 mt-l-3 mt-s-1 flex-center">
+        {% for trick in tricks %}
+            <div class="col xl2 l3 m6 s12 xl5ths">
+                {% include 'trick/_trick-card.html.twig' with {'trick': trick} %}
+            </div>
+        {% endfor %}
+    </div>
+
+    {# TODO: Load More #}
+
+{% endblock %}
