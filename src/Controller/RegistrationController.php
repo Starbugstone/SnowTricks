@@ -129,6 +129,7 @@ class RegistrationController extends AbstractController
         if (!$user->getVerified()) {
             $registrationSetHash->setHash($user);
             $registrationMailer->sendHash($user);
+            $this->addFlash('success', 'Verification link sent to '.$user->getEmail());
         }
         return $this->redirectToRoute('trick.home');
     }
@@ -139,7 +140,8 @@ class RegistrationController extends AbstractController
     public function testFlash()
     {
         $this->addFlash('bla', 'Account is verified');
-        $this->addFlash('error', 'Account is not verified');
+        $this->addFlash('success', 'Success Flash');
+        $this->addFlash('error', 'An error has occured');
         return $this->redirectToRoute('trick.home');
 
     }

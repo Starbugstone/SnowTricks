@@ -39,24 +39,8 @@
         integrity="sha256-ITwLtH5uF4UlWjZ0mdHOhPwDpLoqxzfFCZXn1wE56Ps=" crossorigin="anonymous"></script>
 
 {{ encore_entry_script_tags('app') }}
+{% include '_flashmessage.html.twig' %}
 
-{# Noty flash messages #}
-<script>
-    {% for label, messages in app.flashes(['alert', 'success', 'error', 'warning', 'info']) %}
-    {% for message in messages %}
-    new Noty({
-        type: '{{ label }}',
-        text: '{{ message }}',
-    }).show();
-    {% endfor %}
-    {% endfor %}
-    {% for label, messages in app.flashes %}
-    {% for message in messages %}
-    console.log('Syntax Error. label "{{ label }}" does not exist. Called with the message "{{ message }}"');
-    {% endfor %}
-    {% endfor %}
-</script>
-{# End Noty flash messages #}
 
 {% block javascripts %}{% endblock %}
 </body>
