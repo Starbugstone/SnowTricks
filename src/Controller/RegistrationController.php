@@ -17,17 +17,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegistrationController extends AbstractController
 {
-    private $em;
     /**
-     * @var \Swift_Mailer
+     * @var EntityManagerInterface
      */
-    private $mailer;
+    private $em;
 
-    public function __construct(EntityManagerInterface $em, \Swift_Mailer $mailer)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-
-        $this->mailer = $mailer;
     }
 
     /**
@@ -129,22 +126,8 @@ class RegistrationController extends AbstractController
         if (!$user->getVerified()) {
             $registrationSetHash->setHash($user);
             $registrationMailer->sendHash($user);
-            $this->addFlash('success', 'Verification link sent to '.$user->getEmail());
+            $this->addFlash('success', 'Verification link sent to ' . $user->getEmail());
         }
         return $this->redirectToRoute('trick.home');
     }
-
-    /**
-     * @Route("/testflash")
-     */
-    public function testFlash()
-    {
-        $this->addFlash('bla', 'Account is verified');
-        $this->addFlash('success', 'Success Flash');
-        $this->addFlash('error', 'An error has occured');
-        return $this->redirectToRoute('trick.home');
-
-    }
-
-
 }

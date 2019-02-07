@@ -69,7 +69,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         if (!$user) {
             //try with userName
             $user = $this->entityManager->getRepository(User::class)->findOneBy(['userName' => $credentials['email']]);
-            if(!$user){
+            if (!$user) {
                 // fail authentication with a custom error
                 throw new CustomUserMessageAuthenticationException('Email or username could not be found.');
             }
@@ -82,15 +82,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function checkCredentials($credentials, UserInterface $user)
     {
         //is user and pass valid
-        if(!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])){
+        if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
             return false;
         }
 
         //is account email verified
-        if(!$user->getVerified()){
-            //here we have the user object, can redirect to the  resend link ?
-            //dd($user);
-            //Probably should trigger a listener or subscriber
+        if (!$user->getVerified()) {
+            //TODO : cleaner way of taking care of the account not validated. See #29
             throw new CustomUserMessageAuthenticationException('Account email not verified');
         }
 

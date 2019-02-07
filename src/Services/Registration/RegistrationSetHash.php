@@ -18,7 +18,13 @@ class RegistrationSetHash
         $this->em = $em;
     }
 
-    public function setHash(User $user)
+    /**
+     * @param User $user
+     * @return string
+     * @throws \Exception
+     * Sets a new hash to the verifiedDateTimeField of the passed user
+     */
+    public function setHash(User $user): string
     {
         $hash = bin2hex(random_bytes(16));
         $user->setVerifiedHash($hash);
@@ -27,5 +33,6 @@ class RegistrationSetHash
 
         $this->em->persist($user);
         $this->em->flush();
+        return $hash;
     }
 }

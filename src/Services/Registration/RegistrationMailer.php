@@ -30,7 +30,7 @@ class RegistrationMailer
      * @param User $user
      * @return int The number of successful recipients. Can be 0 which indicates failure
      */
-    public function sendHash(User $user)
+    public function sendHash(User $user): int
     {
         $message = (new \Swift_Message('Email validation'))
             ->setFrom($this->adminEmail)

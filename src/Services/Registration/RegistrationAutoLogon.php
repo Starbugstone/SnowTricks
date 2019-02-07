@@ -3,6 +3,7 @@
 namespace App\Services\Registration;
 
 use App\Entity\User;
+use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -33,13 +34,20 @@ class RegistrationAutoLogon
         $this->session = $session;
     }
 
-    public function autoLogon(User $user, Request $request)
+    /**
+     * @param User $user
+     * @param Request $request
+     * @return Event
+     * Auto Logges on the passed user
+     *
+     */
+    public function autoLogon(User $user, Request $request): Event
     {
         //Login user
         $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
         $this->tokenStorage->setToken($token);
         $this->session->set('_security_main', serialize($token));
         $event = new InteractiveLoginEvent($request, $token);
-        $this->dispatcher->dispatch("security.interactive_login", $event);
+        return $this->dispatcher->dispatch("security.interactive_login", $event);
     }
 }
