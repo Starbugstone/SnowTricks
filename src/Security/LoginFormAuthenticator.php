@@ -67,8 +67,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
 
         if (!$user) {
-            // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Email could not be found.');
+            //try with userName
+            $user = $this->entityManager->getRepository(User::class)->findOneBy(['userName' => $credentials['email']]);
+            if (!$user) {
+                // fail authentication with a custom error
+                throw new CustomUserMessageAuthenticationException('Email or username could not be found.');
+            }
+
         }
 
         return $user;
@@ -76,7 +81,19 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        //is user and pass valid
+        if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
+            return false;
+        }
+
+        //is account email verified
+        if (!$user->getVerified()) {
+            //TODO : cleaner way of taking care of the account not validated. See #29
+            throw new CustomUserMessageAuthenticationException('Account email not verified');
+        }
+
+        //If we get here then all is good
+        return true;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
@@ -85,8 +102,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        // by default, return to the home page. TODO Update to profile admin page
         return new RedirectResponse($this->urlGenerator->generate('trick.home'));
     }
 

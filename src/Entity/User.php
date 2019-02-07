@@ -3,13 +3,22 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @UniqueEntity(fields={"userName"}, message="There is already an account with this username")
+ * @UniqueEntity(fields={"verifiedHash"}, message="Hash already exists")
  */
 class User implements UserInterface
 {
+
+    const HASH_VALIDATION_TIME_LIMIT = 1; //number of days that the validation link is active
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -34,7 +43,8 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\Type(type="alnum")
      */
     private $userName;
 
@@ -42,6 +52,22 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default":"0"})
+     */
+    private $verified = false;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $verifiedHash;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="create")
+     */
+    private $verifiedDateTime;
 
     public function getId(): ?int
     {
@@ -67,7 +93,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->userName;
+        return (string)$this->userName;
     }
 
     /**
@@ -94,7 +120,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -138,5 +164,60 @@ class User implements UserInterface
         $this->image = $image;
 
         return $this;
+    }
+
+    public function getVerified(): ?bool
+    {
+        return $this->verified;
+    }
+
+    public function setVerified(bool $verified): self
+    {
+        $this->verified = $verified;
+
+        return $this;
+    }
+
+    public function getVerifiedHash(): ?string
+    {
+        return $this->verifiedHash;
+    }
+
+    public function setVerifiedHash(string $verifiedHash): self
+    {
+        $this->verifiedHash = $verifiedHash;
+
+        return $this;
+    }
+
+    public function getVerifiedDateTime(): ?\DateTimeInterface
+    {
+        return $this->verifiedDateTime;
+    }
+
+    public function setVerifiedDateTime(\DateTimeInterface $verifiedDateTime): self
+    {
+        $this->verifiedDateTime = $verifiedDateTime;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function isVerifiedDateTimeValid():bool
+    {
+        $now = new \DateTime();
+        return $now->getTimestamp() - $this->getVerifiedDateTime()->getTimestamp() <= self::HASH_VALIDATION_TIME_LIMIT * 60 * 60 * 24;
+    }
+
+    /**
+     * @param string $hash
+     * @return bool
+     */
+    public function isHashValid(string $hash):bool
+    {
+        return $this->getVerifiedHash() === $hash;
     }
 }
