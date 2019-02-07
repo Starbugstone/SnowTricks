@@ -62,6 +62,8 @@ class RegistrationController extends AbstractController
             //send validation link
             $registrationMailer->sendHash($user);
 
+            $this->addFlash('success', 'Account created, we have sent an email to ' . $user->getEmail() . ' with a validation link');
+
             return $this->redirectToRoute('trick.home');
         }
 
@@ -105,6 +107,8 @@ class RegistrationController extends AbstractController
             $user->setVerified(true);
             $this->em->flush();
 
+            $this->addFlash('success', 'Account is verified');
+
             //autologon
             $autoLogon->autoLogon($user, $request);
 
@@ -127,6 +131,17 @@ class RegistrationController extends AbstractController
             $registrationMailer->sendHash($user);
         }
         return $this->redirectToRoute('trick.home');
+    }
+
+    /**
+     * @Route("/testflash")
+     */
+    public function testFlash()
+    {
+        $this->addFlash('bla', 'Account is verified');
+        $this->addFlash('error', 'Account is not verified');
+        return $this->redirectToRoute('trick.home');
+
     }
 
 
