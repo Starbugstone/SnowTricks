@@ -8,18 +8,15 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class TrickDeletedSubscriber extends TrickSubscriber implements EventSubscriberInterface
 {
-
-
     /**
      * Send trick to the database and set a flash message
      * @param TrickDeletedEvent $event
      */
     public function deleteTrickFromDatabase(TrickDeletedEvent $event)
     {
-        $trick = $event->getTrick();
-        $this->em->remove($trick);
-        $this->em->flush();
-        $this->addFlash(FlashMessageCategory::SUCCESS, 'Trick '.$trick->getName().' Deleted');
+        $trick = $event->getEntity();
+        $this->deleteFromDatabase($event);
+        $this->addFlash(FlashMessageCategory::SUCCESS, 'Trick ' . $trick->getName() . ' Deleted');
     }
 
     /**

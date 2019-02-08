@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="App\Repository\TrickRepository")
  * @UniqueEntity(fields="name", message="this trick already exists")
  */
-class Trick
+class Trick extends AppEntity
 {
 
     const NUMBER_OF_DISPLAYED_TRICKS = 10;
