@@ -30,6 +30,7 @@ class TrickEditController extends AbstractController
     {
         $this->em->remove($trick);
         $this->em->flush();
+        $this->addFlash('success', 'Trick '.$trick->getName().' Deleted');
     }
 
     public function __construct(EntityManagerInterface $em)
@@ -57,6 +58,7 @@ class TrickEditController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($trick);
             $this->em->flush();
+            $this->addFlash('success', 'Trick '.$trick->getName().' created');
             return $this->redirectToRoute('trick.show', [
                 'id' => $trick->getId(),
                 'slug' => $trick->getSlug(),
@@ -100,6 +102,7 @@ class TrickEditController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->flush();
+            $this->addFlash('success', 'Trick '.$trick->getName().' Edited');
             return $this->redirectToRoute('trick.show', [
                 'id' => $trick->getId(),
                 'slug' => $trick->getSlug(),
