@@ -4,9 +4,7 @@ namespace App\EventSubscriber\Trick;
 
 use App\Event\Trick\TrickDeletedEvent;
 use App\Services\FlashMessageCategory;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class TrickDeletedSubscriber extends TrickSubscriber implements EventSubscriberInterface
 {
