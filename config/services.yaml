@@ -30,3 +30,12 @@ services:
     App\Services\Registration\RegistrationMailer:
         arguments:
             $adminEmail: '%app.adminEmail%'
+
+#    App\EventSubscriber\TrickSubscriber:
+#        abstract: true
+#        arguments: ['@doctrine.orm.default_entity_manager']
+#
+#    App\EventSubscriber\TrickCreatedSubscriber:
+#        parent: App\EventSubscriber\TrickSubscriber
+#        autowire: true
+#        autoconfigure: false

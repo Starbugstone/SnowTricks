@@ -8,6 +8,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class TrickCreatedSubscriber implements EventSubscriberInterface
+//class TrickCreatedSubscriber extends TrickSubscriber implements EventSubscriberInterface
 {
 
     /**
@@ -21,6 +22,7 @@ class TrickCreatedSubscriber implements EventSubscriberInterface
 
     public function __construct(EntityManagerInterface $em, FlashBagInterface $flashBag)
     {
+        //parent::__construct();
         $this->em = $em;
         $this->flashBag = $flashBag;
     }
@@ -28,10 +30,9 @@ class TrickCreatedSubscriber implements EventSubscriberInterface
     public function test(TrickCreatedEvent $event)
     {
         $trick = $event->getTrick();
-        //$trick->setName("Bla123456Bla");
         $this->em->persist($trick);
         $this->em->flush();
-
+        //$this->sendToDataBase($event);
         $this->flashBag->add('success', 'Trick ' . $trick->getName() . ' created');
 
 
