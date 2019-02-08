@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Event;
+namespace App\Event\Trick;
 
 use App\Entity\Trick;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\Event;
 
-class TrickCreatedEvent extends Event
+abstract class TrickEvent extends Event
 {
-
-    const NAME = 'trick.created';
+    const NAME='defineMe';
 
     /**
      * @var Trick
@@ -28,5 +26,4 @@ class TrickCreatedEvent extends Event
     {
         return $this->trick;
     }
-
 }
