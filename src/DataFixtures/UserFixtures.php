@@ -42,6 +42,19 @@ class UserFixtures extends Fixture
                 $user,
                 'user'
             ))
+            ->setVerified(true)
+            ->setVerifiedHash(bin2hex(random_bytes(16)));
+
+        // $product = new Product();
+        $manager->persist($user);
+
+        $user = new User();
+        $user->setEmail('user2@localhost.com')
+            ->setUserName('user2')
+            ->setPassword($this->passwordEncoder->encodePassword(
+                $user,
+                'user'
+            ))
             ->setVerified(false)
             ->setVerifiedHash(bin2hex(random_bytes(16)));
 
