@@ -11,10 +11,6 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 class TrickDeletedSubscriber extends TrickSubscriber implements EventSubscriberInterface
 {
 
-    public function __construct(EntityManagerInterface $em, FlashBagInterface $flashBag)
-    {
-        parent::__construct($em, $flashBag);
-    }
 
     /**
      * Send trick to the database and set a flash message

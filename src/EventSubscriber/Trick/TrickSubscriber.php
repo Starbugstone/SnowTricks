@@ -18,11 +18,6 @@ abstract class TrickSubscriber
      */
     protected $flashBag;
 
-    public function __construct(EntityManagerInterface $em, FlashBagInterface $flashBag)
-    {
-        $this->em = $em;
-        $this->flashBag = $flashBag;
-    }
 
     /**
      * @return array The event names to listen to
@@ -39,10 +34,28 @@ abstract class TrickSubscriber
         $this->em->flush();
     }
 
-    /*
+    /**
      * Adding te flash message to the session. This enables to have the same syntax as in the controllers
      */
     public function addFlash(string $type, string $message){
         $this->flashBag->add($type, $message);
+    }
+
+    /**
+     * @required
+     * @param EntityManagerInterface $em
+     */
+    public function setEm(EntityManagerInterface $em): void
+    {
+        $this->em = $em;
+    }
+
+    /**
+     * @required
+     * @param FlashBagInterface $flashBag
+     */
+    public function setFlashBag(FlashBagInterface $flashBag): void
+    {
+        $this->flashBag = $flashBag;
     }
 }
