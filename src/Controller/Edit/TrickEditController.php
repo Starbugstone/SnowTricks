@@ -3,10 +3,12 @@
 namespace App\Controller\Edit;
 
 use App\Entity\Trick;
+use App\Event\TrickCreatedEvent;
 use App\Form\TrickType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,6 +27,10 @@ class TrickEditController extends AbstractController
      * @var ObjectManager
      */
     private $em;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
 
     private function deleteTrick(Trick $trick)
     {
@@ -33,9 +39,10 @@ class TrickEditController extends AbstractController
         $this->addFlash('success', 'Trick '.$trick->getName().' Deleted');
     }
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, EventDispatcherInterface $dispatcher)
     {
         $this->em = $em;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -56,9 +63,13 @@ class TrickEditController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->persist($trick);
-            $this->em->flush();
-            $this->addFlash('success', 'Trick '.$trick->getName().' created');
+            //$this->em->persist($trick);
+            //$this->em->flush();
+            //$this->addFlash('success', 'Trick '.$trick->getName().' created');
+
+            $event = new TrickCreatedEvent($trick);
+            $this->dispatcher->dispatch(TrickCreatedEvent::NAME, $event);
+
             return $this->redirectToRoute('trick.show', [
                 'id' => $trick->getId(),
                 'slug' => $trick->getSlug(),
