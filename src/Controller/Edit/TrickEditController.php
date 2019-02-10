@@ -5,9 +5,8 @@ namespace App\Controller\Edit;
 use App\Entity\Trick;
 use App\Event\Trick\TrickCreatedEvent;
 use App\Event\Trick\TrickDeletedEvent;
+use App\Event\Trick\TrickEditedEvent;
 use App\Form\TrickType;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -25,17 +24,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class TrickEditController extends AbstractController
 {
     /**
-     * @var ObjectManager
-     */
-    private $em;
-    /**
      * @var EventDispatcherInterface
      */
     private $dispatcher;
 
-    public function __construct(EntityManagerInterface $em, EventDispatcherInterface $dispatcher)
+    public function __construct(EventDispatcherInterface $dispatcher)
     {
-        $this->em = $em;
         $this->dispatcher = $dispatcher;
     }
 
@@ -106,8 +100,10 @@ class TrickEditController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->flush();
-            $this->addFlash('success', 'Trick ' . $trick->getName() . ' Edited');
+
+            $event = new TrickEditedEvent($trick);
+            $this->dispatcher->dispatch(TrickEditedEvent::NAME, $event);
+
             return $this->redirectToRoute('trick.show', [
                 'id' => $trick->getId(),
                 'slug' => $trick->getSlug(),

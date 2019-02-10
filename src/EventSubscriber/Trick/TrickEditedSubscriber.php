@@ -2,21 +2,21 @@
 
 namespace App\EventSubscriber\Trick;
 
-use App\Event\Trick\TrickCreatedEvent;
+use App\Event\Trick\TrickEditedEvent;
 use App\Services\FlashMessageCategory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class TrickCreatedSubscriber extends TrickSubscriber implements EventSubscriberInterface
+class TrickEditedSubscriber extends TrickSubscriber implements EventSubscriberInterface
 {
     /**
      * Send trick to the database and set a flash message
-     * @param TrickCreatedEvent $event
+     * @param TrickEditedEvent $event
      */
-    public function registerTrickToDatabase(TrickCreatedEvent $event)
+    public function updateTrickInDatabase(TrickEditedEvent $event)
     {
         $trick = $event->getEntity();
         $this->sendToDatabase($event);
-        $this->addFlash(FlashMessageCategory::SUCCESS, 'Trick ' . $trick->getName() . ' created');
+        $this->addFlash(FlashMessageCategory::SUCCESS, 'Trick ' . $trick->getName() . ' updated');
     }
 
     /**
@@ -25,7 +25,7 @@ class TrickCreatedSubscriber extends TrickSubscriber implements EventSubscriberI
     public static function getSubscribedEvents()
     {
         return [
-            TrickCreatedEvent::NAME => 'registerTrickToDatabase'
+            TrickEditedEvent::NAME => 'updateTrickInDatabase'
         ];
     }
 }

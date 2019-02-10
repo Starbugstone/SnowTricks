@@ -27,7 +27,7 @@ abstract class AppSubscriber
      * @param AppEvent $event
      * Registers the trick into the database
      */
-    public function sendToDataBase(AppEvent $event)
+    public function sendToDatabase(AppEvent $event)
     {
         $entity = $event->getEntity();
         $this->em->persist($entity);
@@ -38,6 +38,17 @@ abstract class AppSubscriber
     {
         $entity = $event->getEntity();
         $this->em->remove($entity);
+        $this->em->flush();
+    }
+
+    public function persist(AppEvent $event)
+    {
+        $entity = $event->getEntity();
+        $this->em->persist($entity);
+    }
+
+    public function flush()
+    {
         $this->em->flush();
     }
 

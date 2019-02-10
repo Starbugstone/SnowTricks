@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Event\User\UserRegisteredEvent;
 use App\Form\RegistrationFormType;
 use App\Services\Registration\RegistrationAutoLogon;
 use App\Services\Registration\RegistrationMailer;
-use App\Services\Registration\RegistrationSetHash;
+use App\Services\UserSetHash;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,10 +23,15 @@ class RegistrationController extends AbstractController
      * @var EntityManagerInterface
      */
     private $em;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, EventDispatcherInterface $dispatcher)
     {
         $this->em = $em;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -35,7 +42,7 @@ class RegistrationController extends AbstractController
         UserPasswordEncoderInterface $passwordEncoder,
         AuthorizationCheckerInterface $authChecker,
         RegistrationMailer $registrationMailer,
-        RegistrationSetHash $registrationSetHash
+        UserSetHash $registrationSetHash
     ): Response {
         //if we are authenticated, no reason to be here
         if ($authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -47,19 +54,29 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
+
+            //---Move To event
+
+            $event = new UserRegisteredEvent($user, $form->get('plainPassword')->getData());
+            $this->dispatcher->dispatch(UserRegisteredEvent::NAME, $event);
+
+            /*// encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
             );
-            $registrationSetHash->setHash($user);
+
+            */
+            //$registrationSetHash->setHash($user);
 
             //send validation link
-            $registrationMailer->sendHash($user);
+            //$registrationMailer->sendHash($user);
 
-            $this->addFlash('success', 'Account created, we have sent an email to ' . $user->getEmail() . ' with a validation link');
+            //$this->addFlash('success', 'Account created, we have sent an email to ' . $user->getEmail() . ' with a validation link');
+
+            //---End Move to event
 
             return $this->redirectToRoute('trick.home');
         }
@@ -121,7 +138,7 @@ class RegistrationController extends AbstractController
      *     "id": "\d+"
      * })
      */
-    public function sendVerifiedHash(User $user, RegistrationMailer $registrationMailer, RegistrationSetHash $registrationSetHash)
+    public function sendVerifiedHash(User $user, RegistrationMailer $registrationMailer, UserSetHash $registrationSetHash)
     {
         if (!$user->getVerified()) {
             $registrationSetHash->setHash($user);
