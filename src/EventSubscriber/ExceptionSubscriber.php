@@ -6,7 +6,9 @@ use App\Exception\RedirectException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
-class ExceptionSubscriber implements EventSubscriberInterface{
+class ExceptionSubscriber implements EventSubscriberInterface
+{
+    
 
     /**
      * Returns an array of event names this subscriber wants to listen to.
@@ -29,15 +31,15 @@ class ExceptionSubscriber implements EventSubscriberInterface{
     public static function getSubscribedEvents()
     {
         // TODO: Implement getSubscribedEvents() method.
-        return[
-          'kernel.exception' =>  'test'
+        return [
+            'kernel.exception' => 'test'
         ];
     }
 
     public function test(GetResponseForExceptionEvent $event)
     {
-        if($event->getException() instanceof RedirectException){
-            dd($event);
+        if ($event->getException() instanceof RedirectException) {
+            dd($event->getException()->getRedirectResponse());
         }
         dd('bla');
 
