@@ -4,6 +4,7 @@ namespace App\EventSubscriber\User;
 
 use App\Entity\User;
 use App\Event\User\UserValidationEvent;
+use App\Exception\RedirectException;
 use App\Services\FlashMessageCategory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -21,15 +22,17 @@ class UserValidationSubscriber extends UserSubscriber implements EventSubscriber
             ;
     }
 
-    public function validateUser(UserValidationEvent $event)
+    public function validateUser()
     {
         if(!$this->user){
             $this->addFlash(FlashMessageCategory::ERROR, 'Invalid Token, please use the forgot password form');
             //no user in DB
             //TODO: redirect to forgotten password
+            //throw a redirect exception?
+            throw new RedirectException('test');
         }
 
-        if ($user->getVerified()) {
+        if ($this->user->getVerified()) {
             //Account already active, login
             //$autoLogon->autoLogon($user/*, $request*/);
             //return $this->redirectToRoute('trick.home');

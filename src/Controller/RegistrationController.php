@@ -98,7 +98,7 @@ class RegistrationController extends AbstractController
 
         if ($user->getVerified()) {
             //Account already active, login
-            $autoLogon->autoLogon($user/*, $request*/);
+            $autoLogon->autoLogon($user);
             return $this->redirectToRoute('trick.home');
         }
 
@@ -111,7 +111,7 @@ class RegistrationController extends AbstractController
             $this->addFlash('success', 'Account is verified');
 
             //autologon
-            $autoLogon->autoLogon($user/*, $request*/);
+            $autoLogon->autoLogon($user);
 
             return $this->redirectToRoute('trick.home');
         }
