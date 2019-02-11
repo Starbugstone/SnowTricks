@@ -27,8 +27,10 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
      * @var EngineInterface
      */
     private $templating;
+    private $adminEmail;
 
     public function __construct(
+        $adminEmail,
         \Swift_Mailer $mailer,
         UserPasswordEncoderInterface $passwordEncoder,
         UserSetHash $setHash,
@@ -38,6 +40,7 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
         $this->passwordEncoder = $passwordEncoder;
         $this->setHash = $setHash;
         $this->templating = $templating;
+        $this->adminEmail = $adminEmail;
     }
 
     public function setPassword(UserRegisteredEvent $event)
@@ -72,7 +75,7 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
     {
         $user = $event->getEntity();
         $message = (new \Swift_Message('Email validation'))
-            ->setFrom('temp@localhost.dev')
+            ->setFrom($this->adminEmail)
             ->setTo($user->getEmail())
             ->setBody(
                 $this->templating->render(
@@ -83,8 +86,6 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
             );
         $this->mailer->send($message);
     }
-
-
 
     /**
      * @return array The event names to listen to
