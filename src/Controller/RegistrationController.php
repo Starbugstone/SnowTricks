@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Event\User\UserRegisteredEvent;
+use App\Event\User\UserValidationEvent;
 use App\Form\RegistrationFormType;
 use App\Services\FlashMessageCategory;
 use App\Services\UserAutoLogon;
@@ -76,10 +77,17 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('trick.home');
         }
 
+        $user = new User();
+
+
+        $event = new UserValidationEvent($user, $token);
+        $this->dispatcher->dispatch(UserValidationEvent::NAME, $event);
+
+
         $user = $this->getDoctrine()
             ->getRepository(User::class)
             ->findUserByHash($token)
-            ;
+        ;
 
         //no user found
         if (!$user){
