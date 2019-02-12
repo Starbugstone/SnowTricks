@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
 class ExceptionSubscriber implements EventSubscriberInterface
 {
-    
+    const REDIRECT_TO_HOME = "trick.home";
 
     /**
      * Returns an array of event names this subscriber wants to listen to.

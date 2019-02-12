@@ -4,6 +4,7 @@ namespace App\EventSubscriber\User;
 
 use App\Entity\User;
 use App\Event\User\UserValidationEvent;
+use App\EventSubscriber\ExceptionSubscriber;
 use App\Exception\RedirectException;
 use App\Services\FlashMessageCategory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -29,7 +30,7 @@ class UserValidationSubscriber extends UserSubscriber implements EventSubscriber
             //no user in DB
             //TODO: redirect to forgotten password
             //throw a redirect exception?
-            throw new RedirectException('test');
+            throw new RedirectException(ExceptionSubscriber::REDIRECT_TO_HOME);
         }
 
         if ($this->user->getVerified()) {
