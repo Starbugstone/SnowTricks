@@ -1,5 +1,5 @@
 <h3>Welcome to the best resource to learn all the snow tricks</h3>
 
 <p>Welcome {{ user.username }}, you have registered on the refrence of snowboard figures.</p>
-<p>To validate your email address, please click <a href="{{ url('app_validate', {id: user.id, token: user.verifiedHash}) }}">here</a> </p>
+<p>To validate your email address, please click <a href="{{ url('app_validate', {token: user.verifiedHash}) }}">here</a> </p>
 

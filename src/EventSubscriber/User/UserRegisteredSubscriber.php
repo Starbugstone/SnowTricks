@@ -3,7 +3,8 @@
 namespace App\EventSubscriber\User;
 
 use App\Event\User\UserRegisteredEvent;
-use App\Services\UserSetHash;
+use App\Services\FlashMessageCategory;
+use App\Security\UserSetHash;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Templating\EngineInterface;
@@ -65,11 +66,6 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
         $this->persist($event);
     }
 
-    public function sendFlash(UserRegisteredEvent $event)
-    {
-        $user = $event->getEntity();
-        $this->addFlash('success', 'Account created, we have sent an email to ' . $user->getEmail() . ' with a validation link');
-    }
 
     public function sendValidationMail(UserRegisteredEvent $event)
     {
@@ -84,7 +80,12 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
                 ),
                 'text/html'
             );
-        $this->mailer->send($message);
+        if($this->mailer->send($message)>0){
+            $this->addFlash(FlashMessageCategory::SUCCESS, "A validation mail has been sent to ".$user->getEmail());
+            return;
+        }
+
+        $this->addFlash(FlashMessageCategory::ERROR, "Error sending email");
     }
 
     /**
@@ -98,7 +99,6 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
                 ['registerHash', 40],
                 ['flush', 20],
                 ['sendValidationMail', 10],
-                ['sendFlash', 0],
             ]
         ];
     }

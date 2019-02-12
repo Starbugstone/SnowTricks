@@ -4,10 +4,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Event\User\UserRegisteredEvent;
-use App\Event\User\UserValidationEvent;
+use App\Event\User\UserValidatedEvent;
 use App\Form\RegistrationFormType;
 use App\Services\FlashMessageCategory;
-use App\Services\UserAutoLogon;
+use App\Security\UserAutoLogon;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -77,38 +77,28 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('trick.home');
         }
 
-        $user = new User();
-
-
-        $event = new UserValidationEvent($user, $token);
-        $this->dispatcher->dispatch(UserValidationEvent::NAME, $event);
-
-
         $user = $this->getDoctrine()
             ->getRepository(User::class)
-            ->findUserByHash($token)
-        ;
+            ->findUserByHash($token);
 
-        //no user found
-        if (!$user){
 
-            $this->addFlash(FlashMessageCategory::ERROR, 'Invalid Token, please use the forgot password form');
+        if (!$user) {
+            //no user found
+            $this->addFlash(FlashMessageCategory::ERROR, 'Invalid Token, please use this form to resend a link');
             return $this->redirectToRoute('app_forgotpassword');
         }
 
         if ($user->getVerified()) {
-            //Account already active, login
-            $autoLogon->autoLogon($user);
-            return $this->redirectToRoute('trick.home');
+            //Account already active
+            $this->addFlash(FlashMessageCategory::INFO, 'Mail already verified');
+            return $this->redirectToRoute('app_login');
         }
 
-        //checking the hash and valid date
-        //if ($user->isHashValid($token) && $user->isVerifiedDateTimeValid()) { //do not need the isHashValid since we got the user via hash
+        //checking the date
         if ($user->isVerifiedDateTimeValid()) {
-            $user->setVerified(true);
-            $this->em->flush();
 
-            $this->addFlash('success', 'Account is verified');
+            $event = new UserValidatedEvent($user);
+            $this->dispatcher->dispatch(UserValidatedEvent::NAME, $event);
 
             //autologon
             $autoLogon->autoLogon($user);
@@ -117,6 +107,7 @@ class RegistrationController extends AbstractController
         }
 
         //Error, redirect to the forgot password
+        $this->addFlash(FlashMessageCategory::ERROR, 'Your verification link is no longer valid, please use this form to resend a link');
         return $this->redirectToRoute('app_forgotpassword');
     }
 
@@ -139,7 +130,8 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/forgotpassword", name="app_forgotpassword")
      */
-    public function forgotPassword(){
+    public function forgotPassword()
+    {
 
         //TODO: Form Posted, send mail
 
