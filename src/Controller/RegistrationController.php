@@ -8,7 +8,6 @@ use App\Event\User\UserValidatedEvent;
 use App\Form\RegistrationFormType;
 use App\Services\FlashMessageCategory;
 use App\Security\UserAutoLogon;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,19 +17,13 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class RegistrationController extends AbstractController
 {
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
     /**
      * @var EventDispatcherInterface
      */
     private $dispatcher;
 
-    public function __construct(EntityManagerInterface $em, EventDispatcherInterface $dispatcher)
+    public function __construct(EventDispatcherInterface $dispatcher)
     {
-        $this->em = $em;
         $this->dispatcher = $dispatcher;
     }
 
@@ -71,7 +64,6 @@ class RegistrationController extends AbstractController
         AuthorizationCheckerInterface $authChecker,
         UserAutoLogon $autoLogon
     ) {
-
         //if we are authenticated, no reason to be here
         if ($authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirectToRoute('trick.home');
@@ -80,7 +72,6 @@ class RegistrationController extends AbstractController
         $user = $this->getDoctrine()
             ->getRepository(User::class)
             ->findUserByHash($token);
-
 
         if (!$user) {
             //no user found
@@ -112,28 +103,12 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/resendhash/{id}", name="app_resendhash", requirements={
-     *     "id": "\d+"
-     * })
-     */
-    //TODO: this will be taken care of with the forgot password
-    /*public function sendVerifiedHash(User $user, RegistrationMailer $registrationMailer, UserSetHash $registrationSetHash)
-    {
-        if (!$user->getVerified()) {
-            $registrationSetHash->setHash($user);
-            $registrationMailer->sendHash($user);
-            $this->addFlash('success', 'Verification link sent to ' . $user->getEmail());
-        }
-        return $this->redirectToRoute('trick.home');
-    }*/
-
-    /**
      * @Route("/forgotpassword", name="app_forgotpassword")
      */
     public function forgotPassword()
     {
-
-        //TODO: Form Posted, send mail
+        //TODO: Form Posted, Call user event caught bu the userRegisteredSubscriber
+        //TODO: Also need a route for the reset password, this will probably use the same validation so make private function ?
 
         //TODO: show forgot password form, for now just reusing the Error template
         return $this->render('registration/error.html.twig', [

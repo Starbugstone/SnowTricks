@@ -9,7 +9,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TrickController extends AbstractController
 {
-
     /**
      * @var TrickRepository
      */
