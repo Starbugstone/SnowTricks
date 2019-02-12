@@ -60,7 +60,7 @@ class RegistrationController extends AbstractController
      * })
      */
     public function validate(
-        $token,
+        string $token,
         AuthorizationCheckerInterface $authChecker,
         UserAutoLogon $autoLogon
     ) {
@@ -98,7 +98,8 @@ class RegistrationController extends AbstractController
         }
 
         //Error, redirect to the forgot password
-        $this->addFlash(FlashMessageCategory::ERROR, 'Your verification link is no longer valid, please use this form to resend a link');
+        $this->addFlash(FlashMessageCategory::ERROR,
+            'Your verification link is no longer valid, please use this form to resend a link');
         return $this->redirectToRoute('app_forgotpassword');
     }
 
@@ -107,12 +108,29 @@ class RegistrationController extends AbstractController
      */
     public function forgotPassword()
     {
-        //TODO: Form Posted, Call user event caught bu the userRegisteredSubscriber
+        //TODO: Form Posted, Call user event caught by the userRegisteredSubscriber that Registers hash / date and sends mail
         //TODO: Also need a route for the reset password, this will probably use the same validation so make private function ?
 
         //TODO: show forgot password form, for now just reusing the Error template
         return $this->render('registration/error.html.twig', [
 
         ]);
+    }
+
+
+    /**
+     * @Route("/resetpassword/{token}", name="app_resetpassword", methods={"GET"}, requirements={
+     *     "token": "[a-h0-9]*"
+     * })
+     */
+    public function resetPassword(string $token)
+    {
+        //TODO: get user from session
+
+        //TODO: Generate form
+
+        //TODO: take care of submitted form
+
+        //TODO: render resetpassword form
     }
 }
