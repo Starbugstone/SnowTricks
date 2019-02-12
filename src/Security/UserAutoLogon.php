@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Services\Registration;
+namespace App\Security;
 
 use App\Entity\User;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
-class RegistrationAutoLogon
+class UserAutoLogon
 {
 
     /**
@@ -27,11 +28,17 @@ class RegistrationAutoLogon
      */
     private $session;
 
-    public function __construct(EventDispatcherInterface $dispatcher, TokenStorageInterface $tokenStorage, SessionInterface $session)
+    /**
+     * @var RequestStack
+     */
+    private $requestStack;
+
+    public function __construct(EventDispatcherInterface $dispatcher, TokenStorageInterface $tokenStorage, SessionInterface $session, RequestStack $requestStack)
     {
         $this->dispatcher = $dispatcher;
         $this->tokenStorage = $tokenStorage;
         $this->session = $session;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -41,8 +48,9 @@ class RegistrationAutoLogon
      * Auto Logges on the passed user
      *
      */
-    public function autoLogon(User $user, Request $request): Event
+    public function autoLogon(User $user): Event
     {
+        $request = $this->requestStack->getCurrentRequest();
         //Login user
         $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
         $this->tokenStorage->setToken($token);

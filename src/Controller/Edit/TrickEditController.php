@@ -3,10 +3,12 @@
 namespace App\Controller\Edit;
 
 use App\Entity\Trick;
+use App\Event\Trick\TrickCreatedEvent;
+use App\Event\Trick\TrickDeletedEvent;
+use App\Event\Trick\TrickEditedEvent;
 use App\Form\TrickType;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,20 +24,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class TrickEditController extends AbstractController
 {
     /**
-     * @var ObjectManager
+     * @var EventDispatcherInterface
      */
-    private $em;
+    private $dispatcher;
 
-    private function deleteTrick(Trick $trick)
+    public function __construct(EventDispatcherInterface $dispatcher)
     {
-        $this->em->remove($trick);
-        $this->em->flush();
-        $this->addFlash('success', 'Trick '.$trick->getName().' Deleted');
-    }
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -56,9 +51,10 @@ class TrickEditController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->persist($trick);
-            $this->em->flush();
-            $this->addFlash('success', 'Trick '.$trick->getName().' created');
+
+            $event = new TrickCreatedEvent($trick);
+            $this->dispatcher->dispatch(TrickCreatedEvent::NAME, $event);
+
             return $this->redirectToRoute('trick.show', [
                 'id' => $trick->getId(),
                 'slug' => $trick->getSlug(),
@@ -88,7 +84,7 @@ class TrickEditController extends AbstractController
                 'label' => 'Delete',
                 'attr' => [
                     'class' => 'waves-effect waves-light btn right mr-2',
-                    'onclick' =>'return confirm(\'are you sure?\')',
+                    'onclick' => 'return confirm(\'are you sure?\')',
                 ]
             ]);
 
@@ -96,13 +92,18 @@ class TrickEditController extends AbstractController
 
 
         if ($form->getClickedButton() && $form->getClickedButton()->getName() === 'delete') {
-            $this->deleteTrick($trick);
+
+            $event = new TrickDeletedEvent($trick);
+            $this->dispatcher->dispatch(TrickDeletedEvent::NAME, $event);
+
             return $this->redirectToRoute('trick.home');
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->flush();
-            $this->addFlash('success', 'Trick '.$trick->getName().' Edited');
+
+            $event = new TrickEditedEvent($trick);
+            $this->dispatcher->dispatch(TrickEditedEvent::NAME, $event);
+
             return $this->redirectToRoute('trick.show', [
                 'id' => $trick->getId(),
                 'slug' => $trick->getSlug(),
@@ -120,7 +121,9 @@ class TrickEditController extends AbstractController
      */
     public function delete(Trick $trick)
     {
-        $this->deleteTrick($trick);
+        $event = new TrickDeletedEvent($trick);
+        $this->dispatcher->dispatch(TrickDeletedEvent::NAME, $event);
+
         return $this->redirectToRoute('trick.home');
     }
 

@@ -14,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @UniqueEntity(fields={"userName"}, message="There is already an account with this username")
  * @UniqueEntity(fields={"verifiedHash"}, message="Hash already exists")
  */
-class User implements UserInterface
+class User extends AppEntity implements UserInterface
 {
 
     const HASH_VALIDATION_TIME_LIMIT = 1; //number of days that the validation link is active
