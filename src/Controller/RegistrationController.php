@@ -106,14 +106,29 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/forgotpassword", name="app_forgotpassword")
      */
-    public function forgotPassword()
+    public function forgotPassword(Request $request)
     {
-        //TODO: Form Posted, Call user event caught by the userRegisteredSubscriber that Registers hash / date and sends mail
-        //TODO: Also need a route for the reset password, this will probably use the same validation so make private function ?
 
-        //TODO: show forgot password form, for now just reusing the Error template
-        return $this->render('registration/error.html.twig', [
+        $form = $this->createForm(RegistrationFormType::class);
+        $form->handleRequest($request);
+        dd($form); //TODO: CSRF invalid
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            //get the user from the email or user
+            $user = $this->getDoctrine()
+                ->getRepository(User::class)
+                ->findUserByMailOrUsername($form->getName())
+                ;
+            dd($user);
+
+            //TODO: Form Posted, Call user event caught by the userRegisteredSubscriber that Registers hash / date and sends mail
+
+            //TODO: Also need a route for the reset password to send the mail
+        }
+
+
+        return $this->render('registration/forgotpassword.html.twig', [
+            'registrationForm' => $form->createView(),
         ]);
     }
 
@@ -123,14 +138,24 @@ class RegistrationController extends AbstractController
      *     "token": "[a-h0-9]*"
      * })
      */
-    public function resetPassword(string $token)
+    public function resetPassword(string $token, Request $request)
     {
+        //TODO: this will probably use the same validation so make private function ?
+
         //TODO: get user from session
 
         //TODO: Generate form
+        $form = $this->createForm(RegistrationFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+        }
 
         //TODO: take care of submitted form
 
-        //TODO: render resetpassword form
+        return $this->render('registration/resetpassword.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);
     }
 }
