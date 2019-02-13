@@ -2,6 +2,8 @@
 
 namespace App\EventSubscriber\User;
 
+use App\Event\AppEvent;
+use App\Event\User\UserForgotpasswordEvent;
 use App\Event\User\UserRegisteredEvent;
 use App\Services\FlashMessageCategory;
 use App\Security\UserSetHash;
@@ -28,10 +30,8 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
      * @var EngineInterface
      */
     private $templating;
-    private $adminEmail;
 
     public function __construct(
-        $adminEmail,
         \Swift_Mailer $mailer,
         UserPasswordEncoderInterface $passwordEncoder,
         UserSetHash $setHash,
@@ -41,7 +41,6 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
         $this->passwordEncoder = $passwordEncoder;
         $this->setHash = $setHash;
         $this->templating = $templating;
-        $this->adminEmail = $adminEmail;
     }
 
     public function setPassword(UserRegisteredEvent $event)
@@ -59,19 +58,35 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
         $this->persist($event);
     }
 
-    public function registerHash(UserRegisteredEvent $event)
+    public function registerHash(AppEvent $event)
     {
         $user = $event->getEntity();
         $this->setHash->set($user);
         $this->persist($event);
     }
 
+    public function sendForgotpasswordMail(AppEvent $event)
+    {
+        $user = $event->getEntity();
+        $message = (new \Swift_Message('Reset Password'))
+            ->setFrom(getenv('ADMIN_EMAIL'))
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->templating->render(
+                    'emails/forgotpassword.html.twig',
+                    ['user' => $user]
+                ),
+                'text/html'
+            );
+        $this->mailer->send($message);
+    }
 
-    public function sendValidationMail(UserRegisteredEvent $event)
+
+    public function sendValidationMail(AppEvent $event)
     {
         $user = $event->getEntity();
         $message = (new \Swift_Message('Email validation'))
-            ->setFrom($this->adminEmail)
+            ->setFrom(getenv('ADMIN_EMAIL'))
             ->setTo($user->getEmail())
             ->setBody(
                 $this->templating->render(
@@ -99,7 +114,13 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
                 ['registerHash', 40],
                 ['flush', 20],
                 ['sendValidationMail', 10],
-            ]
+            ],
+            UserForgotpasswordEvent::NAME=>[
+                ['registerHash', 40],
+                ['flush', 20],
+                ['sendForgotpasswordMail', 10],
+            ],
+
         ];
     }
 }

@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Event\User\UserRegisteredEvent;
+use App\Event\User\UserForgotpasswordEvent;
 use App\Event\User\UserValidatedEvent;
+use App\Form\ForgotpasswordFormType;
 use App\Form\RegistrationFormType;
 use App\Services\FlashMessageCategory;
 use App\Security\UserAutoLogon;
@@ -109,23 +111,24 @@ class RegistrationController extends AbstractController
     public function forgotPassword(Request $request)
     {
 
-        $form = $this->createForm(RegistrationFormType::class);
+        $form = $this->createForm(ForgotpasswordFormType::class);
         $form->handleRequest($request);
-        //dd($form); //TODO: CSRF invalid
-
         if ($form->isSubmitted() && $form->isValid()) {
-            //get the user from the email or user
+
+            //get the user object from the email or user
             $user = $this->getDoctrine()
                 ->getRepository(User::class)
-                ->findUserByMailOrUsername($form->getName())
-                ;
-            dd($user);
+                ->findUserByMailOrUsername($form->get('userName')->getData());
 
-            //TODO: Form Posted, Call user event caught by the userRegisteredSubscriber that Registers hash / date and sends mail
+            if ($user) {//Only send mail if an account was found
+                $event = new UserForgotpasswordEvent($user);
+                $this->dispatcher->dispatch(UserForgotpasswordEvent::NAME, $event);
+            }
 
-            //TODO: Also need a route for the reset password to send the mail
+            //Do not say if account was found or not to avoid robots testing for emails. This can still be tested by a hacker by calculating the reply time but not as easy.
+            $this->addFlash(FlashMessageCategory::INFO, 'If you have an account, then an email has been sent to your registered email');
+            return $this->redirectToRoute('trick.home');
         }
-
 
         return $this->render('registration/forgotpassword.html.twig', [
             'registrationForm' => $form->createView(),
