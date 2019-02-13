@@ -111,7 +111,7 @@ class RegistrationController extends AbstractController
 
         $form = $this->createForm(RegistrationFormType::class);
         $form->handleRequest($request);
-        dd($form); //TODO: CSRF invalid
+        //dd($form); //TODO: CSRF invalid
 
         if ($form->isSubmitted() && $form->isValid()) {
             //get the user from the email or user
