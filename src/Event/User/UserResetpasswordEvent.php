@@ -4,9 +4,9 @@ namespace App\Event\User;
 
 use App\Entity\User;
 
-class UserRegisteredEvent extends UserEvent
+class UserResetpasswordEvent extends UserEvent
 {
-    const NAME = 'user.registered';
+    const NAME = 'user.resetpassword';
 
     private $plainPassword;
 
@@ -24,4 +24,5 @@ class UserRegisteredEvent extends UserEvent
     {
         return $this->plainPassword;
     }
+
 }

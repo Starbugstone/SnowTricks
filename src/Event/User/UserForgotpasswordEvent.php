@@ -2,9 +2,7 @@
 
 namespace App\Event\User;
 
-use App\Event\AppEvent;
-
-class UserForgotpasswordEvent extends AppEvent
+class UserForgotpasswordEvent extends UserEvent
 {
     const NAME = 'user.forgotpassword';
 
