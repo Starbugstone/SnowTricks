@@ -14,9 +14,6 @@ class SetHashTest extends WebTestCase
     public function testSetHash()
     {
         self::bootKernel();
-        $container = self::$kernel->getContainer();
-        $container = self::$container;
-
         $userSetHash = self::$container->get(UserSetHash::class);
 
         $user = new User();
