@@ -11,10 +11,10 @@ class SetHashTest extends WebTestCase
 {
 
 
+
     public function testSetHash()
     {
-        self::bootKernel();
-        $userSetHash = self::$container->get(UserSetHash::class);
+        $userSetHash = new UserSetHash();
 
         $user = new User();
         $now = new \DateTime();
