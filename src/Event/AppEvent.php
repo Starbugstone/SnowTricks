@@ -3,7 +3,6 @@
 namespace App\Event;
 
 use App\Entity\AppEntity;
-use App\Entity\Trick;
 use Symfony\Component\EventDispatcher\Event;
 
 abstract class AppEvent extends Event
@@ -11,7 +10,7 @@ abstract class AppEvent extends Event
     const NAME = 'defineMe';
 
     /**
-     * @var Trick
+     * @var AppEntity
      */
     protected $entity;
 
@@ -21,7 +20,7 @@ abstract class AppEvent extends Event
     }
 
     /**
-     * @return Trick
+     * @return AppEntity
      */
     public function getEntity(): AppEntity
     {

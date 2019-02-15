@@ -36,14 +36,34 @@ class UserRepository extends ServiceEntityRepository
     }
     */
 
+    /**
+     * Get the unique user from it's hash
+     * @param $hash
+     * @return User|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function findUserByHash($hash): ?User
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.verifiedHash = :hash')
             ->setParameter('hash', $hash)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
+
+    /**
+     * @param string $userMailName
+     * @return User|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findUserByMailOrUsername(string $userMailName): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.email = :userMailName OR u.userName = :userMailName')
+            ->setParameter('userMailName', $userMailName)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 
 }

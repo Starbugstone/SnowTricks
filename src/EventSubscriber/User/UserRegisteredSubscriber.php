@@ -2,7 +2,10 @@
 
 namespace App\EventSubscriber\User;
 
+use App\Event\User\UserEvent;
+use App\Event\User\UserForgotpasswordEvent;
 use App\Event\User\UserRegisteredEvent;
+use App\Event\User\UserResetpasswordEvent;
 use App\Services\FlashMessageCategory;
 use App\Security\UserSetHash;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -28,10 +31,8 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
      * @var EngineInterface
      */
     private $templating;
-    private $adminEmail;
 
     public function __construct(
-        $adminEmail,
         \Swift_Mailer $mailer,
         UserPasswordEncoderInterface $passwordEncoder,
         UserSetHash $setHash,
@@ -41,10 +42,9 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
         $this->passwordEncoder = $passwordEncoder;
         $this->setHash = $setHash;
         $this->templating = $templating;
-        $this->adminEmail = $adminEmail;
     }
 
-    public function setPassword(UserRegisteredEvent $event)
+    public function setPassword(UserEvent $event)
     {
         $user = $event->getEntity();
         $password = $event->getPlainPassword();
@@ -59,19 +59,51 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
         $this->persist($event);
     }
 
-    public function registerHash(UserRegisteredEvent $event)
+    public function registerHash(UserEvent $event)
     {
         $user = $event->getEntity();
         $this->setHash->set($user);
         $this->persist($event);
     }
 
+    public function sendForgotpasswordMail(UserEvent $event)
+    {
+        $user = $event->getEntity();
+        $message = (new \Swift_Message('Password Reset'))
+            ->setFrom(getenv('ADMIN_EMAIL'))
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->templating->render(
+                    'emails/forgotpassword.html.twig',
+                    ['user' => $user]
+                ),
+                'text/html'
+            );
+        $this->mailer->send($message);
+    }
 
-    public function sendValidationMail(UserRegisteredEvent $event)
+    public function sendResetpasswordMail(UserEvent $event)
+    {
+        $user = $event->getEntity();
+        $message = (new \Swift_Message('Reset Password'))
+            ->setFrom(getenv('ADMIN_EMAIL'))
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->templating->render(
+                    'emails/resetpassword.html.twig',
+                    ['user' => $user]
+                ),
+                'text/html'
+            );
+        $this->mailer->send($message);
+    }
+
+
+    public function sendValidationMail(UserEvent $event)
     {
         $user = $event->getEntity();
         $message = (new \Swift_Message('Email validation'))
-            ->setFrom($this->adminEmail)
+            ->setFrom(getenv('ADMIN_EMAIL'))
             ->setTo($user->getEmail())
             ->setBody(
                 $this->templating->render(
@@ -99,7 +131,17 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
                 ['registerHash', 40],
                 ['flush', 20],
                 ['sendValidationMail', 10],
-            ]
+            ],
+            UserForgotpasswordEvent::NAME=>[
+                ['registerHash', 40],
+                ['flush', 20],
+                ['sendForgotpasswordMail', 10],
+            ],
+            UserResetpasswordEvent::NAME=>[
+                ['setPassword', 50],
+                ['flush', 20],
+                ['sendResetpasswordMail', 10],
+            ],
         ];
     }
 }
