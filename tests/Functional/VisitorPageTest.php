@@ -17,7 +17,9 @@ class VisitorPageTest extends WebTestCase
     public function testReadTricks()
     {
         $crawler = $this->client->request('GET', '/');
-
+        
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        
         //make sure we have at least one trick showing
         $this->assertGreaterThan(
             0,
