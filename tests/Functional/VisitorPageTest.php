@@ -18,6 +18,11 @@ class VisitorPageTest extends WebTestCase
     {
         $crawler = $this->client->request('GET', '/');
 
+        var_dump($this->client->getResponse());
+
+        //make sure the front page replies
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+
         //make sure we have at least one trick showing
         $this->assertGreaterThan(
             0,
