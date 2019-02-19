@@ -24,7 +24,7 @@ class ForgotPasswordController extends AbstractController
     }
 
     /**
-     * @Route("/forgotpassword", name="app_forgotpassword")
+     * @Route("/user/forgotpassword", name="app_forgotpassword")
      */
     public function forgotPassword(Request $request)
     {

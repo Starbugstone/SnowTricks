@@ -27,7 +27,7 @@ class ResetPasswordController extends AbstractController
     }
 
     /**
-     * @Route("/resetpassword/{token}", name="app_resetpassword", methods={"GET", "POST"}, requirements={
+     * @Route("/user/resetpassword/{token}", name="app_resetpassword", methods={"GET", "POST"}, requirements={
      *     "token": "[a-h0-9]*"
      * })
      */

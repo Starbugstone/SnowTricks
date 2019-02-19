@@ -25,7 +25,7 @@ class ValidateController extends AbstractController
     }
 
     /**
-     * @Route("/validate/{token}", name="app_validate", methods={"GET"}, requirements={
+     * @Route("/user/validate/{token}", name="app_validate", methods={"GET"}, requirements={
      *     "token": "[a-h0-9]*"
      * })
      */

@@ -25,7 +25,7 @@ class RegisterController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="app_register")
+     * @Route("/user/register", name="app_register")
      */
     public function register(Request $request, AuthorizationCheckerInterface $authChecker): Response
     {
