@@ -9,9 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UserSetHashTest extends WebTestCase
 {
-
-
-
     public function testSetHash()
     {
         $userSetHash = new UserSetHash();

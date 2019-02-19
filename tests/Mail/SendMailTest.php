@@ -15,14 +15,17 @@ class SendMailTest extends TestCase
         $this->mailer = $this->getMockBuilder('\Swift_Mailer')
             ->disableOriginalConstructor()
             ->setMethods(['send'])
-            ->getMock();
+            ->getMock()
+        ;
+
         $this->templating = $this->getMockBuilder('Symfony\Component\Templating\EngineInterface')
             ->disableOriginalConstructor()
             ->setMethods(['render', 'exists', 'supports'])
-            ->getMock();
+            ->getMock()
+        ;
     }
 
-    public function testMailHasError()
+    public function testMailSendError()
     {
         $this->mailer
             ->expects($this->once())
@@ -36,7 +39,7 @@ class SendMailTest extends TestCase
         $this->assertFalse($response);
     }
 
-    public function testMailSent()
+    public function testMailSendSuccess()
     {
         $this->mailer
             ->expects($this->once())
@@ -48,6 +51,12 @@ class SendMailTest extends TestCase
 
         $response = $sendMail->send('Test', 'rien.html.twig', new \stdClass(), 'null@localhost.dev');
         $this->assertTrue($response);
+    }
+
+    public function tearDown()
+    {
+        $this->mailer = null;
+        $this->templating = null;
     }
 
 }

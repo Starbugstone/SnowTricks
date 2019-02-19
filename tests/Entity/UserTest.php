@@ -9,18 +9,17 @@ class UserTest extends TestCase
 {
     private $user;
 
-    //creating our test user
-    public function __construct(?string $name = null, array $data = [], string $dataName = '')
+    public function setUp()
     {
-        parent::__construct($name, $data, $dataName);
         $this->user = new User();
-
         $this->user
             ->setEmail('test@localhost.com')
             ->setPassword('azerty')
             ->setUserName('test')
         ;
     }
+
+
 
     public function testIsHashValid()
     {
@@ -43,5 +42,10 @@ class UserTest extends TestCase
         $this->user->setVerifiedDateTime($now);
         $this->assertFalse($this->user->isVerifiedDateTimeValid());
 
+    }
+
+    public function tearDown()
+    {
+        $this->user = null;
     }
 }
