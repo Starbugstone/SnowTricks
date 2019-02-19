@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Unit;
+namespace App\Tests\Security;
 
 use App\Entity\User;
 use App\Security\UserSetHash;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 
-class SetHashTest extends WebTestCase
+class UserSetHashTest extends WebTestCase
 {
 
 

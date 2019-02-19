@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\FlashMessage;
 
 class FlashMessageCategory{
     //'alert', 'success', 'error', 'warning', 'info'

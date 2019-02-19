@@ -7,7 +7,7 @@ use App\Event\User\UserRegisteredEvent;
 use App\Event\User\UserForgotpasswordEvent;
 use App\Form\ForgotpasswordFormType;
 use App\Form\RegistrationFormType;
-use App\Services\FlashMessageCategory;
+use App\FlashMessage\FlashMessageCategory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;

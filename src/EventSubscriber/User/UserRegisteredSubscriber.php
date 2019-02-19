@@ -6,7 +6,7 @@ use App\Event\User\UserEvent;
 use App\Event\User\UserForgotpasswordEvent;
 use App\Event\User\UserRegisteredEvent;
 use App\Event\User\UserResetpasswordEvent;
-use App\Services\FlashMessageCategory;
+use App\FlashMessage\FlashMessageCategory;
 use App\Security\UserSetHash;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;

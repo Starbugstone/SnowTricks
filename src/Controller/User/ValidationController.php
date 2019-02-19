@@ -7,7 +7,7 @@ use App\Event\User\UserResetpasswordEvent;
 use App\Event\User\UserValidatedEvent;
 use App\Form\ResetpasswordFormType;
 use App\Security\UserAutoLogon;
-use App\Services\FlashMessageCategory;
+use App\FlashMessage\FlashMessageCategory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;

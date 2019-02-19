@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\Unit;
+namespace App\Tests\Entity;
 
 use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
-class UserEntityTest extends TestCase
+class UserTest extends TestCase
 {
     private $user;
 
