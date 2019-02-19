@@ -64,12 +64,10 @@ class ResetPasswordController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $event = new UserResetpasswordEvent($user, $form->get('plainPassword')->getData());
             $this->dispatcher->dispatch(UserResetpasswordEvent::NAME, $event);
 
-            $this->addFlash(FlashMessageCategory::SUCCESS, "Success");
-            return $this->redirectToRoute('app_forgotpassword');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('validation/resetpassword.html.twig', [

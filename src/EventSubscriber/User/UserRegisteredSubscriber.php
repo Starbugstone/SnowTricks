@@ -51,8 +51,8 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
                 $password
             )
         );
-
         $this->persist($event);
+        $this->addFlash(FlashMessageCategory::SUCCESS, "New password set");
     }
 
     public function registerHash(UserEvent $event)
