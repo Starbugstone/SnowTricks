@@ -100,8 +100,14 @@ class ValidationController extends AbstractController
             return $this->redirectToRoute('app_forgotpassword');
         }
 
+        if(!$user->isVerifiedDateTimeValid()){
+            //the link is no longer valid
+            $this->addFlash(FlashMessageCategory::ERROR, 'Token is too old, please use this form to resend a link');
+            return $this->redirectToRoute('app_forgotpassword');
+        }
+
         //If we got here then we followed a reset link from email. We can verify mail
-        if (!$user->getVerified() && $user->isVerifiedDateTimeValid()) {
+        if (!$user->getVerified()) {
             $event = new UserValidatedEvent($user);
             $this->dispatcher->dispatch(UserValidatedEvent::NAME, $event);
         }
