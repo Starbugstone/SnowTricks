@@ -64,9 +64,11 @@ class ResetPasswordController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $event = new UserResetpasswordEvent($user, $form->get('plainPassword')->getData());
             $this->dispatcher->dispatch(UserResetpasswordEvent::NAME, $event);
 
+            $this->addFlash(FlashMessageCategory::SUCCESS, "A reset password link has been sent");
             return $this->redirectToRoute('app_login');
         }
 

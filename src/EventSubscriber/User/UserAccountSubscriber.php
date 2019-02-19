@@ -11,9 +11,9 @@ use App\Mail\SendMail;
 use App\Security\UserSetHash;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Templating\EngineInterface;
 
-class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriberInterface
+
+class UserAccountSubscriber extends UserSubscriber implements EventSubscriberInterface
 {
 
     /**
@@ -51,8 +51,8 @@ class UserRegisteredSubscriber extends UserSubscriber implements EventSubscriber
                 $password
             )
         );
+
         $this->persist($event);
-        $this->addFlash(FlashMessageCategory::SUCCESS, "New password set");
     }
 
     public function registerHash(UserEvent $event)
