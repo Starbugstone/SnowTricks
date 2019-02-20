@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Edit;
+namespace App\Controller\Trick\Edit;
 
 use App\Entity\Trick;
 use App\Event\Trick\TrickCreatedEvent;
@@ -96,7 +96,7 @@ class TrickEditController extends AbstractController
             $event = new TrickDeletedEvent($trick);
             $this->dispatcher->dispatch(TrickDeletedEvent::NAME, $event);
 
-            return $this->redirectToRoute('trick.home');
+            return $this->redirectToRoute('home');
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -124,7 +124,7 @@ class TrickEditController extends AbstractController
         $event = new TrickDeletedEvent($trick);
         $this->dispatcher->dispatch(TrickDeletedEvent::NAME, $event);
 
-        return $this->redirectToRoute('trick.home');
+        return $this->redirectToRoute('home');
     }
 
 

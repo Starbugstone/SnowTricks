@@ -103,7 +103,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         // by default, return to the home page. TODO Update to profile admin page
-        return new RedirectResponse($this->urlGenerator->generate('trick.home'));
+        return new RedirectResponse($this->urlGenerator->generate('home'));
     }
 
     protected function getLoginUrl()

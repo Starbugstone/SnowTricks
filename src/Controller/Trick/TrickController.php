@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Trick;
 
 use App\Entity\Trick;
 use App\Repository\TrickRepository;
@@ -18,8 +18,6 @@ class TrickController extends AbstractController
     {
         $this->repository = $repository;
     }
-
-
 
     /**
      * @Route("/trick/{id}-{slug}", name="trick.show", requirements={"slug": "[a-z0-9\-]*"})

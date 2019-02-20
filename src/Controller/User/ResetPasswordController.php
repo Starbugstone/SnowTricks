@@ -35,7 +35,7 @@ class ResetPasswordController extends AbstractController
     {
         //if we are authenticated, no reason to be here
         if ($authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $this->redirectToRoute('trick.home');
+            return $this->redirectToRoute('home');
         }
 
         $user = $this->getDoctrine()

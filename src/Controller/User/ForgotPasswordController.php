@@ -46,7 +46,7 @@ class ForgotPasswordController extends AbstractController
             //Do not say if account was found or not to avoid robots testing for emails. This can still be tested by a hacker by calculating the reply time but not as easy.
             $this->addFlash(FlashMessageCategory::INFO,
                 'If you have an account, then an email has been sent to your registered email');
-            return $this->redirectToRoute('trick.home');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('registration/forgotpassword.html.twig', [

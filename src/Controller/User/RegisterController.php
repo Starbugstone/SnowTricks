@@ -31,7 +31,7 @@ class RegisterController extends AbstractController
     {
         //if we are authenticated, no reason to be here
         if ($authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $this->redirectToRoute('trick.home');
+            return $this->redirectToRoute('home');
         }
 
         $user = new User();
@@ -43,7 +43,7 @@ class RegisterController extends AbstractController
             $event = new UserRegisteredEvent($user, $form->get('plainPassword')->getData());
             $this->dispatcher->dispatch(UserRegisteredEvent::NAME, $event);
 
-            return $this->redirectToRoute('trick.home');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('registration/register.html.twig', [

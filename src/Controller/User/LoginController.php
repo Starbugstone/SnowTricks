@@ -16,7 +16,7 @@ class LoginController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils, AuthorizationCheckerInterface $authChecker): Response
     {
         if ($authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $this->redirectToRoute('trick.home');
+            return $this->redirectToRoute('home');
         }
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
