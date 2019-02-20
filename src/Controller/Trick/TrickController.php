@@ -19,16 +19,7 @@ class TrickController extends AbstractController
         $this->repository = $repository;
     }
 
-    /**
-     * @Route("/", name="trick.home")
-     */
-    public function index()
-    {
-        $tricks = $this->repository->findLatestEdited();
-        return $this->render('trick/index.html.twig', [
-            'tricks' => $tricks,
-        ]);
-    }
+
 
     /**
      * @Route("/trick/{id}-{slug}", name="trick.show", requirements={"slug": "[a-z0-9\-]*"})
