@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Exception\RedirectException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,7 +90,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         //is account email verified
         if (!$user->getVerified()) {
             //TODO : cleaner way of taking care of the account not validated. See #29
-            throw new CustomUserMessageAuthenticationException('Account email not verified, please use the reset password form');
+            //throw new CustomUserMessageAuthenticationException('Account email not verified, please use the reset password form');
+            throw new RedirectException(new RedirectResponse('/user/forgotpassword'));
         }
 
         //If we get here then all is good
