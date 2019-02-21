@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Event\User\UserValidatedEvent;
 use App\Security\UserAutoLogon;
 use App\FlashMessage\FlashMessageCategory;
+use App\Security\UserValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,31 +33,15 @@ class ValidateController extends AbstractController
     public function validate(
         string $token,
         AuthorizationCheckerInterface $authChecker,
-        UserAutoLogon $autoLogon
+        UserAutoLogon $autoLogon,
+        UserValidator $userValidator
     ) {
         //if we are authenticated, no reason to be here
         if ($authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirectToRoute('home');
         }
 
-        $user = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->findUserByHash($token);
-
-        if (!$user) {
-            //no user found
-            $this->addFlash(FlashMessageCategory::ERROR, 'Invalid Token, please use this form to resend a link');
-            return $this->redirectToRoute('app_forgotpassword');
-        }
-
-        if ($user->getVerified()) {
-            //Account already active
-            $this->addFlash(FlashMessageCategory::INFO, 'Mail already verified');
-            return $this->redirectToRoute('app_login');
-        }
-
-        //checking the date
-        if ($user->isVerifiedDateTimeValid()) {
+        if ($userValidator->isUserTokenValid($token)) {
 
             $event = new UserValidatedEvent($user);
             $this->dispatcher->dispatch(UserValidatedEvent::NAME, $event);
