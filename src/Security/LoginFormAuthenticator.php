@@ -89,9 +89,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
         //is account email verified
         if (!$user->getVerified()) {
-            //TODO : cleaner way of taking care of the account not validated. See #29
-            //throw new CustomUserMessageAuthenticationException('Account email not verified, please use the reset password form');
-            throw new RedirectException(new RedirectResponse('/user/forgotpassword'));
+            throw new RedirectException('app_forgotpassword');
         }
 
         //If we get here then all is good

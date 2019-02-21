@@ -14,7 +14,7 @@ class RedirectException extends Exception
     private $redirectResponse;
 
     public function __construct(
-        RedirectResponse $redirectResponse,
+        string $redirectResponse,
         string $message = "",
         int $code = 0,
         Throwable $previous = null
@@ -27,4 +27,6 @@ class RedirectException extends Exception
     {
         return $this->redirectResponse;
     }
+
+
 }
