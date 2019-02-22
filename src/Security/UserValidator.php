@@ -59,22 +59,23 @@ class UserValidator
      * Check if the reset password token is valid
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function isResetpasswordTokenValid(string $token):bool
+    public function doesResetpasswordTokenValidateEmail(string $token):bool
     {
         $this->retrieveUserFromToken($token);
         if(!$this->isUserVerifiedDateTime()){
             $this->addFlash(FlashMessageCategory::ERROR, 'Token is too old, please use this form to resend a link');
             throw new RedirectException($this->urlGenerator->generate('app_forgotpassword'));
         }
-        return $this->isUserVerified();
+        return !$this->isUserVerified();
     }
 
     /**
      * @param string $token
+     * @return User|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      * gets the user from the token and redirects on error
      */
-    private function retrieveUserFromToken(string $token): void
+    public function retrieveUserFromToken(string $token): ?User
     {
         $user = $this->em->getRepository(User::class)->findUserByhash($token);
         if (!$user) {
@@ -84,6 +85,7 @@ class UserValidator
         }
 
         $this->user = $user;
+        return $this->user;
     }
 
     /**

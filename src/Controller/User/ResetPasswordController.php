@@ -44,7 +44,7 @@ class ResetPasswordController extends AbstractController
         }
 
         //If we got here then we followed a reset link from email. We can verify mail
-        if (!$userValidator->isResetpasswordTokenValid($token)) {
+        if ($userValidator->doesResetpasswordTokenValidateEmail($token)) {
             $event = new UserValidatedEvent($user);
             $this->dispatcher->dispatch(UserValidatedEvent::NAME, $event);
         }
@@ -53,8 +53,7 @@ class ResetPasswordController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $event = new UserResetpasswordEvent($user, $form->get('plainPassword')->getData());
+            $event = new UserResetpasswordEvent($userValidator->retrieveUserFromToken($token), $form->get('plainPassword')->getData());
             $this->dispatcher->dispatch(UserResetpasswordEvent::NAME, $event);
 
             $this->addFlash(FlashMessageCategory::SUCCESS, "A reset password link has been sent");

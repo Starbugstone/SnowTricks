@@ -34,6 +34,7 @@ class ForgotPasswordController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             //get the user object from the email or user
+            //this smells a bit as I don't like calls in a controller. But I don't want to redo a service just for a simple doctrine call
             $user = $this->getDoctrine()
                 ->getRepository(User::class)
                 ->findUserByMailOrUsername($form->get('userName')->getData());
