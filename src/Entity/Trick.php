@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrickRepository")
+ * @Gedmo\Loggable
  * @UniqueEntity(fields="name", message="this trick already exists")
  */
 class Trick extends AppEntity
@@ -25,6 +26,7 @@ class Trick extends AppEntity
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Gedmo\Versioned
      * @Assert\Length(
      *     min=5,
      *     max=255,
@@ -36,6 +38,7 @@ class Trick extends AppEntity
 
     /**
      * @ORM\Column(type="text")
+     * @Gedmo\Versioned
      */
     private $text;
 

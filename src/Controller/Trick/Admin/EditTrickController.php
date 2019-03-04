@@ -6,6 +6,7 @@ use App\Entity\Trick;
 use App\Event\Trick\TrickDeletedEvent;
 use App\Event\Trick\TrickEditedEvent;
 use App\Form\TrickType;
+use App\History\TrickHistory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -26,10 +27,15 @@ class EditTrickController extends AbstractController
      * @var EventDispatcherInterface
      */
     private $dispatcher;
+    /**
+     * @var TrickHistory
+     */
+    private $trickHistory;
 
-    public function __construct(EventDispatcherInterface $dispatcher)
+    public function __construct(EventDispatcherInterface $dispatcher, TrickHistory $trickHistory)
     {
         $this->dispatcher = $dispatcher;
+        $this->trickHistory = $trickHistory;
     }
 
     /**
@@ -76,9 +82,12 @@ class EditTrickController extends AbstractController
             ]);
         }
 
+        $history = $this->trickHistory->getHistory($trick->getId());
+
         return $this->render('trick/admin/edit.html.twig', [
             'trick' => $trick,
             'form' => $form->createView(),
+            'history' => $history,
         ]);
     }
 
