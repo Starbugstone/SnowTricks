@@ -43,6 +43,7 @@ class ValidateController extends AbstractController
 
         if ($userValidator->isUserTokenValid($token)) {
 
+            $user = $userValidator->retrieveUserFromToken($token);
             $event = new UserValidatedEvent($user);
             $this->dispatcher->dispatch(UserValidatedEvent::NAME, $event);
 

@@ -89,7 +89,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
         //is account email verified
         if (!$user->getVerified()) {
-            throw new RedirectException($this->urlGenerator->generate('app_forgotpassword'));
+            throw new RedirectException($this->urlGenerator->generate('app_forgotpassword'), 'account is not verified');
         }
 
         //If we get here then all is good
