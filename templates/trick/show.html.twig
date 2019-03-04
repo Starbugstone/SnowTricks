@@ -42,7 +42,7 @@
                 <p class="center w100">Creation : {{ trick.createdAt |date('d/m/y') }}</p>
             </div>
             <div class="col s3 mx-2 p-1 z-depth-1 valign-wrapper">
-                <p class="center w100">Group</p>
+                <p class="center w100">{{ trick.category.name }}</p>
             </div>
             <div class="col s3 mx-2 p-1 z-depth-1 valign-wrapper">
                 <p class="center w100">Modification : {{ trick.editedAt | date('d/m/y') }}</p>
