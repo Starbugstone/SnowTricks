@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Functional;
+namespace App\Tests\FunctionalUseCaseTests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -86,7 +86,6 @@ class AuthedUserPageTest extends WebTestCase
 
         $this->client->request('GET', '/trick/' . $this->createdTestTrickId . '/delete'); //delete our trick
         $this->assertTrue($this->client->getResponse()->isRedirect()); //we should redirect the the home page
-        //$crawler = $this->client->followRedirect();
 
         //test if the trick is deleted, we should get a 404
         $this->client->request('GET', '/trick/' . $this->createdTestTrickId . '-falseslug');

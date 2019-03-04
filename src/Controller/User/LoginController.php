@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\User;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends AbstractController
+class LoginController extends AbstractController
 {
     /**
      * @Route("/login", name="app_login")
@@ -16,7 +16,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils, AuthorizationCheckerInterface $authChecker): Response
     {
         if ($authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $this->redirectToRoute('trick.home');
+            return $this->redirectToRoute('home');
         }
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();

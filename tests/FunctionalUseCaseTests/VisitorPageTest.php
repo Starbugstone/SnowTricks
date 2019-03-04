@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Functional;
+namespace App\Tests\FunctionalUseCaseTests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -17,9 +17,9 @@ class VisitorPageTest extends WebTestCase
     public function testReadTricks()
     {
         $crawler = $this->client->request('GET', '/');
-        
+        //make sure the front page replies
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-        
+
         //make sure we have at least one trick showing
         $this->assertGreaterThan(
             0,

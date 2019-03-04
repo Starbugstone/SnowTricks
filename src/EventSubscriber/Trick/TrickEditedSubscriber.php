@@ -3,7 +3,7 @@
 namespace App\EventSubscriber\Trick;
 
 use App\Event\Trick\TrickEditedEvent;
-use App\Services\FlashMessageCategory;
+use App\FlashMessage\FlashMessageCategory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class TrickEditedSubscriber extends TrickSubscriber implements EventSubscriberInterface

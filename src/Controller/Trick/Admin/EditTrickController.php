@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Controller\Edit;
+namespace App\Controller\Trick\Admin;
 
 use App\Entity\Trick;
-use App\Event\Trick\TrickCreatedEvent;
 use App\Event\Trick\TrickDeletedEvent;
 use App\Event\Trick\TrickEditedEvent;
 use App\Form\TrickType;
@@ -21,7 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  * Require the user to be connected for everything here
  * @IsGranted("ROLE_USER")
  */
-class TrickEditController extends AbstractController
+class EditTrickController extends AbstractController
 {
     /**
      * @var EventDispatcherInterface
@@ -31,39 +30,6 @@ class TrickEditController extends AbstractController
     public function __construct(EventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
-    }
-
-    /**
-     * @Route("/trick/new", name="trick.new")
-     */
-    public function new(Request $request)
-    {
-        $trick = new Trick();
-
-        $form = $this->createForm(TrickType::class, $trick);
-        $form->add('save', SubmitType::class, [
-            'label' => 'Save',
-            'attr' => [
-                'class' => 'waves-effect waves-light btn right'
-            ]
-        ]);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $event = new TrickCreatedEvent($trick);
-            $this->dispatcher->dispatch(TrickCreatedEvent::NAME, $event);
-
-            return $this->redirectToRoute('trick.show', [
-                'id' => $trick->getId(),
-                'slug' => $trick->getSlug(),
-            ]);
-        }
-
-        return $this->render('trick/admin/new.html.twig', [
-            'form' => $form->createView(),
-        ]);
     }
 
     /**
@@ -96,7 +62,7 @@ class TrickEditController extends AbstractController
             $event = new TrickDeletedEvent($trick);
             $this->dispatcher->dispatch(TrickDeletedEvent::NAME, $event);
 
-            return $this->redirectToRoute('trick.home');
+            return $this->redirectToRoute('home');
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -115,17 +81,5 @@ class TrickEditController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-    /**
-     * @Route("/trick/{id}/delete", name="trick.delete")
-     */
-    public function delete(Trick $trick)
-    {
-        $event = new TrickDeletedEvent($trick);
-        $this->dispatcher->dispatch(TrickDeletedEvent::NAME, $event);
-
-        return $this->redirectToRoute('trick.home');
-    }
-
 
 }

@@ -3,20 +3,18 @@
 namespace App\EventSubscriber;
 
 use App\Event\AppEvent;
+use App\FlashMessage\AddFlashTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 abstract class AppSubscriber
 {
+    use AddFlashTrait;
+
     /**
      * @var EntityManagerInterface
      */
     protected $em;
-
-    /**
-     * @var FlashBagInterface
-     */
-    protected $flashBag;
 
     /**
      * @return array The event names to listen to
@@ -53,30 +51,11 @@ abstract class AppSubscriber
     }
 
     /**
-     * Adding te flash message to the session. This enables to have the same syntax as in the controllers
-     * @param string $type
-     * @param string $message
-     */
-    public function addFlash(string $type, string $message)
-    {
-        $this->flashBag->add($type, $message);
-    }
-
-    /**
      * @required
      * @param EntityManagerInterface $em
      */
     public function setEm(EntityManagerInterface $em): void
     {
         $this->em = $em;
-    }
-
-    /**
-     * @required
-     * @param FlashBagInterface $flashBag
-     */
-    public function setFlashBag(FlashBagInterface $flashBag): void
-    {
-        $this->flashBag = $flashBag;
     }
 }
