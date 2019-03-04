@@ -13,7 +13,14 @@ require('../css/app.scss');
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
 
+//init collapsable accordeon
 document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.collapsible');
     var instances = M.Collapsible.init(elems);
+});
+
+//init select elements
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems);
 });
