@@ -31,32 +31,7 @@
 
         {# Getting the logs #}
         {% if is_granted('ROLE_ADMIN') %}
-            <hr>
-            <h2>Logs</h2>
-            {{ dump(history)}}
-            {% for log in history %}
-                <div class="row blue lighten-3">
-                    <div class="col s3">
-                        <p>{{ log.action }}</p>
-                    </div>
-                    <div class="col s3">
-                        <p>{{ log.loggedAt|date('d/m/Y à H:i:s') }}</p>
-                    </div>
-                    <div class="col s3">
-                        <p>{{ log.username }}</p>
-                    </div>
-                    <div class="col s3">
-                        <a class="btn mt-2" href="{{ path('trick.revert', {'id': trick.id, 'historyId': log.id} ) }}">revert</a>
-                    </div>
-                </div>
-                {% for key, data in log.data %}
-                    <div class="row">
-                        <div class="col s3"><p>{{ key }}</p></div>
-                        <div class="col s9">{{ data }}</div>
-                    </div>
-
-                {% endfor %}
-            {% endfor %}
+            {% include 'trick/admin/_trick-history.html.twig' with {'trick': trick, 'history': history} %}
 
 
         {%  endif %}
