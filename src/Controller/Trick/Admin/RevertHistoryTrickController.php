@@ -28,10 +28,10 @@ class RevertHistoryTrickController extends AbstractController
     }
 
     /**
-     * @param $id
+     * @param Trick $trick
      * @param $historyId
-     * @Route("/trick/revert/{id}/{historyId}", name="trick.revert")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/trick/revert/{id}/{historyId}", name="trick.revert")
      */
     public function revertHistory(Trick $trick, $historyId)
     {

@@ -20,6 +20,11 @@ class TrickHistory
         $this->repo = $this->em->getRepository('Gedmo\Loggable\Entity\LogEntry');
     }
 
+    /**
+     * @param $id
+     * @return \Gedmo\Loggable\Entity\LogEntry[]
+     * Get the modification history of a trick
+     */
     public function getHistory($id)
     {
         $trick = $this->em->find('App\Entity\Trick', $id);
@@ -28,6 +33,11 @@ class TrickHistory
         return $logs;
     }
 
+    /**
+     * @param $id
+     * @param $historyId
+     * Revert a trick to a history checkpoint.
+     */
     public function revertToHistory($id, $historyId){
         $trick = $this->em->find('App\Entity\Trick', $id);
         $this->repo->revert($trick, $historyId);
