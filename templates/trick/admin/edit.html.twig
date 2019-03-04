@@ -29,6 +29,13 @@
 
             {% include 'trick/admin/_edit-trick-form.html.twig' with {'form': form} %}
 
+        {# Getting the logs #}
+        {% if is_granted('ROLE_ADMIN') %}
+            {% include 'trick/admin/_trick-history.html.twig' with {'trick': trick, 'history': history} %}
+
+
+        {%  endif %}
+
     </div>
 
 {% endblock %}
