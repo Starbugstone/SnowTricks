@@ -84,15 +84,16 @@ class AuthedUserPageTest extends WebTestCase
         // DELETE
         //----------------
 
-        //This no longer works. We get a redirect for the CSRF token!
-        /*
-        $this->client->request('GET', '/trick/delete/' . $this->createdTestTrickId); //delete our trick
+        $form = $crawler->selectButton('delete_'.$this->createdTestTrickId)->form();
+        $this->client->submit($form);
+
+
         $this->assertTrue($this->client->getResponse()->isRedirect()); //we should redirect the the home page
 
         //test if the trick is deleted, we should get a 404
         $this->client->request('GET', '/trick/' . $this->createdTestTrickId . '-falseslug');
         $this->assertEquals(404, $this->client->getResponse()->getStatusCode());
-        */
+
     }
 
     private function readShowPage($crawler, $dummyTitle)
