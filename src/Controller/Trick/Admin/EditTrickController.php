@@ -39,7 +39,7 @@ class EditTrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id}/edit", name="trick.edit")
+     * @Route("/trick/edit/{id}", name="trick.edit")
      */
     public function edit(Trick $trick, Request $request)
     {
