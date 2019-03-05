@@ -22,23 +22,31 @@ class SendMail
         $this->templating = $templating;
     }
 
-    public function send(string $subject, string $template, $mailData, string $to, String $from = null):bool
+    public function send(string $subject, string $template, $mailData, string $to, String $from = null): bool
     {
-        if ($from === null){
+        if ($from === null) {
             $from = getenv('ADMIN_EMAIL');
         }
 
         $message = (new \Swift_Message($subject))
             ->setFrom($from)
             ->setTo($to)
+        ;
+        $img = $message->embed(\Swift_Image::fromPath('img/snowtricks-logo.png'));
+        $message
             ->setBody(
                 $this->templating->render(
                     $template,
-                    ['mailData' => $mailData]
+                    [
+                        'mailData' => $mailData,
+                        'img' =>$img,
+                        'subject' => $subject,
+                    ]
                 ),
                 'text/html'
             );
-        return $this->mailer->send($message)>0;
+
+        return $this->mailer->send($message) > 0;
 
     }
 
