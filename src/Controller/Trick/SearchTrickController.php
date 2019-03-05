@@ -2,8 +2,7 @@
 
 namespace App\Controller\Trick;
 
-use App\FlashMessage\AddFlashTrait;
-use App\FlashMessage\FlashMessageCategory;
+use App\Exception\RedirectException;
 use App\Repository\CategoryRepository;
 use App\Repository\TrickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,7 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SearchTrickController extends AbstractController
 {
-    use AddFlashTrait;
 
     /**
      * @var TrickRepository
@@ -39,18 +37,17 @@ class SearchTrickController extends AbstractController
     {
         $submittedToken = $request->request->get('_token');
 
-        if ($this->isCsrfTokenValid('search-trick', $submittedToken)) {
-            $categories = $this->categoryRepository->findAll();
-            $searchTerm = $request->request->get('search_trick');
-            $tricks = $this->trickRepository->findBySearchQuery($searchTerm);
-            return $this->render('trick/search.html.twig', [
-                'tricks' => $tricks,
-                'categories' => $categories,
-            ]);
+        if (!$this->isCsrfTokenValid('search-trick', $submittedToken)) {
+            throw new RedirectException($this->generateUrl('home'), 'Bad CSRF Token');
         }
 
-        $this->addFlash(FlashMessageCategory::ERROR, "Bad CSRF Token");
-        return $this->redirectToRoute('home');
+        $categories = $this->categoryRepository->findAll();
+        $searchTerm = $request->request->get('search_trick');
+        $tricks = $this->trickRepository->findBySearchQuery($searchTerm);
+        return $this->render('trick/search.html.twig', [
+            'tricks' => $tricks,
+            'categories' => $categories,
+        ]);
 
     }
 
