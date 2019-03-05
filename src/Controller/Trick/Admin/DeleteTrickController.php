@@ -31,7 +31,7 @@ class DeleteTrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id}/delete", name="trick.delete")
+     * @Route("/trick/delete/{id}", name="trick.delete", methods={"POST"})
      * @param Trick $trick
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
