@@ -4,6 +4,7 @@ namespace App\Controller\Trick\Admin;
 
 use App\Entity\Trick;
 use App\Event\Trick\TrickDeletedEvent;
+use App\Exception\RedirectException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,9 +32,18 @@ class DeleteTrickController extends AbstractController
 
     /**
      * @Route("/trick/{id}/delete", name="trick.delete")
+     * @param Trick $trick
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function delete(Trick $trick, Request $request)
     {
+
+        $submittedToken = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('delete-trick' . $trick->getId(), $submittedToken)) {
+            throw new RedirectException($this->generateUrl('home'), 'Bad CSRF Token');
+        }
+
         $referer = $request->headers->get('referer');
 
         $event = new TrickDeletedEvent($trick);
