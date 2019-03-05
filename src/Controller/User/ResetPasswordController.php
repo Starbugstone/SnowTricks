@@ -49,6 +49,8 @@ class ResetPasswordController extends AbstractController
             $this->dispatcher->dispatch(UserValidatedEvent::NAME, $event);
         }
 
+        $user = $userValidator->retrieveUserFromToken($token);
+
         $form = $this->createForm(ResetpasswordFormType::class);
         $form->handleRequest($request);
 
