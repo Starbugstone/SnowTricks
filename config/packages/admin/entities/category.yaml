@@ -1,0 +1,13 @@
+easy_admin:
+  entities:
+    Category:
+      class: App\Entity\Category
+      list:
+        actions:
+          - {name: 'edit', icon: 'pencil', label: false}
+          - {name: 'delete', icon: 'trash', label: false}
+          - {name: 'new', icon: 'plus-circle', label: 'new category'}
+          - {name: 'search', label: 'Search category'}
+      form:
+        fields:
+          - {property: 'name', type: 'text'}

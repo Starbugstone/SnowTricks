@@ -1,0 +1,9 @@
+easy_admin:
+  entities:
+    Trick:
+      class: App\Entity\Trick
+      form:
+        fields:
+          - {property: 'name'}
+          - {property: 'text'}
+          - {property: 'category'}
