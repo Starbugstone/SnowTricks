@@ -10,7 +10,7 @@
         <div class="trick-image-header">
 
             {% if is_granted('ROLE_USER') %}
-                <div class="trick-edit-button z-depth-2 px-3 mt-3 mr-2 indigo lighten-5">
+                <div class="trick-edit-button px-3 mt-3 mr-2">
 
                     {% include 'trick/_trick-edit-icons.html.twig' with {'trick': trick} %}
 

@@ -1,8 +1,10 @@
 {% if is_granted('ROLE_USER') %}
-    <a href="{{ path('trick.edit', {id:trick.id}) }}" class="waves-effect waves-light">
-        <i class="material-icons">create</i>
-    </a>
-    <a href="{{ path('trick.delete', {id:trick.id}) }}" class="waves-effect waves-light" onclick="return confirm('are you sure?')">
-        <i class="material-icons">delete</i>
-    </a>
+
+    <form action="{{ path('trick.delete', {id:trick.id}) }}" method="post" onsubmit="return confirm('are you sure you wish to delete {{ trick.name }} ?')">
+        <a href="{{ path('trick.edit', {id:trick.id}) }}" class="waves-effect waves-light btn-small px-2 mt-1">
+            <i class="material-icons">create</i>
+        </a>
+        <input type="hidden" name="_token" value="{{ csrf_token('delete-trick'~trick.id) }}" />
+        <button class="btn-small wave-effect waves-light px-2 mt-1"><i class="material-icons">delete</i></button>
+    </form>
 {% endif %}
