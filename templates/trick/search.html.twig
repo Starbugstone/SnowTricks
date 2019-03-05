@@ -24,11 +24,10 @@
                     TODO: better formatting and spacing
                 #}
                 <ul class="center">
-                    <li class="mt-2"><a href="#">All</a></li>
-                    <li class="mt-2"><a href="#">get1</a></li>
-                    <li class="mt-2"><a href="#">get2</a></li>
-                    <li class="mt-2"><a href="#">get3</a></li>
-                    <li class="mt-2"><a href="#">get4</a></li>
+                    <li class="mt-2"><a href="{{ path('trick.search') }}">All</a></li>
+                    {% for category in categories %}
+                        <li class="mt-2"><a href="{{ path('trick.search', {'categoryId':category.id}) }}">{{ category.Name }}</a></li>
+                    {% endfor %}
 
                 </ul>
 
