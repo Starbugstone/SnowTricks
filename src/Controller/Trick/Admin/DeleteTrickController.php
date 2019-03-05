@@ -6,6 +6,7 @@ use App\Entity\Trick;
 use App\Event\Trick\TrickDeletedEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -31,12 +32,15 @@ class DeleteTrickController extends AbstractController
     /**
      * @Route("/trick/{id}/delete", name="trick.delete")
      */
-    public function delete(Trick $trick)
+    public function delete(Trick $trick, Request $request)
     {
+        $referer = $request->headers->get('referer');
+
         $event = new TrickDeletedEvent($trick);
         $this->dispatcher->dispatch(TrickDeletedEvent::NAME, $event);
 
-        return $this->redirectToRoute('home');
+        return $this->redirect($referer);
+
     }
 
 
