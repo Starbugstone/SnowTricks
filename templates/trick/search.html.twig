@@ -5,11 +5,14 @@
 {% block body %}
     <div id="trickSearchContainer">
         <div class="row">
-            <div class="input-field col s8 offset-s2 center">
-                <i class="material-icons prefix">search</i>
-                <input placeholder="search tricks" id="first_name" type="text" class="validate">
-                <!-- <label for="first_name">Search tricks</label> -->
-            </div>
+            <form method="post" action="{{ path('trick.searchTrick') }}">
+                <div class="input-field col s8 offset-s2 center">
+                    <i class="material-icons prefix">search</i>
+                    <input placeholder="search tricks" id="search_trick" name="search_trick" type="text" class="validate">
+                </div>
+                <input type="hidden" name="_token" value="{{ csrf_token('search-trick') }}" />
+            </form>
+
         </div>
         {% if is_granted('ROLE_USER') %}
             <div class="hide-on-med-and-up center">
