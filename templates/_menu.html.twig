@@ -1,6 +1,8 @@
 <nav id="topMenu" class="hide-on-small-only">
     <div class="nav-wrapper indigo darken-4">
-        <a href="#" class="brand-logo left">Logo</a>
+        <a href="{{ path('home') }}" class="brand-logo left ml-2">
+            <img id="menu-logo" src="{{ asset('img/snowtricks-logo-small-text.png') }}" alt="SnowTricks Logo">
+        </a>
 
         <ul class="right">
             <li><a href="{{ path('home') }}">Home</a></li>
