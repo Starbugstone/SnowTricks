@@ -47,6 +47,8 @@ class SearchTrickController extends AbstractController
         return $this->render('trick/search.html.twig', [
             'tricks' => $tricks,
             'categories' => $categories,
+            'categoryId' =>"",
+            'searchTerm' =>$searchTerm,
         ]);
 
     }
@@ -68,6 +70,7 @@ class SearchTrickController extends AbstractController
         return $this->render('trick/search.html.twig', [
             'tricks' => $tricks,
             'categories' => $categories,
+            'categoryId' =>$categoryId,
         ]);
     }
 }
