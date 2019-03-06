@@ -7,12 +7,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  * @UniqueEntity(fields={"userName"}, message="There is already an account with this username")
  * @UniqueEntity(fields={"verifiedHash"}, message="Hash already exists")
+ * @Vich\Uploadable
  */
 class User extends AppEntity implements UserInterface
 {
@@ -49,9 +52,16 @@ class User extends AppEntity implements UserInterface
     private $userName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
+     * @var string
      */
     private $image;
+
+    /**
+     * @Vich\UploadableField(mapping="user_images", fileNameProperty="image")
+     * @var File
+     */
+    private $imageFile;
 
     /**
      * @ORM\Column(type="boolean", options={"default":"0"})
@@ -68,6 +78,12 @@ class User extends AppEntity implements UserInterface
      * @Gedmo\Timestampable(on="create")
      */
     private $verifiedDateTime;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="update")
+     */
+    private $updatedAt;
 
     public function getId(): ?int
     {
@@ -154,14 +170,62 @@ class User extends AppEntity implements UserInterface
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImage()
     {
         return $this->image;
     }
 
-    public function setImage(?string $image): self
+    public function setImage($image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $imageFile
+     * @return User
+     * @throws \Exception
+     */
+    public function setImageFile(File $imageFile = null): self
+    {
+        $this->imageFile = $imageFile;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($imageFile) {
+            // if 'updatedAt' is not defined in your entity, use another property
+//            $this->updatedAt = new \DateTime('now');
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param mixed $updatedAt
+     * @return User
+     */
+    public function setUpdatedAt($updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -206,7 +270,7 @@ class User extends AppEntity implements UserInterface
      * @return bool
      * @throws \Exception
      */
-    public function isVerifiedDateTimeValid():bool
+    public function isVerifiedDateTimeValid(): bool
     {
         $now = new \DateTime();
         return $now->getTimestamp() - $this->getVerifiedDateTime()->getTimestamp() <= self::HASH_VALIDATION_TIME_LIMIT * 60 * 60 * 24;
@@ -216,8 +280,10 @@ class User extends AppEntity implements UserInterface
      * @param string $hash
      * @return bool
      */
-    public function isHashValid(string $hash):bool
+    public function isHashValid(string $hash): bool
     {
         return $this->getVerifiedHash() === $hash;
     }
+
+
 }
