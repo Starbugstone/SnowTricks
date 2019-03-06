@@ -17,7 +17,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @UniqueEntity(fields={"verifiedHash"}, message="Hash already exists")
  * @Vich\Uploadable
  */
-class User extends AppEntity implements UserInterface
+class User extends AppEntity implements UserInterface, \Serializable
 {
 
     const HASH_VALIDATION_TIME_LIMIT = 1; //number of days that the validation link is active
@@ -55,7 +55,7 @@ class User extends AppEntity implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @var string
      */
-    private $image;
+    private $image = "";
 
     /**
      * @Vich\UploadableField(mapping="user_images", fileNameProperty="image")
@@ -286,4 +286,48 @@ class User extends AppEntity implements UserInterface
     }
 
 
+    /**
+     * String representation of object
+     * @link https://php.net/manual/en/serializable.serialize.php
+     * @return string the string representation of the object or null
+     * @since 5.1.0
+     */
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->email,
+            $this->roles,
+            $this->password,
+            $this->userName,
+            $this->image,
+            $this->verified,
+            $this->verifiedDateTime,
+            $this->updatedAt,
+        ]);
+    }
+
+    /**
+     * Constructs the object
+     * @link https://php.net/manual/en/serializable.unserialize.php
+     * @param string $serialized <p>
+     * The string representation of the object.
+     * </p>
+     * @return void
+     * @since 5.1.0
+     */
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->email,
+            $this->roles,
+            $this->password,
+            $this->userName,
+            $this->image,
+            $this->verified,
+            $this->verifiedDateTime,
+            $this->updatedAt,
+            )=unserialize($serialized, ['allowed_classes' => false]);
+    }
 }
