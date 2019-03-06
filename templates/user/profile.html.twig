@@ -1,23 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profile{% endblock %}
+{% block title %}Profile {{ user.userName }}{% endblock %}
 
 {% block body %}
     <div class="row">
-        {{ form_start(form) }}
+        <div class="col l8 offset-l2">
+            <h1 class="valign-wrapper"><img src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="{{ user.userName }}" class="circle responsive-img mr-3" id="profileImage">{{ user.email }}</h1>
+        </div>
 
-        {{ form_widget(form) }}
-        {{ form_end(form) }}
     </div>
-
     <div class="row">
-        {{ form_start(formPassword) }}
+        <div class="col m4 offset-m1">
+            <h2>Update profile</h2>
+            {{ form_start(form) }}
 
-        {{ form_widget(formPassword) }}
-        {{ form_end(formPassword) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+
+        <div class="col m4 offset-m1">
+            <h2>Change password</h2>
+            {{ form_start(formPassword) }}
+
+            {{ form_widget(formPassword) }}
+            {{ form_end(formPassword) }}
+        </div>
     </div>
-
-
-
-
 {% endblock %}
