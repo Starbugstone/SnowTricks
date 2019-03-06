@@ -2,15 +2,16 @@
 
 namespace App\Controller\Profile;
 
+use App\Event\User\UserChangepasswordEvent;
+use App\Event\User\UserUpdateAccountEvent;
 use App\Form\UserChangePasswordFormType;
 use App\Form\UserProfileFormType;
-use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserProfileController
@@ -21,19 +22,20 @@ class UserProfileController extends AbstractController
 {
 
     /**
-     * @var UserPasswordEncoderInterface
+     * @var EventDispatcherInterface
      */
-    private $passwordEncoder;
+    private $dispatcher;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(EventDispatcherInterface $dispatcher)
     {
-        $this->passwordEncoder = $passwordEncoder;
+
+        $this->dispatcher = $dispatcher;
     }
 
     /**
      * @Route("/profile", name="admin.profile")
      */
-    public function index(Request $request, EntityManagerInterface $em)
+    public function index(Request $request)
     {
         //Force login, we do not allow the remember me cookie for profile admin.
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -53,9 +55,8 @@ class UserProfileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $em->persist($user);
-            $em->flush();
-//            dd('Form submitted');
+            $event = new UserUpdateAccountEvent($user);
+            $this->dispatcher->dispatch(UserUpdateAccountEvent::NAME, $event);
         }
 
         $formPassword = $this->createForm(UserChangePasswordFormType::class, $user);
@@ -70,21 +71,12 @@ class UserProfileController extends AbstractController
         $formPassword->handleRequest($request);
         if ($formPassword->isSubmitted() && $formPassword->isValid()) {
 
-
             $password = $formPassword->get('plainPassword')->getData();
-//            dd($password);
 
-            $user->setPassword(
-                $this->passwordEncoder->encodePassword(
-                    $user,
-                    $password
-                )
-            );
-            $em->persist($user);
-            $em->flush();
-            //dd('reset password');
+            $event = new UserChangepasswordEvent($user, $password);
+            $this->dispatcher->dispatch(UserChangepasswordEvent::NAME, $event);
         }
-        //dd($user);
+
 
         return $this->render('user/profile.html.twig', [
             'form' => $form->createView(),
