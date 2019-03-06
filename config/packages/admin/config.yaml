@@ -1,2 +1,8 @@
 easy_admin:
   site_name: 'SnowTricks Administration'
+  list:
+    actions:
+      - {name: 'edit', icon: 'pencil', label: false}
+      - {name: 'delete', icon: 'trash', label: false}
+      - {name: 'new', icon: 'plus-circle', label: 'new'}
+      - {name: 'search', label: 'Search category'}
