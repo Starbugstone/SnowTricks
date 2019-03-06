@@ -6,7 +6,6 @@ use App\Event\User\UserChangepasswordEvent;
 use App\Event\User\UserUpdateAccountEvent;
 use App\Form\UserChangePasswordFormType;
 use App\Form\UserProfileFormType;
-use App\Image\ProfileImage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

@@ -102,8 +102,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // by default, return to the home page. TODO Update to profile admin page
-        return new RedirectResponse($this->urlGenerator->generate('home'));
+        // by default, return to the profile page
+        return new RedirectResponse($this->urlGenerator->generate('admin.profile'));
     }
 
     protected function getLoginUrl()
