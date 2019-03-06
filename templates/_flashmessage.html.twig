@@ -1,0 +1,24 @@
+{# Noty flash messages #}
+<script>
+    {% for label, messages in app.flashes(['alert', 'success', 'error', 'warning', 'info']) %}
+        {% for message in messages %}
+            new Noty({
+                type: '{{ label }}',
+                text: '{{ message }}',
+                theme: 'relax',
+                layout: 'top',
+                animation: {
+                    open: 'animated bounceInRight', // Animate.css class names
+                    close: 'animated bounceOutUp' // Animate.css class names
+                },
+                timeout: 4000,
+            }).show();
+        {% endfor %}
+    {% endfor %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            console.log('Syntax Error. label "{{ label }}" does not exist. Called with the message "{{ message }}"');
+        {% endfor %}
+    {% endfor %}
+</script>
+{# End Noty flash messages #}

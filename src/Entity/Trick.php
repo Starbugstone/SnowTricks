@@ -9,9 +9,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrickRepository")
+ * @Gedmo\Loggable
  * @UniqueEntity(fields="name", message="this trick already exists")
  */
-class Trick
+class Trick extends AppEntity
 {
 
     const NUMBER_OF_DISPLAYED_TRICKS = 10;
@@ -25,6 +26,7 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Gedmo\Versioned
      * @Assert\Length(
      *     min=5,
      *     max=255,
@@ -36,6 +38,7 @@ class Trick
 
     /**
      * @ORM\Column(type="text")
+     * @Gedmo\Versioned
      */
     private $text;
 

@@ -1,0 +1,12 @@
+security:
+
+  firewalls:
+    main:
+      anonymous: true
+
+      http_basic: ~
+
+
+      logout:
+        path: app_logout
+        target: /

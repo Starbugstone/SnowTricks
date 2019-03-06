@@ -12,3 +12,8 @@ require('../css/app.scss');
 // const $ = require('jquery');
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.collapsible');
+    var instances = M.Collapsible.init(elems);
+});

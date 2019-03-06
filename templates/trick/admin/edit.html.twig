@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="trick-container container z-depth-1 mt-5">
+    <div class="trick-container container z-depth-1 mt-5" id="trickEditContainer">
 
         <!-- Header image with edit buttons -->
         <div class="trick-image-header">
@@ -28,6 +28,13 @@
         <h1>edit {{ trick.name }}</h1>
 
             {% include 'trick/admin/_edit-trick-form.html.twig' with {'form': form} %}
+
+        {# Getting the logs #}
+        {% if is_granted('ROLE_ADMIN') %}
+            {% include 'trick/admin/_trick-history.html.twig' with {'trick': trick, 'history': history} %}
+
+
+        {%  endif %}
 
     </div>
 
