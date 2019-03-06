@@ -10,6 +10,10 @@
             {% if is_granted('ROLE_USER') %}
                 <li><a href="{{ path('trick.new') }}">New Trick</a></li>
                 <li><a href="{{ path('app_logout') }}">Logout</a></li>
+                <li><a href="{{ path('admin.profile') }}"><i class="material-icons" title="Profile">person</i></a></li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="/admin"><i class="material-icons" title="Admin">settings</i></a></li>
+                {% endif %}
             {% else %}
                 <li><a href="{{ path('app_login') }}">Sign In</a></li>
                 <li><a href="{{ path('app_register') }}">Sign Up</a></li>
