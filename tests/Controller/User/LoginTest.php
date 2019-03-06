@@ -36,7 +36,7 @@ class LoginTest extends WebTestCase
         $client->submit($form);
 
         $this->assertTrue($client->getResponse()->isRedirect()); //we should redirect the front page
-        $this->assertEquals('/', $client->getResponse()->getTargetUrl(), 'We are not redirecting to Home page');
+        $this->assertEquals('/profile', $client->getResponse()->getTargetUrl(), 'We are not redirecting to Home page');
 
         $crawler = $client->followRedirect();
 
@@ -58,7 +58,7 @@ class LoginTest extends WebTestCase
         $client->submit($form);
 
         $this->assertTrue($client->getResponse()->isRedirect()); //we should redirect the front page
-        $this->assertEquals('/', $client->getResponse()->getTargetUrl(), 'We are not redirecting to Home page');
+        $this->assertEquals('/profile', $client->getResponse()->getTargetUrl(), 'We are not redirecting to Home page');
 
         $crawler = $client->followRedirect();
 
