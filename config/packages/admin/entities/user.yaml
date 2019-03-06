@@ -2,3 +2,21 @@ easy_admin:
   entities:
     User:
       class: App\Entity\User
+      list:
+        fields:
+          - {property: 'email', type: 'email'}
+          - {property: 'userName'}
+          - {property: 'image', type: 'image', base_path: '%app.path.user_images%' }
+          - {property: 'verified', type: 'toggle'}
+      edit:
+        fields:
+          - {property: 'email', type: 'email'}
+          - {property: 'userName'}
+          - {property: 'imageFile', type: 'file'}
+          - {property: 'verified'}
+      new:
+        fields:
+          - {property: 'email', type: 'email'}
+          - {property: 'userName'}
+          - {property: 'imageFile', type: 'file'}
+          - {property: 'verified'}

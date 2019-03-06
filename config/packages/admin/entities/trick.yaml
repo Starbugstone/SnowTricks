@@ -2,6 +2,13 @@ easy_admin:
   entities:
     Trick:
       class: App\Entity\Trick
+      list:
+        fields:
+          - {property: 'name', type: 'text'}
+#          - {property: 'text'}
+          - {property: 'category'}
+          - {property: 'createdAt'}
+          - {property: 'editedAt'}
       form:
         fields:
           - {property: 'name'}
