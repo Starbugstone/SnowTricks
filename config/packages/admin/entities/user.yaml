@@ -1,0 +1,25 @@
+easy_admin:
+  entities:
+    User:
+      class: App\Entity\User
+      list:
+        fields:
+          - {property: 'email', type: 'email'}
+          - {property: 'userName'}
+          - {property: 'roles'}
+          - {property: 'image', type: 'image', base_path: '%app.path.user_images%' }
+          - {property: 'verified', type: 'toggle'}
+          - {property: 'updatedAt'}
+      form:
+        fields:
+          - {property: 'email', type: 'email'}
+          - {property: 'userName'}
+          - {property: 'imageFile', type: 'file'}
+          - {property: 'verified'}
+          - property: 'roles'
+            help: 'All users will have the normal user role'
+            type: choice
+            type_options:
+              expanded: true
+              choices: {'Administrator': 'ROLE_ADMIN'}
+              multiple: true

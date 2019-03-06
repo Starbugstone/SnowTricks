@@ -2,10 +2,12 @@
 
 namespace App\EventSubscriber\User;
 
+use App\Event\User\UserChangepasswordEvent;
 use App\Event\User\UserEvent;
 use App\Event\User\UserForgotpasswordEvent;
 use App\Event\User\UserRegisteredEvent;
 use App\Event\User\UserResetpasswordEvent;
+use App\Event\User\UserUpdateAccountEvent;
 use App\FlashMessage\FlashMessageCategory;
 use App\Mail\SendMail;
 use App\Security\UserSetHash;
@@ -59,6 +61,11 @@ class UserAccountSubscriber extends UserSubscriber implements EventSubscriberInt
     {
         $user = $event->getEntity();
         $this->setHash->set($user);
+        $this->persist($event);
+    }
+
+    public function updateUser(UserEvent $event)
+    {
         $this->persist($event);
     }
 
@@ -124,6 +131,14 @@ class UserAccountSubscriber extends UserSubscriber implements EventSubscriberInt
                 ['setPassword', 50],
                 ['flush', 20],
                 ['sendResetpasswordMail', 10],
+            ],
+            UserChangepasswordEvent::NAME => [
+                ['setPassword', 50],
+                ['flush', 20],
+            ],
+            UserUpdateAccountEvent::NAME => [
+                ['updateUser', 50],
+                ['flush', 20],
             ],
         ];
     }
