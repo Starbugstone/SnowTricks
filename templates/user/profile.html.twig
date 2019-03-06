@@ -5,9 +5,14 @@
 {% block body %}
     <div class="row">
         {# TODO: check if image is defined else set default image #}
+        {% if vich_uploader_asset(user, 'imageFile') is not null %}
+            {% set imageUrl = vich_uploader_asset(user, 'imageFile') %}
+        {% else %}
+            {% set imageUrl = asset('img/default/user-default.png') %}
+        {% endif %}
         {#{{ dump(vich_uploader_asset(user, 'imageFile')) }}#}
         <div class="col l8 offset-l2">
-            <h1 class="valign-wrapper"><img src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="{{ user.userName }}" class="circle responsive-img mr-3" id="profileImage">{{ user.email }}</h1>
+            <h1 class="valign-wrapper"><img src="{{ imageUrl }}" alt="{{ user.userName }}" class="circle responsive-img mr-3" id="profileImage">{{ user.email }}</h1>
         </div>
 
     </div>
