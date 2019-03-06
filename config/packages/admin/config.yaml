@@ -13,6 +13,7 @@ easy_admin:
 
   design:
     menu:
-      - {entity: 'User', icon: 'user'}
+      - {entity: 'User', icon: 'user', default: true}
       - {entity: 'Trick', icon: 'snowflake-o'}
       - {entity: 'Category', icon: 'tag'}
+      - {label: 'Return to site', icon: 'home', route: 'home'}
