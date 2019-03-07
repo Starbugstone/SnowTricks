@@ -2,15 +2,15 @@
 
 namespace App\Controller\Profile;
 
+use App\Entity\User;
 use App\Event\User\UserDeleteAccountEvent;
+use App\Exception\RedirectException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+
 
 /**
  * Class UserProfileDeleteController
@@ -34,16 +34,19 @@ class UserProfileDeleteController extends AbstractController
     /**
      * @Route("/profile/delete", name="admin.delete_profile")
      */
-    public function deleteProfile(Request $request, TokenStorageInterface $tokenStorage)
+    public function deleteProfile(Request $request)
     {
-        //TODO:; Csrf Protection
+        /** @var User $user */
         $user = $this->getUser();
+        $submittedToken = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('delete-profile'.$user->getId(), $submittedToken)) {
+            throw new RedirectException($this->generateUrl('home'), 'Bad CSRF Token');
+        }
+
+
 
         $event = new UserDeleteAccountEvent($user);
         $this->dispatcher->dispatch(UserDeleteAccountEvent::NAME, $event);
-
-        $tokenStorage->setToken(null);
-        $request->getSession()->invalidate();
 
         return $this->redirectToRoute('home');
 

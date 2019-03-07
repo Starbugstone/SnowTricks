@@ -34,6 +34,7 @@
     </div>
     <div class="row">
         <form action="{{ path('admin.delete_profile') }}" method="post">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete-profile'~user.id) }}"/>
             <button class="btn">Delete</button>
         </form>
     </div>
