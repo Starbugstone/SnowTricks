@@ -38,6 +38,9 @@ class TrickRepository extends ServiceEntityRepository
      */
     public function findBySearchQuery(string $query): array
     {
+        if($query === ""){
+            return $this->findAll();
+        }
         $query = $this->sanitizeSearchQuery($query);
         $searchTerms = $this->extractSearchTerms($query);
 
