@@ -33,9 +33,12 @@
         </div>
     </div>
     <div class="row">
-        <form action="{{ path('admin.delete_profile') }}" method="post">
-            <input type="hidden" name="_token" value="{{ csrf_token('delete-profile'~user.id) }}"/>
-            <button class="btn">Delete</button>
-        </form>
+        <div class="col s8 offset-s2">
+            <form action="{{ path('admin.delete_profile') }}" method="post" onsubmit="return confirm('are you sure you wish to delete your user account ?')">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete-profile'~user.id) }}"/>
+                <button class="btn red lighten-2 right">Delete Account</button>
+            </form>
+        </div>
+
     </div>
 {% endblock %}
