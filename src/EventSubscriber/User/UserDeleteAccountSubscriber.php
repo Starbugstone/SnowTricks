@@ -4,9 +4,7 @@ namespace App\EventSubscriber\User;
 
 use App\Event\User\UserDeleteAccountEvent;
 use App\Event\User\UserEvent;
-use App\FlashMessage\FlashMessageCategory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -15,8 +13,8 @@ class UserDeleteAccountSubscriber extends UserSubscriber implements EventSubscri
 {
 
     /**
- * @var Session
- */
+     * @var SessionInterface
+     */
     private $session;
     /**
      * @var TokenStorageInterface
