@@ -49,8 +49,8 @@ class UserFixtures extends Fixture
         $manager->persist($user);
 
         $user = new User();
-        $user->setEmail('user2@localhost.com')
-            ->setUserName('user2')
+        $user->setEmail('usertest@localhost.com')
+            ->setUserName('usertest')
             ->setPassword($this->passwordEncoder->encodePassword(
                 $user,
                 'user'
@@ -58,9 +58,28 @@ class UserFixtures extends Fixture
             ->setVerified(false)
             ->setVerifiedHash(bin2hex(random_bytes(16)));
 
-        // $product = new Product();
         $manager->persist($user);
 
+
+
+        //Adding extra users
+
+        for($i=0; $i<10; $i++){
+            $user = new User();
+            $user->setEmail('user'.$i.'@localhost.com')
+                ->setUserName('user'.$i)
+                ->setPassword($this->passwordEncoder->encodePassword(
+                    $user,
+                    'user'
+                ))
+                ->setVerified(true)
+                ->setVerifiedHash(bin2hex(random_bytes(16)));
+
+            // $product = new Product();
+            $manager->persist($user);
+        }
+
         $manager->flush();
+
     }
 }
