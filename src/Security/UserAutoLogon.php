@@ -3,9 +3,9 @@
 namespace App\Security;
 
 use App\Entity\User;
+use Exception;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -43,14 +43,16 @@ class UserAutoLogon
 
     /**
      * @param User $user
-     * @param Request $request
      * @return Event
-     * Auto Logges on the passed user
-     *
+     * Auto Logs on the passed user
+     * @throws Exception
      */
     public function autoLogon(User $user): Event
     {
         $request = $this->requestStack->getCurrentRequest();
+        if($request === null){
+            throw new Exception('request is null');
+        }
         //Login user
         $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
         $this->tokenStorage->setToken($token);
