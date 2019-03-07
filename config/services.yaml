@@ -6,7 +6,7 @@
 parameters:
     locale: 'en'
     #VichUploaderBundle
-    app.path.user_images: '/uploads/images'
+    app.path.user_images: '%env(DEFAULT_UPLOAD_IMAGE_PATH)%'
 
 services:
     # default configuration for services in *this* file

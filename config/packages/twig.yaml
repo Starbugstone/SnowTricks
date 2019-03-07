@@ -3,5 +3,5 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     globals:
-        default_user_image: '%env(DEFAULT_IMAGE_PATH)%%env(DEFAULT_USER_IMAGE)%'
+        default_user_image: '%env(DEFAULT_IMAGE_PATH)%/%env(DEFAULT_USER_IMAGE)%'
 
