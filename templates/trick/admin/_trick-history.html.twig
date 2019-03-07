@@ -27,6 +27,8 @@
                 <form action="{{ path('trick.revert', {'id': trick.id, 'historyId': log.id} ) }}" method="post"
                       onsubmit="return confirm('are you sure you wish to revert this ?')">
                     <input type="hidden" name="_token" value="{{ csrf_token('revert-trick'~log.id) }}"/>
+                    <input type="hidden" name="_version" value="{{ log.version }}"/>
+
                     <p class="center">
                         <button class="btn mt-2">Revert</button>
                     </p>
