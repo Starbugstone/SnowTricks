@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber\User;
 
+use App\Entity\User;
 use App\Event\User\UserValidatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -11,6 +12,7 @@ class UserValidatedSubscriber extends UserSubscriber implements EventSubscriberI
 
     public function validateUser(UserValidatedEvent $event)
     {
+        /** @var User $user */
         $user = $event->getEntity();
         $user->setVerified(true);
         $this->persist($event);

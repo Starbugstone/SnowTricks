@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber\Trick;
 
+use App\Entity\Trick;
 use App\Event\Trick\TrickEditedEvent;
 use App\FlashMessage\FlashMessageCategory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -14,6 +15,7 @@ class TrickEditedSubscriber extends TrickSubscriber implements EventSubscriberIn
      */
     public function updateTrickInDatabase(TrickEditedEvent $event)
     {
+        /** @var Trick $trick */
         $trick = $event->getEntity();
         $this->sendToDatabase($event);
         $this->addFlash(FlashMessageCategory::SUCCESS, 'Trick ' . $trick->getName() . ' updated');
