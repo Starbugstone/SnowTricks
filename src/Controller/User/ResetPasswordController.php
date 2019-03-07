@@ -42,14 +42,14 @@ class ResetPasswordController extends AbstractController
         if ($authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->redirectToRoute('home');
         }
-
+        $user = $userValidator->retrieveUserFromToken($token);
         //If we got here then we followed a reset link from email. We can verify mail
         if ($userValidator->doesResetpasswordTokenValidateEmail($token)) {
             $event = new UserValidatedEvent($user);
             $this->dispatcher->dispatch(UserValidatedEvent::NAME, $event);
         }
 
-        $user = $userValidator->retrieveUserFromToken($token);
+
 
         $form = $this->createForm(ResetpasswordFormType::class);
         $form->handleRequest($request);

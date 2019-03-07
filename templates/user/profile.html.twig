@@ -32,4 +32,9 @@
             {{ form_end(formPassword) }}
         </div>
     </div>
+    <div class="row">
+        <form action="{{ path('admin.delete_profile') }}" method="post">
+            <button class="btn">Delete</button>
+        </form>
+    </div>
 {% endblock %}
