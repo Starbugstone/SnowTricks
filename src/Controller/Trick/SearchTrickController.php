@@ -2,6 +2,7 @@
 
 namespace App\Controller\Trick;
 
+use App\Entity\Category;
 use App\Exception\RedirectException;
 use App\Repository\CategoryRepository;
 use App\Repository\TrickRepository;
@@ -54,17 +55,25 @@ class SearchTrickController extends AbstractController
     }
 
     /**
-     * @Route("/search/{categoryId}", name="trick.search", methods={"GET"})
+     * @Route("/search/{categoryId}-{slug}", name="trick.search", methods={"GET"})
      * @param string $categoryId
+     * @param string $slug
      * @return \Symfony\Component\HttpFoundation\Response
      * show tricks in category
      */
-    public function search($categoryId = "")
+    public function search($categoryId = "", $slug = "")
     {
         $categories = $this->categoryRepository->findAll();
         $criteria = array();
         if ($categoryId !== "") {
-            $criteria = array('category' => $categoryId);
+            $category = $this->categoryRepository->find($categoryId);
+            if($category->getSlug() !== $slug){
+                return $this->redirectToRoute('trick.search', [
+                    'id' => $category->getId(),
+                    'slug' => $category->getSlug()
+                ], 301);
+            }
+            $criteria = array('category' => $category->getId());
         }
         $tricks = $this->trickRepository->findBy($criteria);
         return $this->render('trick/search.html.twig', [

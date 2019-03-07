@@ -24,9 +24,10 @@
             <div class="col s12 m4 l3 xl2 w100">
                 <p class="center">Categories</p>
                 <div class="collection">
-                    <a href="{{ path('trick.search') }}" class="collection-item {{ categoryId == "" ? 'active' }}">All</a>
+
+                    <a href="{{ path('trick.search', {categoryId:"", slug:""}) }}" class="collection-item {{ categoryId == "" ? 'active' }}">All</a>
                     {% for category in categories %}
-                        <a href="{{ path('trick.search', {'categoryId':category.id}) }}" class="collection-item {{ categoryId == category.id ? 'active' }}">{{ category.Name }}</a>
+                        <a href="{{ path('trick.search', {'categoryId':category.id, 'slug':category.slug}) }}" class="collection-item {{ categoryId == category.id ? 'active' }}">{{ category.Name }}</a>
                     {% endfor %}
                 </div>
 
