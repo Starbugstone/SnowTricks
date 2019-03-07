@@ -1,0 +1,11 @@
+easy_admin:
+  entities:
+    Tag:
+      class: App\Entity\Tag
+      list:
+        fields:
+          - {property: 'name', type: 'text'}
+          - {property: 'trick'}
+      form:
+        fields:
+          - {property: 'name', type: 'text'}

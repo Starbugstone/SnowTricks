@@ -16,4 +16,5 @@ easy_admin:
       - {entity: 'User', icon: 'user', default: true}
       - {entity: 'Trick', icon: 'snowflake-o'}
       - {entity: 'Category', icon: 'tag'}
+      - {entity: 'Tag', icon: 'tag'}
       - {label: 'Return to site', icon: 'home', route: 'home'}
