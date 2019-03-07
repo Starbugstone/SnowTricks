@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Event\User\UserChangepasswordEvent;
 use App\Event\User\UserEvent;
 use App\Event\User\UserForgotpasswordEvent;
+use App\Event\User\UserPasswordEvent;
 use App\Event\User\UserRegisteredEvent;
 use App\Event\User\UserResetpasswordEvent;
 use App\Event\User\UserUpdateAccountEvent;
@@ -43,7 +44,7 @@ class UserAccountSubscriber extends UserSubscriber implements EventSubscriberInt
         $this->mail = $mail;
     }
 
-    public function setPassword(UserEvent $event)
+    public function setPassword(UserPasswordEvent $event)
     {
         /** @var User $user */
         $user = $event->getEntity();
