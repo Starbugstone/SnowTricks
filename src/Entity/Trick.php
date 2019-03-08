@@ -69,7 +69,7 @@ class Trick extends AppEntity
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="trick", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="trick", cascade={"persist"})
      */
     private $tags;
 

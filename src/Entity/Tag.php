@@ -33,7 +33,7 @@ class Tag
     private $slug;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Trick", inversedBy="tags", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Trick", mappedBy="tags", cascade={"persist"})
      */
     private $trick;
 
