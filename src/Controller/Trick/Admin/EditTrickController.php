@@ -90,6 +90,7 @@ class EditTrickController extends AbstractController
 
 
         return $this->render('trick/admin/edit.html.twig', [
+            'tricktags' => $trick->getTags(),
             'trick' => $trick,
             'form' => $form->createView(),
             'history' => $history,

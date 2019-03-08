@@ -3,9 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Category;
+use App\Entity\Tag;
 use App\Entity\Trick;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,6 +30,19 @@ class TrickType extends AbstractType
             ->add('category', EntityType::class,[
                 'class' => Category::class,
                 'choice_label' => 'Name',
+            ])
+//            ->add('tags', CollectionType::class, [
+//                'entry_type' => TagFormType::class,
+//                'entry_options' => ['label' => false],
+//                'allow_add' => true,
+//                'allow_delete' => true,
+//            ])
+            ->add('tags', EntityType::class, [
+                'class' => Tag::class,
+                'choice_label' => 'name',
+                'label' => 'taggy',
+                'expanded' => false,
+                'multiple' => true,
             ])
         ;
     }
