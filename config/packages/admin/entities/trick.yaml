@@ -14,4 +14,4 @@ easy_admin:
           - {property: 'name'}
           - {property: 'text'}
           - {property: 'category'}
-#          - {property: 'tags'}
+          - {property: 'tags'}
