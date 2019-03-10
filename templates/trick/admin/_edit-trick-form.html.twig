@@ -38,23 +38,21 @@
     {% endif %}
 
 
-    {% if form.tags is defined %}
+    {#{% if form.tags is defined %}#}
         <div class="row">
-            <div class="chips chips-initial input-field">
-                {% for tag in tricktags %}
-                    <div class="chip">
-                        {{ tag.name }}
-                        <i class="close material-icons">close</i>
-                    </div>
-                {% endfor %}
+
+            <div class="chips" id="chips1">
+                <input class="custom-class">
             </div>
 
+            {#Need to add values, this will only populate on tag change via JS#}
+            {{ dump(tags) }}
+            <input type="hidden" name="chips-value" id="chips-value">
 
-            {#{{ form_widget(form.tags, {'attr': {'class': 'task_field'}}) }}#}
 
-            {{ form_row(form.tags) }}
+            {#{{ form_row(form.tags) }}#}
         </div>
-    {% endif %}
+    {#{% endif %}#}
     {#{{ form_widget(form) }}#}
     {{ form_end(form) }}
 </div>

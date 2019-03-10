@@ -31,19 +31,22 @@ class TrickType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'Name',
             ])
+
+            //need to add tags as a hiddenTypeClass with custom transformers
+
 //            ->add('tags', CollectionType::class, [
 //                'entry_type' => TagFormType::class,
 //                'entry_options' => ['label' => false],
 //                'allow_add' => true,
 //                'allow_delete' => true,
 //            ])
-            ->add('tags', EntityType::class, [
-                'class' => Tag::class,
-                'choice_label' => 'name',
-                'label' => 'taggy',
-                'expanded' => false,
-                'multiple' => true,
-            ])
+//            ->add('tags', EntityType::class, [
+//                'class' => Tag::class,
+//                'choice_label' => 'name',
+//                'label' => 'taggy',
+//                'expanded' => false,
+//                'multiple' => true,
+//            ])
         ;
     }
 
