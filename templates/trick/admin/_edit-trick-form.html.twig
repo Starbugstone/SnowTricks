@@ -45,12 +45,12 @@
                 <input class="custom-class">
             </div>
 
-            {#Need to add values, this will only populate on tag change via JS#}
-            {{ dump(tags) }}
-            <input type="hidden" name="chips-value" id="chips-value">
+            {#TODO: Need to add values, this will only populate on tag change via JS#}
+            {#{{ dump(tags) }}#}
+            <input type="text" name="chips-value" id="chips-value">
 
 
-            {#{{ form_row(form.tags) }}#}
+            {{ form_row(form.tags) }}
         </div>
     {#{% endif %}#}
     {#{{ form_widget(form) }}#}

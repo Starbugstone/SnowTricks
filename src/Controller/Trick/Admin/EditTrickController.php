@@ -75,8 +75,8 @@ class EditTrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $tags = $request->request->get('chips-value');
-            dd(json_decode ($tags));
+//            $tags = $request->request->get('chips-value');
+//            dd(json_decode ($trick));
             $event = new TrickEditedEvent($trick);
             $this->dispatcher->dispatch(TrickEditedEvent::NAME, $event);
 
@@ -86,7 +86,7 @@ class EditTrickController extends AbstractController
             ]);
         }
 
-        $tags = $em->getRepository(Tag::class)->findAll();
+        $allTags = $em->getRepository(Tag::class)->findAll();
 
         $history = array();
         //Only load the history if we are admin. Ease the load.
@@ -96,7 +96,7 @@ class EditTrickController extends AbstractController
 
 
         return $this->render('trick/admin/edit.html.twig', [
-            'tags' => $tags,
+            'allTags' => $allTags,
             'tricktags' => $trick->getTags(),
             'trick' => $trick,
             'form' => $form->createView(),
