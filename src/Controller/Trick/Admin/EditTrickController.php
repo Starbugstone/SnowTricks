@@ -75,8 +75,6 @@ class EditTrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-//            $tags = $request->request->get('chips-value');
-//            dd(json_decode ($trick));
             $event = new TrickEditedEvent($trick);
             $this->dispatcher->dispatch(TrickEditedEvent::NAME, $event);
 

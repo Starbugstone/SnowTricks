@@ -9,7 +9,6 @@ use Symfony\Component\Form\DataTransformerInterface;
 class TagsToJsonTransformer implements DataTransformerInterface
 {
 
-
     /**
      * @var EntityManagerInterface
      */
@@ -20,7 +19,6 @@ class TagsToJsonTransformer implements DataTransformerInterface
 
         $this->em = $em;
     }
-
 
     public function transform($tagsArray)
     {
@@ -37,21 +35,22 @@ class TagsToJsonTransformer implements DataTransformerInterface
 
     public function reverseTransform($jsonTags)
     {
-        // TODO: Implement reverseTransform() method.
         $tagsArray = json_decode($jsonTags);
 
         $tags = $this->em->getRepository(Tag::class)->findBy([
             'name' => $tagsArray
         ]);
+
         $newTags = array_diff($tagsArray, $tags);
+
         foreach ($newTags as $tagName) {
             $tag = new Tag();
             $tag->setName($tagName);
             $tags[] = $tag;
         }
+
         return $tags;
-//        dd($tagsArray);
-        //need to transform names to tag entity array
+
     }
 
 

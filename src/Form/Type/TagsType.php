@@ -6,10 +6,11 @@ use App\Form\DataTransformer\TagsToJsonTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class TagsType extends AbstractType{
+class TagsType extends AbstractType
+{
 
     /**
      * @var EntityManagerInterface
@@ -30,6 +31,6 @@ class TagsType extends AbstractType{
 
     public function getParent()
     {
-        return TextType::class;
+        return HiddenType::class;
     }
 }

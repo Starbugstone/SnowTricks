@@ -38,21 +38,16 @@
     {% endif %}
 
 
-    {#{% if form.tags is defined %}#}
+    {% if form.tags is defined %}
         <div class="row">
 
             <div class="chips" id="chips1">
                 <input class="custom-class">
             </div>
 
-            {#TODO: Need to add values, this will only populate on tag change via JS#}
-            {#{{ dump(tags) }}#}
-            <input type="text" name="chips-value" id="chips-value">
-
-
             {{ form_row(form.tags) }}
         </div>
-    {#{% endif %}#}
-    {#{{ form_widget(form) }}#}
+    {% endif %}
+    {{ form_widget(form) }}
     {{ form_end(form) }}
 </div>

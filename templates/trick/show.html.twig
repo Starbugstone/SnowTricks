@@ -48,10 +48,15 @@
                 <p class="center w100">Last modification : <br>{{ trick.editedAt | date('d/m/y') }}</p>
             </div>
         </div>
-        <p>Tags DEV TEST</p>
-        {% for tag in trick.tags %}
-            <p>{{ tag.name }}</p>
-        {% endfor %}
+        <!-- Tags -->
+        <div class="row flex-center">
+                {% for tag in trick.tags %}
+                    <div class="chip">
+                        {{ tag.name }}
+                    </div>
+                {% endfor %}
+        </div>
+
 
         <hr class="mt-3 seperator">
 
