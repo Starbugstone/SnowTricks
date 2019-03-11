@@ -33,17 +33,22 @@ class EditTrickController extends AbstractController
      * @var TrickHistory
      */
     private $trickHistory;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
 
-    public function __construct(EventDispatcherInterface $dispatcher, TrickHistory $trickHistory)
+    public function __construct(EventDispatcherInterface $dispatcher, TrickHistory $trickHistory, EntityManagerInterface $em)
     {
         $this->dispatcher = $dispatcher;
         $this->trickHistory = $trickHistory;
+        $this->em = $em;
     }
 
     /**
      * @Route("/trick/edit/{id}", name="trick.edit")
      */
-    public function edit(Trick $trick, Request $request, EntityManagerInterface $em)
+    public function edit(Trick $trick, Request $request)
     {
 
         $form = $this->createForm(TrickType::class, $trick);
@@ -84,7 +89,7 @@ class EditTrickController extends AbstractController
             ]);
         }
 
-        $allTags = $em->getRepository(Tag::class)->findAll();
+        $allTags = $this->em->getRepository(Tag::class)->findAll();
 
         $history = array();
         //Only load the history if we are admin. Ease the load.
