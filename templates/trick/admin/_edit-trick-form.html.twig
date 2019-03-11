@@ -22,7 +22,8 @@
         <div class="row">
             <div class="input-field col s12">
                 {{ form_row(form.text) }}
-                <span class="helper-text">You can use MarkDown to format text (<a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Cheatsheet</a>) but raw html is not permitted</span>
+                <span class="helper-text">You can use MarkDown to format text (<a
+                            href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Cheatsheet</a>) but raw html is not permitted</span>
             </div>
         </div>
 
@@ -36,6 +37,17 @@
         </div>
     {% endif %}
 
+
+    {% if form.tags is defined %}
+        <div class="row">
+
+            <div class="chips" id="chips1">
+                <input class="custom-class">
+            </div>
+
+            {{ form_row(form.tags) }}
+        </div>
+    {% endif %}
     {{ form_widget(form) }}
     {{ form_end(form) }}
 </div>

@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block keywords %}{% for tag in trick.tags %}{{ tag.name }},{% endfor %}{% endblock %}
+
 {% block title %}SnowTricks - Trick Name{% endblock %}
 
 {% block body %}
@@ -48,6 +50,16 @@
                 <p class="center w100">Last modification : <br>{{ trick.editedAt | date('d/m/y') }}</p>
             </div>
         </div>
+        <!-- Tags -->
+        <div class="row flex-center">
+                {% for tag in trick.tags %}
+                    <div class="chip">
+                        <a href="{{ path('trick.tag', {'id':tag.id, 'slug':tag.slug}) }}">{{ tag.name }}</a>
+                        
+                    </div>
+                {% endfor %}
+        </div>
+
 
         <hr class="mt-3 seperator">
 

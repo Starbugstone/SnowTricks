@@ -5,12 +5,13 @@ easy_admin:
       list:
         fields:
           - {property: 'name', type: 'text'}
-#          - {property: 'text'}
           - {property: 'category'}
           - {property: 'createdAt'}
           - {property: 'editedAt'}
+          - {property: 'tags'}
       form:
         fields:
           - {property: 'name'}
           - {property: 'text'}
           - {property: 'category'}
+          - {property: 'tags', type_options: {by_reference: false}}

@@ -2,22 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\Category;
+use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Category|null find($id, $lockMode = null, $lockVersion = null)
- * @method Category|null findOneBy(array $criteria, array $orderBy = null)
- * @method Category[]    findAll()
- * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Tag|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Tag|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Tag[]    findAll()
+ * @method Tag[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategoryRepository extends ServiceEntityRepository
+class TagRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Category::class);
+        parent::__construct($registry, Tag::class);
     }
+
 
     public function findBySearchQuery(array $searchTerms){
 
@@ -25,7 +26,7 @@ class CategoryRepository extends ServiceEntityRepository
 
         foreach ($searchTerms as $key => $term) {
             $queryBuilder
-                ->orWhere('p.Name LIKE :term_' . $key)
+                ->orWhere('p.name LIKE :term_' . $key)
                 ->setParameter('term_' . $key, '%' . $term . '%');
 
         }

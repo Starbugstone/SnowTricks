@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Trick;
+use App\Form\DataTransformer\TagsToJsonTransformer;
+use App\Form\Type\TagsType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -13,22 +15,35 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TrickType extends AbstractType
 {
+
+
+    /**
+     * @var TagsToJsonTransformer
+     */
+    private $transformer;
+
+    public function __construct(TagsToJsonTransformer $transformer)
+    {
+        $this->transformer = $transformer;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class,[
+            ->add('name', TextType::class, [
                 'label' => 'Name of the trick, must be at least 5 characters'
             ])
-            ->add('text', TextareaType::class ,[
+            ->add('text', TextareaType::class, [
                 'label' => 'Describe the trick',
                 'attr' => [
-                    'class'=>'materialize-textarea'
+                    'class' => 'materialize-textarea'
                 ]
             ])
-            ->add('category', EntityType::class,[
+            ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'Name',
             ])
+            ->add('tags', TagsType::class)
         ;
     }
 
