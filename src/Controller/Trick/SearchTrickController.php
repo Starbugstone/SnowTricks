@@ -55,7 +55,7 @@ class SearchTrickController extends AbstractController
     }
 
     /**
-     * @Route("/search/{categoryId}-{slug}", name="trick.search", methods={"GET"})
+     * @Route("/trick/category/{categoryId}-{slug}", name="trick.search", methods={"GET"})
      * @param string $categoryId
      * @param string $slug
      * @return \Symfony\Component\HttpFoundation\Response
