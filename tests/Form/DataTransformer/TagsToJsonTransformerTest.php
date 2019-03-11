@@ -36,12 +36,17 @@ class TagsToJsonTransformerTest extends TestCase
         $tag1 = new Tag();
         $tag2 = new Tag();
 
-        $tag1->setName('cat');
+        $tag1->setName('Cat');
         $tag2->setName('Dog');
 
         $tagArray[] = $tag1;
         $tagArray[] = $tag2;
-        
+
+        $transformer = $this->getMockedTransformer();
+
+        $jsonTags = $transformer->transform($tagArray);
+        $this->assertEquals('["Cat","Dog"]', $jsonTags);
+
     }
 
     private function getMockedTransformer($result = [])
