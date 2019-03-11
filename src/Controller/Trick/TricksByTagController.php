@@ -23,9 +23,6 @@ class TricksByTagController extends AbstractController{
             ], 301);
         }
 
-        $tricks = $tag->getTrick();
-//        dd($tag);
-
         return $this->render('trick/tag.html.twig', [
             'tag' => $tag,
         ]);
