@@ -79,6 +79,14 @@ class Tag
         return $this->trick;
     }
 
+    /**
+     * @return Collection|Trick[]
+     */
+    public function getTricks(): Collection
+    {
+        return $this->trick;
+    }
+
     public function addTrick(Trick $trick): self
     {
         if (!$this->trick->contains($trick)) {

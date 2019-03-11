@@ -5,6 +5,7 @@ namespace App\Controller\Trick;
 use App\Exception\RedirectException;
 use App\Repository\CategoryRepository;
 use App\Repository\TrickRepository;
+use App\Search\TrickSearch;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,11 +21,16 @@ class SearchTrickController extends AbstractController
      * @var CategoryRepository
      */
     private $categoryRepository;
+    /**
+     * @var TrickSearch
+     */
+    private $search;
 
-    public function __construct(TrickRepository $trickRepository, CategoryRepository $categoryRepository)
+    public function __construct(TrickRepository $trickRepository, CategoryRepository $categoryRepository, TrickSearch $search)
     {
         $this->trickRepository = $trickRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->search = $search;
     }
 
     /**
@@ -43,7 +49,8 @@ class SearchTrickController extends AbstractController
 
         $categories = $this->categoryRepository->findAll();
         $searchTerm = $request->request->get('search_trick');
-        $tricks = $this->trickRepository->findBySearchQuery($searchTerm);
+//        $tricks = $this->trickRepository->findBySearchQuery($searchTerm);
+        $tricks = $this->search->searchTricks($searchTerm);
         return $this->render('trick/search.html.twig', [
             'tricks' => $tricks,
             'categories' => $categories,
