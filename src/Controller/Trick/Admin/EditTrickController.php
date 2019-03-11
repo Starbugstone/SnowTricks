@@ -91,19 +91,11 @@ class EditTrickController extends AbstractController
 
         $allTags = $this->em->getRepository(Tag::class)->findAll();
 
-        $history = array();
-        //Only load the history if we are admin. Ease the load.
-        if($this->isGranted('ROLE_ADMIN')){
-            $history = $this->trickHistory->getHistory($trick->getId());
-        }
-
-
         return $this->render('trick/admin/edit.html.twig', [
             'allTags' => $allTags,
             'tricktags' => $trick->getTags(),
             'trick' => $trick,
             'form' => $form->createView(),
-            'history' => $history,
         ]);
     }
 
