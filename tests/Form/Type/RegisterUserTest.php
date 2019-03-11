@@ -62,5 +62,5 @@ class RegisterUserTest extends TypeTestCase{
         }
 
     }
-    
+
 }
