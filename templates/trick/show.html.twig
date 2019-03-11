@@ -52,7 +52,8 @@
         <div class="row flex-center">
                 {% for tag in trick.tags %}
                     <div class="chip">
-                        {{ tag.name }}
+                        <a href="{{ path('trick.tag', {'id':tag.id, 'slug':tag.slug}) }}">{{ tag.name }}</a>
+                        
                     </div>
                 {% endfor %}
         </div>
