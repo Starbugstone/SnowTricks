@@ -84,6 +84,11 @@
 
         <!-- List comments -->
         <div id="trick-comments">
+            {% for comment in trick.comments %}
+                {{ dump(comment) }}
+                {% include 'trick/_comment-line.html.twig' with {'comment': comment} %}
+
+            {% endfor %}
             {% for i in 0..5 %}
                 <div class="row valign-wrapper my-3 mr-3 mr-l-0">
                     <div class="col s2 hide-on-med-and-down"></div>

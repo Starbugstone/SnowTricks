@@ -184,6 +184,9 @@ class User extends AppEntity implements UserInterface, \Serializable
 
     public function getImage()
     {
+        if($this->image === ""){
+            return "";
+        }
         return $this->image;
     }
 
