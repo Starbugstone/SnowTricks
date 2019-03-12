@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
  */
-class Comment
+class Comment extends AppEntity
 {
     /**
      * @ORM\Id()
@@ -34,7 +34,7 @@ class Comment
     private $trick;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="Comment")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="Comments")
      */
     private $user;
 

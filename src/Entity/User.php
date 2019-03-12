@@ -94,7 +94,7 @@ class User extends AppEntity implements UserInterface, \Serializable
 
     public function __construct()
     {
-        $this->Comment = new ArrayCollection();
+        $this->Comments = new ArrayCollection();
     }
 
     public function getId(): ?int

@@ -4,10 +4,12 @@ namespace App\Controller\Comment;
 
 use App\Entity\Comment;
 use App\Entity\Trick;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Event\Comment\CommentCreatedEvent;
+use App\Exception\RedirectException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -15,34 +17,44 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package App\Controller\Comment
  * @IsGranted("ROLE_USER")
  */
-class CreateCommentController extends AbstractController{
-
+class CreateCommentController extends AbstractController
+{
 
     /**
-     * @var EntityManagerInterface
+     * @var EventDispatcherInterface
      */
-    private $em;
+    private $dispatcher;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EventDispatcherInterface $dispatcher)
     {
-        $this->em = $em;
+        $this->dispatcher = $dispatcher;
     }
+
 
     /**
      * @Route("/comment/add/{id}", name="comment.create")
      */
-    public function createComment(Trick $trick){
+    public function createComment(Trick $trick, Request $request)
+    {
+
+        $submittedToken = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('add-comment' . $trick->getId(), $submittedToken)) {
+            throw new RedirectException($this->generateUrl('home'), 'Bad CSRF Token');
+        }
+
+        $commentText = $request->request->get('comment-textarea');
+
         $comment = new Comment();
 
         //Set the user to the current logged in user
         $comment->setUser($this->getUser());
         $comment->setTrick($trick);
-        $comment->setComment("Bla Bla Bla");
+        $comment->setComment($commentText);
 
-        $this->em->persist($comment);
-        $this->em->flush();
+        $event = new CommentCreatedEvent($comment);
+        $this->dispatcher->dispatch(CommentCreatedEvent::NAME, $event);
 
-        return $this->redirectToRoute('trick.show', ['id'=>$trick->getId(), 'slug'=>$trick->getSlug()]);
+        return $this->redirectToRoute('trick.show', ['id' => $trick->getId(), 'slug' => $trick->getSlug()]);
 
     }
 
