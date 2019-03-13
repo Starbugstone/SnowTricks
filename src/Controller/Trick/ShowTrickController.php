@@ -3,7 +3,9 @@
 namespace App\Controller\Trick;
 
 use App\Entity\Trick;
+use App\Form\Type\CommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ShowTrickController extends AbstractController
@@ -22,9 +24,19 @@ class ShowTrickController extends AbstractController
                 'slug' => $trick->getSlug()
             ], 301);
         }
+        $commentForm = $this->createForm(CommentType::class);
+        $commentForm
+            ->add('save', SubmitType::class, [
+                'label' => 'Save',
+                'attr' => [
+                    'class' => 'waves-effect waves-light btn right mr-2'
+                ]
+            ])
+            ;
 
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
+            'commentForm' => $commentForm->createView(),
         ]);
     }
 

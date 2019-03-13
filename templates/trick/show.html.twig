@@ -52,12 +52,12 @@
         </div>
         <!-- Tags -->
         <div class="row flex-center">
-                {% for tag in trick.tags %}
-                    <div class="chip">
-                        <a href="{{ path('trick.tag', {'id':tag.id, 'slug':tag.slug}) }}">{{ tag.name }}</a>
-                        
-                    </div>
-                {% endfor %}
+            {% for tag in trick.tags %}
+                <div class="chip">
+                    <a href="{{ path('trick.tag', {'id':tag.id, 'slug':tag.slug}) }}">{{ tag.name }}</a>
+
+                </div>
+            {% endfor %}
         </div>
 
 
@@ -65,20 +65,39 @@
 
         <!-- Add comment -->
         {% if is_granted('ROLE_USER') %}
+            {{ form_start(commentForm, {
+                action:path('comment.create',{'id':trick.id}),
+                method:'POST',
+            }) }}
 
-            <form action="{{ path('comment.create', {'id':trick.id} ) }}" method="post">
-                <input type="hidden" name="_token" value="{{ csrf_token('add-comment'~trick.id) }}"/>
-                <div class="row">
-                    <div class="input-field col s6 offset-s2">
-                        <i class="material-icons prefix">mode_edit</i>
-                        <textarea id="comment-textarea" name="comment-textarea" class="materialize-textarea"></textarea>
-                        <label for="comment-textarea">Comment</label>
-                    </div>
-                    <div class="col s2 valign-wrapper my-3">
-                        <button type="submit" class="btn wave-effect waves-light">Submit</button>
-                    </div>
+            <div class="row">
+                <div class="input-field col s6 offset-s2">
+                    <i class="material-icons prefix">mode_edit</i>
+                    {{ form_widget(commentForm.comment) }}
+                    {{ form_label(commentForm.comment, 'comment') }}
                 </div>
-            </form>
+                <div class="col s2 valign-wrapper my-3">
+                    {{ form_widget(commentForm.save) }}
+                </div>
+            </div>
+
+
+            {{ form_end(commentForm) }}
+
+
+            {#<form action="{{ path('comment.create', {'id':trick.id} ) }}" method="post">#}
+                {#<input type="hidden" name="_token" value="{{ csrf_token('add-comment'~trick.id) }}"/>#}
+                {#<div class="row">#}
+                    {#<div class="input-field col s6 offset-s2">#}
+                        {#<i class="material-icons prefix">mode_edit</i>#}
+                        {#<textarea id="comment-textarea" name="comment-textarea" class="materialize-textarea"></textarea>#}
+                        {#<label for="comment-textarea">Comment</label>#}
+                    {#</div>#}
+                    {#<div class="col s2 valign-wrapper my-3">#}
+                        {#<button type="submit" class="btn wave-effect waves-light">Submit</button>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</form>#}
 
             <hr class="seperator">
         {% endif %}

@@ -37,19 +37,18 @@ class CreateCommentController extends AbstractController
     public function createComment(Trick $trick, Request $request)
     {
 
-        $submittedToken = $request->request->get('_token');
-        if (!$this->isCsrfTokenValid('add-comment' . $trick->getId(), $submittedToken)) {
+        $receivedComment = $request->request->get('comment');
+
+        if (!$this->isCsrfTokenValid('CommentForm', $receivedComment['_token'])) {
             throw new RedirectException($this->generateUrl('home'), 'Bad CSRF Token');
         }
-
-        $commentText = $request->request->get('comment-textarea');
 
         $comment = new Comment();
 
         //Set the user to the current logged in user
         $comment->setUser($this->getUser());
         $comment->setTrick($trick);
-        $comment->setComment($commentText);
+        $comment->setComment($receivedComment['comment']);
 
         $event = new CommentCreatedEvent($comment);
         $this->dispatcher->dispatch(CommentCreatedEvent::NAME, $event);
