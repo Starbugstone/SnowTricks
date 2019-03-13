@@ -53,7 +53,11 @@ class CreateCommentController extends AbstractController
         $event = new CommentCreatedEvent($comment);
         $this->dispatcher->dispatch(CommentCreatedEvent::NAME, $event);
 
-        return $this->redirectToRoute('trick.show', ['id' => $trick->getId(), 'slug' => $trick->getSlug()]);
+        return $this->redirectToRoute('trick.show', [
+            'id' => $trick->getId(),
+            'slug' => $trick->getSlug(),
+            '_fragment' => 'comment-'.$comment->getId(),
+        ]);
 
     }
 
