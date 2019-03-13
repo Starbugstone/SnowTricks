@@ -17,17 +17,17 @@ class TrickFixtures extends Fixture
         $categoryList = array();
         for($i=0; $i<5; $i++){
             $category = new Category();
-            $categoryList[] = $category->setName($faker->word);
+            $categoryList[] = $category->setName($faker->sentence(5));
             $manager->persist($category);
         }
 
         for ($i=0; $i<25; $i++){
             $trick = new Trick();
             $trick
-                ->setName($faker->words(3, true))
-                ->setText($faker->paragraph())
+                ->setName($faker->words(rand(1,5), true))
+                ->setText($faker->realText(600))
                 ->setCreatedAt($faker->dateTimeThisDecade())
-                ->setCategory($categoryList[rand(0,4)]);
+                ->setCategory($categoryList[rand(0,4)])
             ;
 
             $manager->persist($trick);
