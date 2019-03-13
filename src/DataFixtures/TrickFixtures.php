@@ -25,7 +25,7 @@ class TrickFixtures extends Fixture
             $trick = new Trick();
             $trick
                 ->setName($faker->words(rand(1,5), true))
-                ->setText($faker->realText(600))
+                ->setText($faker->paragraph(rand(3,20)))
                 ->setCreatedAt($faker->dateTimeThisDecade())
                 ->setCategory($categoryList[rand(0,4)])
             ;

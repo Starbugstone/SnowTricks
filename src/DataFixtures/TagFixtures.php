@@ -35,17 +35,33 @@ class TagFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create();
 
         $tricks = $manager->getRepository(Trick::class)->findAll();
+        $tagRepository = $manager->getRepository(Tag::class);
+
+        $fixedTag = new Tag();
+        $fixedTag->setName("Starbug tag");
 
         foreach ($tricks as $trick){
             $maxTags = rand(0,5);
             if($maxTags >0){
                 for($i=0; $i<=$maxTags; $i++){
-                    $tag=new Tag();
-                    $tag->setName($faker->unique()->words(rand(1,3), true));
+
+                    $tagName = $faker->words(rand(1,3), true);
+                    //Avoid duplicate tags
+                    $tag = $tagRepository->findOneBy(['name'=>$tagName]);
+                    if($tag === null){
+                        $tag=new Tag();
+                        $tag->setName($tagName);
+                    }
+
                     $trick->addTag($tag);
+
+                    if(rand(0,6)===1){
+                        $trick->addTag($fixedTag);
+                    }
                 }
             }
             $manager->persist($trick);
+            $manager->flush(); //need to flush or next DB query for unicity will fail
         }
 
         $manager->flush();
