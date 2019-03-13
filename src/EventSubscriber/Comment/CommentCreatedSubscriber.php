@@ -3,6 +3,8 @@
 namespace App\EventSubscriber\Comment;
 
 use App\Event\Comment\CommentCreatedEvent;
+use App\Event\Comment\CommentEditedEvent;
+use App\Event\Comment\CommentEvent;
 use App\FlashMessage\FlashMessageCategory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -10,12 +12,12 @@ class CommentCreatedSubscriber extends CommentSubscriber implements EventSubscri
 {
     /**
      * Send Comment to the database and set a flash message
-     * @param CommentCreatedEvent $event
+     * @param CommentEvent $event
      */
-    public function registerCommentToDatabase(CommentCreatedEvent $event)
+    public function registerCommentToDatabase(CommentEvent $event)
     {
         $this->sendToDatabase($event);
-        $this->addFlash(FlashMessageCategory::SUCCESS, 'Comment posted');
+        $this->addFlash(FlashMessageCategory::SUCCESS, 'Comment saved');
     }
 
     /**
@@ -24,7 +26,8 @@ class CommentCreatedSubscriber extends CommentSubscriber implements EventSubscri
     public static function getSubscribedEvents()
     {
         return [
-            CommentCreatedEvent::NAME => 'registerCommentToDatabase'
+            CommentCreatedEvent::NAME => 'registerCommentToDatabase',
+            CommentEditedEvent::NAME => 'registerCommentToDatabase',
         ];
     }
 }

@@ -32,7 +32,7 @@ class CreateCommentController extends AbstractController
 
 
     /**
-     * @Route("/comment/add/{id}", name="comment.create")
+     * @Route("/comment/add/{id}", name="comment.create", methods={"POST"})
      */
     public function createComment(Trick $trick, Request $request)
     {

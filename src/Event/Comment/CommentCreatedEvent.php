@@ -2,9 +2,7 @@
 
 namespace App\Event\Comment;
 
-use App\Event\AppEvent;
-
-class CommentCreatedEvent extends AppEvent
+class CommentCreatedEvent extends CommentEvent
 {
     const NAME = 'comment.created';
 
