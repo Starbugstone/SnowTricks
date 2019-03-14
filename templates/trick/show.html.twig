@@ -52,12 +52,12 @@
         </div>
         <!-- Tags -->
         <div class="row flex-center">
-                {% for tag in trick.tags %}
-                    <div class="chip">
-                        <a href="{{ path('trick.tag', {'id':tag.id, 'slug':tag.slug}) }}">{{ tag.name }}</a>
-                        
-                    </div>
-                {% endfor %}
+            {% for tag in trick.tags %}
+                <div class="chip">
+                    <a href="{{ path('trick.tag', {'id':tag.id, 'slug':tag.slug}) }}">{{ tag.name }}</a>
+
+                </div>
+            {% endfor %}
         </div>
 
 
@@ -65,49 +65,34 @@
 
         <!-- Add comment -->
         {% if is_granted('ROLE_USER') %}
+            {{ form_start(commentForm, {
+                action:path('comment.create',{'id':trick.id}),
+                method:'POST',
+            }) }}
 
-            <form>
-                <div class="row">
-                    <div class="input-field col s6 offset-s2">
-                        <i class="material-icons prefix">mode_edit</i>
-                        <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
-                        <label for="icon_prefix2">Comment</label>
-                    </div>
-                    <div class="col s2 valign-wrapper my-3">
-                        <a href="" class="btn">Submit</a>
-                    </div>
+            <div class="row">
+                <div class="input-field col s6 offset-s2">
+                    <i class="material-icons prefix">mode_edit</i>
+                    {{ form_widget(commentForm.comment) }}
+                    {{ form_label(commentForm.comment, 'comment') }}
                 </div>
-            </form>
+                <div class="col s2 valign-wrapper my-3">
+                    {{ form_widget(commentForm.save) }}
+                </div>
+            </div>
+
+
+            {{ form_end(commentForm) }}
 
             <hr class="seperator">
         {% endif %}
 
         <!-- List comments -->
         <div id="trick-comments">
-            {% for i in 0..5 %}
-                <div class="row valign-wrapper my-3 mr-3 mr-l-0">
-                    <div class="col s2 hide-on-med-and-down"></div>
-                    <div class="col s3 l2">
-                        <p><img src="https://via.placeholder.com/150x150" alt="" class="responsive-img circle"></p>
-                        <p class="center-align">Author Name</p>
-                    </div>
-                    <div class="col s8 l7 z-depth-1 px-4 py-3 mr-s-2">
-                        <div>
-                            <h1 class="center">Title</h1>
-                            <hr class="my-1 seperator">
+            {% for comment in trick.comments %}
 
-                            <p>Accusamus blanditiis consequatur deserunt doloribus et ex labore perspiciatis qui, quis,
-                                quo
-                                saepe sed
-                                velit. Adipisci atque corporis fugit illum iusto labore maiores mollitia, praesentium
-                                qui
-                                reiciendis unde
-                                voluptate, voluptatem.</p>
-                            <p class="right m-0">Date</p>
-                        </div>
-                    </div>
-                    <div class="col s2 hide-on-med-and-down"></div>
-                </div>
+                {% include 'comment/_comment-line.html.twig' with {'comment': comment} %}
+
             {% endfor %}
         </div>
 

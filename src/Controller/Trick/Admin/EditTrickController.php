@@ -8,6 +8,8 @@ use App\Event\Trick\TrickDeletedEvent;
 use App\Event\Trick\TrickEditedEvent;
 use App\Form\TrickType;
 use App\History\TrickHistory;
+use App\Repository\TagRepository;
+use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -33,16 +35,17 @@ class EditTrickController extends AbstractController
      * @var TrickHistory
      */
     private $trickHistory;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
 
-    public function __construct(EventDispatcherInterface $dispatcher, TrickHistory $trickHistory, EntityManagerInterface $em)
+    /**
+     * @var TagRepository
+     */
+    private $tagRepository;
+
+    public function __construct(EventDispatcherInterface $dispatcher, TrickHistory $trickHistory, TagRepository $tagRepository )
     {
         $this->dispatcher = $dispatcher;
         $this->trickHistory = $trickHistory;
-        $this->em = $em;
+        $this->tagRepository = $tagRepository;
     }
 
     /**
@@ -89,10 +92,8 @@ class EditTrickController extends AbstractController
             ]);
         }
 
-        $allTags = $this->em->getRepository(Tag::class)->findAll();
-
         return $this->render('trick/admin/edit.html.twig', [
-            'allTags' => $allTags,
+            'allTags' => $this->tagRepository->findAll(),
             'tricktags' => $trick->getTags(),
             'trick' => $trick,
             'form' => $form->createView(),

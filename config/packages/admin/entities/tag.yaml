@@ -4,6 +4,7 @@ easy_admin:
       class: App\Entity\Tag
       list:
         fields:
+          - {property: 'id'}
           - {property: 'name', type: 'text'}
           - {property: 'trick'}
       form:

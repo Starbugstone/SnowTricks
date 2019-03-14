@@ -4,14 +4,13 @@
 
 {% block body %}
     <div class="row">
-        {% if vich_uploader_asset(user, 'imageFile') is not null %}
-            {% set imageUrl = vich_uploader_asset(user, 'imageFile') %}
-        {% else %}
-            {% set imageUrl = app_default_user_image %}
-        {% endif %}
+
 
         <div class="col l8 offset-l2">
-            <h1 class="valign-wrapper"><img src="{{ imageUrl }}" alt="{{ user.userName }}" class="circle responsive-img mr-3" id="profileImage">{{ user.email }}</h1>
+            <h1 class="valign-wrapper profileImage">
+                {% include 'user/_user-profile-image.html.twig' with {'user': user} %}
+                {{ user.email }}
+            </h1>
         </div>
 
     </div>

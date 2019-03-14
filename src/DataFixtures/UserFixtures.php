@@ -6,6 +6,8 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Faker\Factory;
+
 
 class UserFixtures extends Fixture
 {
@@ -21,6 +23,8 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
+        $faker = Factory::create();
+
         $user = new User();
         $user->setEmail('admin@localhost.com')
             ->setUserName('admin')
@@ -29,6 +33,7 @@ class UserFixtures extends Fixture
                 'admin'
             ))
             ->setRoles(['ROLE_ADMIN'])
+            ->setImage($faker->image('public/uploads/images',400,300, null, false) )
             ->setVerified(true)
             ->setVerifiedHash(bin2hex(random_bytes(16)));
 
@@ -42,6 +47,7 @@ class UserFixtures extends Fixture
                 $user,
                 'user'
             ))
+            ->setImage($faker->image('public/uploads/images',400,300, null, false) )
             ->setVerified(true)
             ->setVerifiedHash(bin2hex(random_bytes(16)));
 
@@ -72,9 +78,14 @@ class UserFixtures extends Fixture
                     $user,
                     'user'
                 ))
+
                 ->setVerified(true)
                 ->setVerifiedHash(bin2hex(random_bytes(16)));
 
+            //Not all users will have an image
+            if(rand(0,2)>=1){
+                $user->setImage($faker->image('public/uploads/images',400,300, null, false) );
+            }
             // $product = new Product();
             $manager->persist($user);
         }
