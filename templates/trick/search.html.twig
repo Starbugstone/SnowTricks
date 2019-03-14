@@ -5,32 +5,30 @@
 {% block body %}
     <div id="trickSearchContainer">
         <div class="row">
-            <div class="input-field col s8 offset-s2 center">
-                <i class="material-icons prefix">search</i>
-                <input placeholder="search tricks" id="first_name" type="text" class="validate">
-                <!-- <label for="first_name">Search tricks</label> -->
-            </div>
+            <form method="post" action="{{ path('trick.searchTrick') }}">
+                <div class="input-field col s8 offset-s2 center">
+                    <i class="material-icons prefix">search</i>
+                    <input placeholder="search tricks" id="search_trick" name="search_trick" type="text" class="validate" value="{{ searchTerm is defined ? searchTerm }}">
+                </div>
+                <input type="hidden" name="_token" value="{{ csrf_token('search-trick') }}" />
+            </form>
+
         </div>
         {% if is_granted('ROLE_USER') %}
             <div class="hide-on-med-and-up center">
-                <p><a href="{{ path('trick.new') }}">Create a new trick</a></p>
+                <p><a href="{{ path('trick.new') }}" class="btn">Create a new trick</a></p>
             </div>
 
         {% endif %}
         <div class="row">
             <div class="col s12 m4 l3 xl2 w100">
-                {#
-                    TODO: Slide out menu on small, see materialize
-                    TODO: better formatting and spacing
-                #}
-                <ul class="center">
-                    <li class="mt-2"><a href="#">All</a></li>
-                    <li class="mt-2"><a href="#">get1</a></li>
-                    <li class="mt-2"><a href="#">get2</a></li>
-                    <li class="mt-2"><a href="#">get3</a></li>
-                    <li class="mt-2"><a href="#">get4</a></li>
-
-                </ul>
+                <p class="center">Categories</p>
+                <div class="collection">
+                    <a href="{{ path('trick.search') }}" class="collection-item {{ categoryId == "" ? 'active' }}">All</a>
+                    {% for category in categories %}
+                        <a href="{{ path('trick.search', {'categoryId':category.id}) }}" class="collection-item {{ categoryId == category.id ? 'active' }}">{{ category.Name }}</a>
+                    {% endfor %}
+                </div>
 
             </div>
             <div class="col s12 m8 l9 xl10">

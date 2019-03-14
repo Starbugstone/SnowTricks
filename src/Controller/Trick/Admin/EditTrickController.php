@@ -39,7 +39,7 @@ class EditTrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id}/edit", name="trick.edit")
+     * @Route("/trick/edit/{id}", name="trick.edit")
      */
     public function edit(Trick $trick, Request $request)
     {
@@ -82,7 +82,12 @@ class EditTrickController extends AbstractController
             ]);
         }
 
-        $history = $this->trickHistory->getHistory($trick->getId());
+        $history = array();
+        //Only load the history if we are admin. Ease the load.
+        if($this->isGranted('ROLE_ADMIN')){
+            $history = $this->trickHistory->getHistory($trick->getId());
+        }
+
 
         return $this->render('trick/admin/edit.html.twig', [
             'trick' => $trick,

@@ -1,0 +1,12 @@
+easy_admin:
+  entities:
+    Category:
+      class: App\Entity\Category
+      list:
+        title: 'Edit Categories'
+        fields:
+          - {property: 'name', type: 'text'}
+          - {property: 'tricks'}
+      form:
+        fields:
+          - {property: 'name', type: 'text'}

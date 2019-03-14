@@ -1,5 +1,19 @@
-<h3>Welcome to the best resource to learn all the snow tricks</h3>
+{% extends 'emails/basemail.html.twig' %}
 
-<p>Welcome {{ mailData.username }}, you have registered on the refrence of snowboard figures.</p>
-<p>To validate your email address, please click <a href="{{ url('app_validate', {token: mailData.verifiedHash}) }}">here</a> </p>
+{% block mailTitle %}Welcome {{ mailData.username }} to the best resource to learn all the snow tricks{% endblock %}
 
+{% block body %}
+    <p>You have just subscribed the the best place to learn all about snow boarding tricks</p>
+    <p>To validate your email address, please click the button below</p>
+
+
+{% endblock %}
+
+{% block button %}
+
+    <a target='_blank' href='{{ url('app_validate', {token: mailData.verifiedHash}) }}'
+       class='link2'
+       style='color:#ffffff;'>Activate
+        your Account</a>
+
+{% endblock %}

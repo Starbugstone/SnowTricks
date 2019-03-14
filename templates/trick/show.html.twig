@@ -10,7 +10,7 @@
         <div class="trick-image-header">
 
             {% if is_granted('ROLE_USER') %}
-                <div class="trick-edit-button z-depth-2 px-3 mt-3 mr-2 indigo lighten-5">
+                <div class="trick-edit-button px-3 mt-3 mr-2">
 
                     {% include 'trick/_trick-edit-icons.html.twig' with {'trick': trick} %}
 
@@ -42,7 +42,7 @@
                 <p class="center w100">Creation : {{ trick.createdAt |date('d/m/y') }}</p>
             </div>
             <div class="col s3 mx-2 p-1 z-depth-1 valign-wrapper">
-                <p class="center w100">Group</p>
+                <p class="center w100">{{ trick.category.name }}</p>
             </div>
             <div class="col s3 mx-2 p-1 z-depth-1 valign-wrapper">
                 <p class="center w100">Modification : {{ trick.editedAt | date('d/m/y') }}</p>

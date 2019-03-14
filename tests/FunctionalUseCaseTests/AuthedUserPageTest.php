@@ -61,7 +61,7 @@ class AuthedUserPageTest extends WebTestCase
         //----------------
 
         //Go to the edit page
-        $crawler = $this->client->request('GET', '/trick/' . $this->createdTestTrickId . '/edit');
+        $crawler = $this->client->request('GET', '/trick/edit/' . $this->createdTestTrickId);
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         //making sure we are on the edit page thanks to the ID on each container
@@ -84,7 +84,10 @@ class AuthedUserPageTest extends WebTestCase
         // DELETE
         //----------------
 
-        $this->client->request('GET', '/trick/' . $this->createdTestTrickId . '/delete'); //delete our trick
+        $form = $crawler->selectButton('delete_'.$this->createdTestTrickId)->form();
+        $this->client->submit($form);
+
+
         $this->assertTrue($this->client->getResponse()->isRedirect()); //we should redirect the the home page
 
         //test if the trick is deleted, we should get a 404
@@ -105,5 +108,5 @@ class AuthedUserPageTest extends WebTestCase
         //Grabbing the ID
         $this->createdTestTrickId = $crawler->filter('div#trickShowContainer')->first()->attr('data-id');
     }
-    
+
 }

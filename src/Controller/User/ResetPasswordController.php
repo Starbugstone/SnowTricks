@@ -49,6 +49,8 @@ class ResetPasswordController extends AbstractController
             $this->dispatcher->dispatch(UserValidatedEvent::NAME, $event);
         }
 
+        $user = $userValidator->retrieveUserFromToken($token);
+
         $form = $this->createForm(ResetpasswordFormType::class);
         $form->handleRequest($request);
 
@@ -56,7 +58,7 @@ class ResetPasswordController extends AbstractController
             $event = new UserResetpasswordEvent($userValidator->retrieveUserFromToken($token), $form->get('plainPassword')->getData());
             $this->dispatcher->dispatch(UserResetpasswordEvent::NAME, $event);
 
-            $this->addFlash(FlashMessageCategory::SUCCESS, "A reset password link has been sent");
+            $this->addFlash(FlashMessageCategory::SUCCESS, "Your password is now reset, please login with your new password");
             return $this->redirectToRoute('app_login');
         }
 
