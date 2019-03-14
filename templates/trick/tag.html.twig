@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="center">Tricks with tag "{{ tag.name }}"</h1>
+
+    <div class="row mx-xl-5 mt-xl-5 mt-l-3 mt-s-1 flex-center">
+        {% for trick in tag.trick %}
+            <div class="col xl2 l3 m6 s12 xl5ths">
+                {% include 'trick/_trick-card.html.twig' with {'trick': trick} %}
+            </div>
+        {% endfor %}
+    </div>
+
+
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

@@ -5,6 +5,7 @@ easy_admin:
       list:
         title: 'Edit Categories'
         fields:
+          - {property: 'id'}
           - {property: 'name', type: 'text'}
           - {property: 'tricks'}
       form:

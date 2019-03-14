@@ -14,5 +14,56 @@
 
 {% endblock %}
 
+{% block javascripts %}
+
+    <script>
+        //init chips
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.chips');
+            var instances = M.Chips.init(elems, {
+                placeholder: "Add some tags",
+                secondaryPlaceholder: "keep adding Tags",
+                onChipAdd: chipInput,
+                onChipDelete: chipInput,
+                data: [
+                    {% for trickTag in trick.tags %}
+                    {
+                        tag: '{{ trickTag }}'
+                    },
+                    {% endfor %}
+                ],
+                autocompleteOptions: {
+                    data: {
+                        {% for definedTag in allTags %}
+                        '{{ definedTag }}': null,
+                        {% endfor %}
+                    },
+                    limit: Infinity,
+                    minLength: 3
+                }
+            });
+
+            function chipInput(){
+                var elem = document.getElementById('chips1');
+                var tagInput = document.getElementById('trick_tags');
+                var instance = M.Chips.getInstance(elem);
+                var tagData = instance.chipsData;
+
+                var tags = [];
+                for(var $i=0; $i<tagData.length; $i++){
+                    tags.push( tagData[$i].tag);
+                }
+
+                tagInput.value =JSON.stringify(tags);
+            }
+
+        });
+
+
+
+    </script>
+
+{% endblock %}
+
 
 

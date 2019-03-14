@@ -29,7 +29,8 @@
         "symfony/web-link": "4.2.*",
         "symfony/webpack-encore-bundle": "^1.0",
         "symfony/yaml": "4.2.*",
-        "vich/uploader-bundle": "^1.9"
+        "vich/uploader-bundle": "^1.9",
+        "ext-json": "*"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^5.0",

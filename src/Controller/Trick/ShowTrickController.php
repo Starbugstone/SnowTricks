@@ -3,6 +3,7 @@
 namespace App\Controller\Trick;
 
 use App\Entity\Trick;
+use App\Form\Type\CommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,9 +23,11 @@ class ShowTrickController extends AbstractController
                 'slug' => $trick->getSlug()
             ], 301);
         }
+        $commentForm = $this->createForm(CommentType::class);
 
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
+            'commentForm' => $commentForm->createView(),
         ]);
     }
 

@@ -32,18 +32,7 @@ class TrickRepository extends ServiceEntityRepository
     }
 
 
-    /**
-     * @param string $query
-     * @return array
-     */
-    public function findBySearchQuery(string $query): array
-    {
-        $query = $this->sanitizeSearchQuery($query);
-        $searchTerms = $this->extractSearchTerms($query);
-
-        if (\count($searchTerms) === 0) {
-            return [];
-        }
+    public function findBySearchQuery(array $searchTerms){
 
         $queryBuilder = $this->createQueryBuilder('p');
 
@@ -58,27 +47,5 @@ class TrickRepository extends ServiceEntityRepository
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
-
-    }
-
-    /**
-     * @param string $query
-     * @return string
-     * Removes all non alphanum characters except whitespace
-     */
-    private function sanitizeSearchQuery(string $query): string
-    {
-        return trim(preg_replace('/[[:space:]]+/', ' ', $query));
-    }
-
-    /**
-     * Splits the search query into terms and removes the ones which are irrelevant.
-     */
-    private function extractSearchTerms(string $searchQuery): array
-    {
-        $terms = array_unique(explode(' ', $searchQuery));
-        return array_filter($terms, function ($term) {
-            return 2 <= mb_strlen($term);
-        });
     }
 }

@@ -4,10 +4,13 @@
 
 {% block body %}
     <div class="row">
-        {# TODO: check if image is defined else set default image #}
-        {#{{ dump(vich_uploader_asset(user, 'imageFile')) }}#}
+
+
         <div class="col l8 offset-l2">
-            <h1 class="valign-wrapper"><img src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="{{ user.userName }}" class="circle responsive-img mr-3" id="profileImage">{{ user.email }}</h1>
+            <h1 class="valign-wrapper profileImage">
+                {% include 'user/_user-profile-image.html.twig' with {'user': user} %}
+                {{ user.email }}
+            </h1>
         </div>
 
     </div>
@@ -27,5 +30,14 @@
             {{ form_widget(formPassword) }}
             {{ form_end(formPassword) }}
         </div>
+    </div>
+    <div class="row">
+        <div class="col s8 offset-s2">
+            <form action="{{ path('admin.delete_profile') }}" method="post" onsubmit="return confirm('are you sure you wish to delete your user account ?')">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete-profile'~user.id) }}"/>
+                <button class="btn red lighten-2 right">Delete Account</button>
+            </form>
+        </div>
+
     </div>
 {% endblock %}

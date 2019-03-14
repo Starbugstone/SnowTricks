@@ -5,9 +5,9 @@ namespace App\Controller\Trick\Admin;
 use App\Entity\Trick;
 use App\Event\Trick\TrickCreatedEvent;
 use App\Form\TrickType;
+use App\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -25,10 +25,15 @@ class NewTrickController extends AbstractController
      * @var EventDispatcherInterface
      */
     private $dispatcher;
+    /**
+     * @var TagRepository
+     */
+    private $tagRepository;
 
-    public function __construct(EventDispatcherInterface $dispatcher)
+    public function __construct(EventDispatcherInterface $dispatcher, TagRepository $tagRepository)
     {
         $this->dispatcher = $dispatcher;
+        $this->tagRepository = $tagRepository;
     }
 
     /**
@@ -39,12 +44,6 @@ class NewTrickController extends AbstractController
         $trick = new Trick();
 
         $form = $this->createForm(TrickType::class, $trick);
-        $form->add('save', SubmitType::class, [
-            'label' => 'Save',
-            'attr' => [
-                'class' => 'waves-effect waves-light btn right'
-            ]
-        ]);
 
         $form->handleRequest($request);
 
@@ -61,6 +60,8 @@ class NewTrickController extends AbstractController
 
         return $this->render('trick/admin/new.html.twig', [
             'form' => $form->createView(),
+            'allTags' => $this->tagRepository->findAll(),
+            'trick' => $trick,
         ]);
     }
 

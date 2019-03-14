@@ -103,7 +103,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         // by default, return to the profile page
-        return new RedirectResponse($this->urlGenerator->generate('admin.profile'));
+        return new RedirectResponse($this->urlGenerator->generate('home'));
     }
 
     protected function getLoginUrl()

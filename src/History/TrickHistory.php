@@ -35,12 +35,12 @@ class TrickHistory
 
     /**
      * @param $id
-     * @param $historyId
+     * @param $version
      * Revert a trick to a history checkpoint.
      */
-    public function revertToHistory($id, $historyId){
+    public function revertToHistory($id, $version){
         $trick = $this->em->find('App\Entity\Trick', $id);
-        $this->repo->revert($trick, $historyId);
+        $this->repo->revert($trick, $version);
         $this->em->persist($trick);
         $this->em->flush();
     }

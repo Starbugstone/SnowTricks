@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber\Trick;
 
+use App\Entity\Trick;
 use App\Event\Trick\TrickDeletedEvent;
 use App\FlashMessage\FlashMessageCategory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

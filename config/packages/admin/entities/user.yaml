@@ -4,6 +4,7 @@ easy_admin:
       class: App\Entity\User
       list:
         fields:
+          - {property: 'id'}
           - {property: 'email', type: 'email'}
           - {property: 'userName'}
           - {property: 'roles'}

@@ -2,11 +2,13 @@
 
 namespace App\Controller\Trick\Admin;
 
+
 use App\Entity\Trick;
 use App\Event\Trick\TrickDeletedEvent;
 use App\Event\Trick\TrickEditedEvent;
 use App\Form\TrickType;
 use App\History\TrickHistory;
+use App\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -32,10 +34,16 @@ class EditTrickController extends AbstractController
      */
     private $trickHistory;
 
-    public function __construct(EventDispatcherInterface $dispatcher, TrickHistory $trickHistory)
+    /**
+     * @var TagRepository
+     */
+    private $tagRepository;
+
+    public function __construct(EventDispatcherInterface $dispatcher, TrickHistory $trickHistory, TagRepository $tagRepository )
     {
         $this->dispatcher = $dispatcher;
         $this->trickHistory = $trickHistory;
+        $this->tagRepository = $tagRepository;
     }
 
     /**
@@ -46,12 +54,6 @@ class EditTrickController extends AbstractController
 
         $form = $this->createForm(TrickType::class, $trick);
         $form
-            ->add('save', SubmitType::class, [
-                'label' => 'Save',
-                'attr' => [
-                    'class' => 'waves-effect waves-light btn right mr-2'
-                ]
-            ])
             ->add('delete', SubmitType::class, [
                 'label' => 'Delete',
                 'attr' => [
@@ -82,17 +84,10 @@ class EditTrickController extends AbstractController
             ]);
         }
 
-        $history = array();
-        //Only load the history if we are admin. Ease the load.
-        if($this->isGranted('ROLE_ADMIN')){
-            $history = $this->trickHistory->getHistory($trick->getId());
-        }
-
-
         return $this->render('trick/admin/edit.html.twig', [
+            'allTags' => $this->tagRepository->findAll(),
             'trick' => $trick,
             'form' => $form->createView(),
-            'history' => $history,
         ]);
     }
 

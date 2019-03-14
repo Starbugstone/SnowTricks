@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ trick.name }} History{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>{{ trick.name }}</h1>
+        <article class="px-5">
+            {{ trick.text|escape|markdown }}
+        </article>
+
+        {% include 'trick/admin/_trick-history.html.twig' with {'trick': trick, 'history': history} %}
+    </div>
+{% endblock %}

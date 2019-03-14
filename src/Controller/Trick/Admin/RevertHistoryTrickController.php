@@ -39,14 +39,16 @@ class RevertHistoryTrickController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/trick/revert/{id}/{historyId}", name="trick.revert")
      */
-    public function revertHistory(Trick $trick, $historyId, Request $request)
+
+    public function revertHistory(Trick $trick, int $historyId, Request $request)
     {
         $submittedToken = $request->request->get('_token');
         if (!$this->isCsrfTokenValid('revert-trick' . $historyId, $submittedToken)) {
             throw new RedirectException($this->generateUrl('home'), 'Bad CSRF Token');
         }
+        $version = $request->request->get('_version');
+        $this->trickHistory->revertToHistory($trick->getId(), $version);
 
-        $this->trickHistory->revertToHistory($trick->getId(), $historyId);
         $this->addFlash(FlashMessageCategory::SUCCESS, 'Reverted ' . $trick->getName());
         return $this->redirectToRoute('trick.show', [
             'id' => $trick->getId(),
