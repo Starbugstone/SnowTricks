@@ -42,3 +42,10 @@ h1.trick-name{
     font-size: 4.2rem;
   }
 }
+
+article.trick-article{
+  ul>li{
+    list-style-type: square;
+    list-style-position: inside;
+  }
+}
