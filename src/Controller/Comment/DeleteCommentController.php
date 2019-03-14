@@ -8,6 +8,7 @@ use App\Exception\RedirectException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -29,13 +30,18 @@ class DeleteCommentController extends AbstractController
     }
 
     /**
-     * @Route("/comment/delete/{id}", name="comment.delete", methods={"GET"})
+     * @Route("/comment/delete/{id}", name="comment.delete", methods={"POST"})
      */
-    public function deleteTrick(Comment $comment)
+    public function deleteTrick(Comment $comment, Request $request)
     {
         if(!($this->isGranted('ROLE_ADMIN') || $this->getUser()->getId() === $comment->getUser()->getId()))
         {
             Throw new RedirectException($this->generateUrl('trick.show', ['id'=> $comment->getTrick()->getId(), 'slug'=> $comment->getTrick()->getSlug()]),"You are not allowed to edit this comment");
+        }
+
+        $submittedToken = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('delete-comment' . $comment->getId(), $submittedToken)) {
+            throw new RedirectException($this->generateUrl('home'), 'Bad CSRF Token');
         }
 
         $trick = $comment->getTrick();
