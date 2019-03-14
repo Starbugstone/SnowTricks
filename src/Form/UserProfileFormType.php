@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,6 +22,12 @@ class UserProfileFormType extends AbstractType{
                 'download_uri' => false,
                 'image_uri' => false,
             ])
+            ->add('updateProfile', SubmitType::class, [
+                'label' => $options['save_button_label'],
+                'attr' => [
+                    'class' => 'waves-effect waves-light btn right mr-2'
+                ]
+            ])
         ;
     }
 
@@ -28,6 +35,7 @@ class UserProfileFormType extends AbstractType{
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'save_button_label' => 'Update Profile',
         ]);
     }
 }

@@ -8,6 +8,7 @@ use App\Form\DataTransformer\TagsToJsonTransformer;
 use App\Form\Type\TagsType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -44,6 +45,12 @@ class TrickType extends AbstractType
                 'choice_label' => 'Name',
             ])
             ->add('tags', TagsType::class)
+            ->add('save', SubmitType::class, [
+                'label' => $options['save_button_label'],
+                'attr' => [
+                    'class' => 'waves-effect waves-light btn right mr-2'
+                ]
+            ])
         ;
     }
 
@@ -51,6 +58,7 @@ class TrickType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Trick::class,
+            'save_button_label' => 'Save',
         ]);
     }
 }

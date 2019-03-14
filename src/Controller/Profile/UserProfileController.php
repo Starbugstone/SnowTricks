@@ -9,7 +9,6 @@ use App\Form\UserProfileFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -44,13 +43,7 @@ class UserProfileController extends AbstractController
         $user = $this->getUser();
 
         $form = $this->createForm(UserProfileFormType::class, $user);
-        $form
-            ->add('updateProfile', SubmitType::class, [
-                'label' => 'Update profile',
-                'attr' => [
-                    'class' => 'waves-effect waves-light btn right mr-2'
-                ]
-            ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -60,13 +53,6 @@ class UserProfileController extends AbstractController
         }
 
         $formPassword = $this->createForm(UserChangePasswordFormType::class, $user);
-        $formPassword
-            ->add('updatePassword', SubmitType::class, [
-                'label' => 'Update Password',
-                'attr' => [
-                    'class' => 'waves-effect waves-light btn right mr-2'
-                ]
-            ]);
 
         $formPassword->handleRequest($request);
         if ($formPassword->isSubmitted() && $formPassword->isValid()) {

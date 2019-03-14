@@ -54,12 +54,6 @@ class EditTrickController extends AbstractController
 
         $form = $this->createForm(TrickType::class, $trick);
         $form
-            ->add('save', SubmitType::class, [
-                'label' => 'Save',
-                'attr' => [
-                    'class' => 'waves-effect waves-light btn right mr-2'
-                ]
-            ])
             ->add('delete', SubmitType::class, [
                 'label' => 'Delete',
                 'attr' => [

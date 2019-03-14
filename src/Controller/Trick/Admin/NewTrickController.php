@@ -8,7 +8,6 @@ use App\Form\TrickType;
 use App\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -45,12 +44,6 @@ class NewTrickController extends AbstractController
         $trick = new Trick();
 
         $form = $this->createForm(TrickType::class, $trick);
-        $form->add('save', SubmitType::class, [
-            'label' => 'Save',
-            'attr' => [
-                'class' => 'waves-effect waves-light btn right'
-            ]
-        ]);
 
         $form->handleRequest($request);
 
