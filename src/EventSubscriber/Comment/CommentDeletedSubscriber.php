@@ -15,8 +15,6 @@ class CommentDeletedSubscriber extends CommentSubscriber implements EventSubscri
      */
     public function deleteCommentFromDatabase(CommentDeletedEvent $event)
     {
-        /** @var Comment $comment */
-        $comment = $event->getEntity();
         $this->deleteFromDatabase($event);
         $this->addFlash(FlashMessageCategory::SUCCESS, 'Comment Deleted');
     }
