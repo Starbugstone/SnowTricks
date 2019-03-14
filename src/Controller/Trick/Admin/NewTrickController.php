@@ -5,6 +5,7 @@ namespace App\Controller\Trick\Admin;
 use App\Entity\Trick;
 use App\Event\Trick\TrickCreatedEvent;
 use App\Form\TrickType;
+use App\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -25,10 +26,15 @@ class NewTrickController extends AbstractController
      * @var EventDispatcherInterface
      */
     private $dispatcher;
+    /**
+     * @var TagRepository
+     */
+    private $tagRepository;
 
-    public function __construct(EventDispatcherInterface $dispatcher)
+    public function __construct(EventDispatcherInterface $dispatcher, TagRepository $tagRepository)
     {
         $this->dispatcher = $dispatcher;
+        $this->tagRepository = $tagRepository;
     }
 
     /**
@@ -61,6 +67,8 @@ class NewTrickController extends AbstractController
 
         return $this->render('trick/admin/new.html.twig', [
             'form' => $form->createView(),
+            'allTags' => $this->tagRepository->findAll(),
+            'trick' => $trick,
         ]);
     }
 
