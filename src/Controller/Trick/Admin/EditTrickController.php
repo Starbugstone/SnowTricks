@@ -2,15 +2,13 @@
 
 namespace App\Controller\Trick\Admin;
 
-use App\Entity\Tag;
+
 use App\Entity\Trick;
 use App\Event\Trick\TrickDeletedEvent;
 use App\Event\Trick\TrickEditedEvent;
 use App\Form\TrickType;
 use App\History\TrickHistory;
 use App\Repository\TagRepository;
-use App\Repository\TrickRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
