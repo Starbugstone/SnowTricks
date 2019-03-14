@@ -15,7 +15,6 @@ class TrickDeletedSubscriber extends TrickSubscriber implements EventSubscriberI
      */
     public function deleteTrickFromDatabase(TrickDeletedEvent $event)
     {
-        /** @var Trick $trick */
         $trick = $event->getEntity();
         $this->deleteFromDatabase($event);
         $this->addFlash(FlashMessageCategory::SUCCESS, 'Trick ' . $trick->getName() . ' Deleted');
