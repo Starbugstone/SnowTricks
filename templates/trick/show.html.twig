@@ -84,21 +84,6 @@
 
             {{ form_end(commentForm) }}
 
-
-            {#<form action="{{ path('comment.create', {'id':trick.id} ) }}" method="post">#}
-                {#<input type="hidden" name="_token" value="{{ csrf_token('add-comment'~trick.id) }}"/>#}
-                {#<div class="row">#}
-                    {#<div class="input-field col s6 offset-s2">#}
-                        {#<i class="material-icons prefix">mode_edit</i>#}
-                        {#<textarea id="comment-textarea" name="comment-textarea" class="materialize-textarea"></textarea>#}
-                        {#<label for="comment-textarea">Comment</label>#}
-                    {#</div>#}
-                    {#<div class="col s2 valign-wrapper my-3">#}
-                        {#<button type="submit" class="btn wave-effect waves-light">Submit</button>#}
-                    {#</div>#}
-                {#</div>#}
-            {#</form>#}
-
             <hr class="seperator">
         {% endif %}
 
@@ -108,31 +93,6 @@
 
                 {% include 'comment/_comment-line.html.twig' with {'comment': comment} %}
 
-            {% endfor %}
-            {% for i in 0..5 %}
-                <div class="row valign-wrapper my-3 mr-3 mr-l-0">
-                    <div class="col s2 hide-on-med-and-down"></div>
-                    <div class="col s3 l2">
-                        <p><img src="https://via.placeholder.com/150x150" alt="" class="responsive-img circle"></p>
-                        <p class="center-align">Author Name</p>
-                    </div>
-                    <div class="col s8 l7 z-depth-1 px-4 py-3 mr-s-2">
-                        <div>
-                            <h1 class="center">Title</h1>
-                            <hr class="my-1 seperator">
-
-                            <p>Accusamus blanditiis consequatur deserunt doloribus et ex labore perspiciatis qui, quis,
-                                quo
-                                saepe sed
-                                velit. Adipisci atque corporis fugit illum iusto labore maiores mollitia, praesentium
-                                qui
-                                reiciendis unde
-                                voluptate, voluptatem.</p>
-                            <p class="right m-0">Date</p>
-                        </div>
-                    </div>
-                    <div class="col s2 hide-on-med-and-down"></div>
-                </div>
             {% endfor %}
         </div>
 
