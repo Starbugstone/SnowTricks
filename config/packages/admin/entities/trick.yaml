@@ -4,11 +4,13 @@ easy_admin:
       class: App\Entity\Trick
       list:
         fields:
+          - {property: 'id'}
           - {property: 'name', type: 'text'}
           - {property: 'category'}
           - {property: 'createdAt'}
           - {property: 'editedAt'}
           - {property: 'tags'}
+          - {property: 'comments'}
       form:
         fields:
           - {property: 'name'}
