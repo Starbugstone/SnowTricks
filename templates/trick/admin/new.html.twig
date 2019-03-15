@@ -51,10 +51,10 @@
 
                 var tags = [];
                 for(var $i=0; $i<tagData.length; $i++){
-                    tags.push( tagData[$i].tag);
+                    tags.push( tagData[$i].tag.toLowerCase());
                 }
-
-                tagInput.value =JSON.stringify(tags);
+                let uniqTags = [...new Set(tags)];
+                tagInput.value =JSON.stringify(uniqTags);
             }
 
         });
