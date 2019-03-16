@@ -23,11 +23,11 @@ class TagsToJsonTransformerTest extends TestCase
     public function testAlreadyUsedTagToArray()
     {
         $tag = new Tag();
-        $tag->setName('Cat');
+        $tag->setName('cat');
 
         $transformer = $this->getMockedTransformer([$tag]);
 
-        $tags = $transformer->reverseTransform('["Cat","Dog"]');
+        $tags = $transformer->reverseTransform('["cat","dog"]');
         $this->assertCount(2, $tags);
         $this->assertSame($tag, $tags[0]);
     }
@@ -45,7 +45,8 @@ class TagsToJsonTransformerTest extends TestCase
         $transformer = $this->getMockedTransformer();
 
         $jsonTags = $transformer->transform($tagArray);
-        $this->assertEquals('["Cat","Dog"]', $jsonTags);
+        //all tags are forced to lower case because of DB interactions
+        $this->assertEquals('["cat","dog"]', $jsonTags);
 
     }
 
