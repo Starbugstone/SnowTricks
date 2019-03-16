@@ -75,6 +75,7 @@ class Trick extends AppEntity
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="trick", cascade={"remove", "persist"})
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $comments;
 
