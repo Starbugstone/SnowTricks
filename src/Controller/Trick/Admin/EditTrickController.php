@@ -58,7 +58,10 @@ class EditTrickController extends AbstractController
     public function edit(Trick $trick, Request $request)
     {
 
-        $form = $this->createForm(TrickType::class, $trick);
+        $form = $this->createForm(TrickType::class, $trick, [
+            'all_tags_json' => $this->tagSerializer->allTagsJson(),
+            'trick_tags_json' => $trick->getTagsJson(),
+        ]);
         $form
             ->add('delete', SubmitType::class, [
                 'label' => 'Delete',
@@ -91,8 +94,6 @@ class EditTrickController extends AbstractController
         }
 
         return $this->render('trick/admin/edit.html.twig', [
-            'allTags' => $this->tagRepository->findAll(),
-            'allTagsJson' =>$this->tagSerializer->allTagsJson(),
             'trick' => $trick,
             'form' => $form->createView(),
         ]);

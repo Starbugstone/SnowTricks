@@ -27,7 +27,7 @@
 
         <h1>edit {{ trick.name }}</h1>
 
-        {% include 'trick/admin/_edit-trick-form.html.twig' with {'form': form, 'trickTagsJson': trick.tagsJson, 'allTagsJson': allTagsJson} %}
+        {% include 'trick/admin/_edit-trick-form.html.twig' with {'form': form} %}
 
         {# Getting the logs #}
         {% if is_granted('ROLE_ADMIN') %}

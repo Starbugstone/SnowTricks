@@ -28,15 +28,15 @@ document.addEventListener('DOMContentLoaded', function () {
     if (elems.length === 0) {
         return;
     }
-    let tagsData = document.getElementById('trick-tag-data');
 
+    let tagsData = document.querySelectorAll('.trick-tag-data')[0];
     //sanity checks and construct helpers
     if (!tagsData) {
-        throw "missing the #trick-tag-data element that should contain all the chips data"
+        throw "missing the .trick-tag-data element that should contain all the chips data"
     }
 
     if (!("trickTagsJson" in tagsData.dataset) || !("allTagsJson" in tagsData.dataset)) {
-        throw "missing data-trick-tags-json or data-all-tags-json in the #trick-tag-data element. These elemens should contain all the json for set tags and all existing tags"
+        throw "missing data-trick-tags-json or data-all-tags-json in the .trick-tag-data element. These elements should contain all the json for set tags and all existing tags"
     }
 
 

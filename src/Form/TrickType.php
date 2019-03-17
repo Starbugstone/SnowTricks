@@ -7,6 +7,7 @@ use App\Entity\Trick;
 use App\Form\Type\TagsType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -39,6 +40,15 @@ class TrickType extends AbstractType
                     'class' => 'waves-effect waves-light btn right mr-2'
                 ]
             ])
+            ->add('tagsData', HiddenType::class, [
+                "mapped" => false,
+                'attr' => [
+                    'class' => 'trick-tag-data',
+                    'data-all-tags-json' => $options['all_tags_json'],
+                    'data-trick-tags-json' => $options['trick_tags_json'],
+                ]
+
+            ])
         ;
     }
 
@@ -47,6 +57,8 @@ class TrickType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Trick::class,
             'save_button_label' => 'Save',
+            'all_tags_json' => '',
+            'trick_tags_json' => '',
         ]);
     }
 }

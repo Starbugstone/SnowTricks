@@ -49,7 +49,10 @@ class NewTrickController extends AbstractController
     {
         $trick = new Trick();
 
-        $form = $this->createForm(TrickType::class, $trick);
+        $form = $this->createForm(TrickType::class, $trick, [
+            'all_tags_json' => $this->tagSerializer->allTagsJson(),
+            'trick_tags_json' => $trick->getTagsJson(),
+        ]);
 
         $form->handleRequest($request);
 
@@ -66,8 +69,6 @@ class NewTrickController extends AbstractController
 
         return $this->render('trick/admin/new.html.twig', [
             'form' => $form->createView(),
-            'allTags' => $this->tagRepository->findAll(),
-            'allTagsJson' =>$this->tagSerializer->allTagsJson(),
             'trick' => $trick,
         ]);
     }
