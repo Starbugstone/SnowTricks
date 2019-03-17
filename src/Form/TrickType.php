@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\Trick;
 use App\Form\Type\TagsType;
+use http\Exception\UnexpectedValueException;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -19,6 +20,11 @@ class TrickType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        if($options['all_tags_json'] === '' || $options['trick_tags_json'] === ''){
+            throw new \UnexpectedValueException("all_tags_json or trick_tags_json not defined in the form constructor");
+        }
+
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Name of the trick, must be at least 5 characters'
