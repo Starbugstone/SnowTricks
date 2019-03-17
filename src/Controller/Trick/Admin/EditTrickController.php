@@ -9,6 +9,7 @@ use App\Event\Trick\TrickEditedEvent;
 use App\Form\TrickType;
 use App\History\TrickHistory;
 use App\Repository\TagRepository;
+use App\Serializer\TagSerializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -38,12 +39,17 @@ class EditTrickController extends AbstractController
      * @var TagRepository
      */
     private $tagRepository;
+    /**
+     * @var TagSerializer
+     */
+    private $tagSerializer;
 
-    public function __construct(EventDispatcherInterface $dispatcher, TrickHistory $trickHistory, TagRepository $tagRepository )
+    public function __construct(EventDispatcherInterface $dispatcher, TrickHistory $trickHistory, TagRepository $tagRepository, TagSerializer $tagSerializer )
     {
         $this->dispatcher = $dispatcher;
         $this->trickHistory = $trickHistory;
         $this->tagRepository = $tagRepository;
+        $this->tagSerializer = $tagSerializer;
     }
 
     /**
@@ -86,6 +92,7 @@ class EditTrickController extends AbstractController
 
         return $this->render('trick/admin/edit.html.twig', [
             'allTags' => $this->tagRepository->findAll(),
+            'allTagsJson' =>$this->tagSerializer->allTagsJson(),
             'trick' => $trick,
             'form' => $form->createView(),
         ]);

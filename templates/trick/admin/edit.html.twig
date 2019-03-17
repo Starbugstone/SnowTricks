@@ -27,7 +27,7 @@
 
         <h1>edit {{ trick.name }}</h1>
 
-        {% include 'trick/admin/_edit-trick-form.html.twig' with {'form': form} %}
+        {% include 'trick/admin/_edit-trick-form.html.twig' with {'form': form, 'trickTagsJson': trick.tagsJson, 'allTagsJson': allTagsJson} %}
 
         {# Getting the logs #}
         {% if is_granted('ROLE_ADMIN') %}
@@ -38,7 +38,6 @@
         {% endif %}
 
     </div>
-
 {% endblock %}
 
 {% block javascripts %}
@@ -47,26 +46,30 @@
         //init chips
         document.addEventListener('DOMContentLoaded', function () {
             var elems = document.querySelectorAll('.chips');
+            let tagsData = document.querySelector('#trick-tag-data');
+            let trickTags = JSON.parse(tagsData.dataset.trickTagsJson);
+            let allTags = JSON.parse(tagsData.dataset.allTagsJson);
+
+            let allTagsObj = {};
+            allTags.map(
+                a =>{
+                    allTagsObj["'"+a.name+"'"] = null;
+                    return allTagsObj;
+                }
+            );
+
+            console.log(allTagsObj);
+
             var instances = M.Chips.init(elems, {
                 placeholder: "Add some tags",
                 secondaryPlaceholder: "keep adding Tags",
                 onChipAdd: chipInput,
                 onChipDelete: chipInput,
-                data: [
-                    {% for trickTag in trick.tags %}
-                    {
-                        tag: '{{ trickTag }}'
-                    },
-                    {% endfor %}
-                ],
+                data: trickTags.map(function(tt){ return {tag: tt.name}}),
                 autocompleteOptions: {
-                    data: {
-                        {% for definedTag in allTags %}
-                            '{{ definedTag }}': null,
-                        {% endfor %}
-                    },
+                    data: allTagsObj,
                     limit: Infinity,
-                    minLength: 3
+                    minLength: 1
                 }
             });
 

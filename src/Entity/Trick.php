@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Serializer\TagSerializer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -173,6 +174,13 @@ class Trick extends AppEntity
     public function getTags(): Collection
     {
         return $this->tags;
+    }
+
+    public function getTagsJson(){
+
+        $tagSerializer = new TagSerializer();
+        return $tagSerializer->trickTagsJson($this);
+
     }
 
     public function addTag(Tag $tag): self

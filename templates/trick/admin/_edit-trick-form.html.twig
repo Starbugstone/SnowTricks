@@ -32,14 +32,16 @@
 
     {% if form.tags is defined %}
         <div class="row">
-
+            <span id="trick-tag-data" data-all-tags-json="{{ allTagsJson }}" data-trick-tags-json="{{ trickTagsJson }}"></span>
             <div class="chips" id="chips1">
                 <input class="custom-class">
+                <input type="hidden">
             </div>
 
             {{ form_row(form.tags) }}
         </div>
     {% endif %}
+
     {{ form_widget(form) }}
     {{ form_end(form) }}
 </div>
