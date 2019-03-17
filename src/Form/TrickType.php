@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\Trick;
 use App\Form\Type\TagsType;
-use http\Exception\UnexpectedValueException;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
