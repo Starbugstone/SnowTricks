@@ -17,4 +17,5 @@ easy_admin:
       - {entity: 'Trick', icon: 'snowflake-o'}
       - {entity: 'Category', icon: 'tag'}
       - {entity: 'Tag', icon: 'tag'}
+      - {entity: 'Comment', icon: 'comments-o'}
       - {label: 'Return to site', icon: 'home', route: 'home'}

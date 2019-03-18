@@ -90,4 +90,9 @@ class Comment extends AppEntity
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return 'In trick '.$this->getTrick()->getName();
+    }
 }

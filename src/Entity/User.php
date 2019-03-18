@@ -376,4 +376,9 @@ class User extends AppEntity implements UserInterface, \Serializable
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getUsername().' / '.$this->getEmail();
+    }
 }
