@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let allTagsObj = {};
     allTags.map(
         t => {
-            allTagsObj["'" + t.name + "'"] = null;
+            allTagsObj[t.name] = null;
             return allTagsObj;
         }
     );
