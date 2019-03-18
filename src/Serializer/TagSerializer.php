@@ -17,16 +17,12 @@ class TagSerializer
 
     public function trickTagsJson(Trick $trick)
     {
-        $serializer = new Serializer([new ObjectNormalizer()]);
-
-        return json_encode($serializer->normalize($trick->getTags(), null, ['attributes' => ['name']]));
+        return $this->serializeTag($trick->getTags());
     }
 
     public function allTagsJson()
     {
-        $serializer = new Serializer([new ObjectNormalizer()]);
-
-        return json_encode($serializer->normalize($this->tagRepository->findAll(), null, ['attributes' => ['name']]));
+        return $this->serializeTag($this->tagRepository->findAll());
     }
 
     /**
@@ -38,5 +34,9 @@ class TagSerializer
         $this->tagRepository = $tagRepository;
     }
 
+    private function serializeTag($tags){
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        return json_encode($serializer->normalize($tags, null, ['attributes' => ['name']]));
+    }
 
 }
