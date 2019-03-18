@@ -5,7 +5,7 @@ namespace App\Controller\Comment;
 use App\Entity\Comment;
 use App\Event\Comment\CommentEditedEvent;
 use App\Exception\RedirectException;
-use App\Form\Type\CommentType;
+use App\Form\CommentTypeForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -35,7 +35,7 @@ class EditCommentController extends AbstractController
     public function editComment(Comment $comment)
     {
         $this->checkSecurity($comment);
-        $commentForm = $this->createForm(CommentType::class, $comment, [
+        $commentForm = $this->createForm(CommentTypeForm::class, $comment, [
             'save_button_label' => 'Update',
         ]);
 
@@ -53,7 +53,7 @@ class EditCommentController extends AbstractController
     {
         $this->checkSecurity($comment);
 
-        $form = $this->createForm(CommentType::class, $comment, [
+        $form = $this->createForm(CommentTypeForm::class, $comment, [
             'save_button_label' => 'Update',
         ]);
 
