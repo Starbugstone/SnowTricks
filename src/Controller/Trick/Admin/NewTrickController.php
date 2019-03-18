@@ -4,7 +4,7 @@ namespace App\Controller\Trick\Admin;
 
 use App\Entity\Trick;
 use App\Event\Trick\TrickCreatedEvent;
-use App\Form\TrickType;
+use App\Form\TrickTypeForm;
 use App\Repository\TagRepository;
 use App\Serializer\TagSerializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,7 +49,7 @@ class NewTrickController extends AbstractController
     {
         $trick = new Trick();
 
-        $form = $this->createForm(TrickType::class, $trick, [
+        $form = $this->createForm(TrickTypeForm::class, $trick, [
             'all_tags_json' => $this->tagSerializer->allTagsJson(),
             'trick_tags_json' => $trick->getTagsJson(),
         ]);
