@@ -3,6 +3,7 @@ easy_admin:
   list:
     title: 'Edit %%entity_label%%s'
     actions:
+      - {name: 'show', icon: 'eye', label: false}
       - {name: 'edit', icon: 'pencil', label: false}
       - {name: 'delete', icon: 'trash', label: false}
 
