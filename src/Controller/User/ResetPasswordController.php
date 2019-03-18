@@ -2,7 +2,6 @@
 
 namespace App\Controller\User;
 
-use App\Entity\User;
 use App\Event\User\UserResetpasswordEvent;
 use App\Event\User\UserValidatedEvent;
 use App\FlashMessage\FlashMessageCategory;

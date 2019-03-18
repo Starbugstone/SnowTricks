@@ -2,7 +2,6 @@
 
 namespace App\Controller\User;
 
-use App\Entity\User;
 use App\Event\User\UserValidatedEvent;
 use App\Security\UserAutoLogon;
 use App\FlashMessage\FlashMessageCategory;
