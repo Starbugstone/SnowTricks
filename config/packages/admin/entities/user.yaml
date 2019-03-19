@@ -33,4 +33,4 @@ easy_admin:
           - {property: 'verified'}
           - {property: 'verifiedDateTime'}
           - {property: 'updatedAt'}
-          - {property: 'comments', type: 'array'}
+          - {property: 'comments', type: 'association'}

@@ -90,11 +90,11 @@ class User extends AppEntity implements UserInterface, \Serializable
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
      */
-    private $Comments;
+    private $comments;
 
     public function __construct()
     {
-        $this->Comments = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -184,7 +184,7 @@ class User extends AppEntity implements UserInterface, \Serializable
 
     public function getImage()
     {
-        if($this->image === ""){
+        if ($this->image === "") {
             return "";
         }
         return $this->image;
@@ -343,7 +343,7 @@ class User extends AppEntity implements UserInterface, \Serializable
             $this->verified,
             $this->verifiedDateTime,
             $this->updatedAt,
-            )=unserialize($serialized, ['allowed_classes' => false]);
+            ) = unserialize($serialized, ['allowed_classes' => false]);
     }
 
     /**
@@ -351,13 +351,13 @@ class User extends AppEntity implements UserInterface, \Serializable
      */
     public function getComments(): Collection
     {
-        return $this->Comments;
+        return $this->comments;
     }
 
     public function addComment(Comment $comment): self
     {
-        if (!$this->Comments->contains($comment)) {
-            $this->Comments[] = $comment;
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
             $comment->setUser($this);
         }
 
@@ -366,8 +366,8 @@ class User extends AppEntity implements UserInterface, \Serializable
 
     public function removeComment(Comment $comment): self
     {
-        if ($this->Comments->contains($comment)) {
-            $this->Comments->removeElement($comment);
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
             // set the owning side to null (unless already changed)
             if ($comment->getUser() === $this) {
                 $comment->setUser(null);
@@ -379,6 +379,6 @@ class User extends AppEntity implements UserInterface, \Serializable
 
     public function __toString()
     {
-        return $this->getUsername().' / '.$this->getEmail();
+        return $this->getUsername() . ' / ' . $this->getEmail();
     }
 }
