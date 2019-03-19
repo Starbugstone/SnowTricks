@@ -91,9 +91,13 @@ class Comment extends AppEntity
         return $this;
     }
 
+    public function getCommentExcerpt(){
+        return implode(' ', array_slice(explode(' ', $this->getComment()), 0, 10))." ...";
+    }
+
     public function __toString()
     {
-        return implode(' ', array_slice(explode(' ', $this->getComment()), 0, 10))." ...";
+        return $this->getCommentExcerpt();
     }
 
 }
