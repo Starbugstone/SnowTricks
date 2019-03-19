@@ -93,6 +93,7 @@ class Comment extends AppEntity
 
     public function __toString()
     {
-        return 'In trick '.$this->getTrick()->getName();
+        return implode(' ', array_slice(explode(' ', $this->getComment()), 0, 10))." ...";
     }
+
 }
