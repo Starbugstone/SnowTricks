@@ -51,6 +51,8 @@ class TagFixtures extends Fixture implements DependentFixtureInterface
                     if($tag === null){
                         $tag=new Tag();
                         $tag->setName($tagName);
+                        $manager->persist($tag);
+                        $manager->flush(); //create the tag in DB
                     }
 
                     $trick->addTag($tag);
