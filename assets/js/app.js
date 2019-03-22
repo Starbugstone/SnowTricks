@@ -22,6 +22,16 @@ document.addEventListener('DOMContentLoaded', function () {
     var instances = M.FormSelect.init(elems);
 });
 
+//init materialBox
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.materialboxed');
+    if (elems.length === 0) {
+        return;
+    }
+
+    var instances = M.Materialbox.init(elems);
+});
+
 //init chips
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('.chips');

@@ -15,32 +15,21 @@
         </div>
 
         <!-- Images and videos -->
-        <div class="row flex-center" id="trick-images">
-            {% for i in 0..10 %}
-                <div class="col xl2 l3 m6 s12 mt-3">
-                    <img src="https://via.placeholder.com/350x150" alt="" class="responsive-img w100 z-depth-2">
-                </div>
-
-            {% endfor %}
-
-
-
-
-        </div>
-
-
-        <div>
-            {{ dump(trick.images) }}
+        <div class="row flex-center valign-wrapper" id="trick-images">
             {% for image in trick.images %}
-                {{ dump(image) }}
+                <div class="col xl2 l3 m6 s12 mt-3">
+                    {% include 'image/_trick-image.html.twig' with {'image': image} %}
+                </div>
             {% endfor %}
         </div>
-        <div>
-            {{ form_start(imageForm) }}
 
-
-            {{ form_widget(imageForm) }}
-            {{ form_end(imageForm) }}
+        <!-- Add image -->
+        <div class="row">
+            <div class="col m8 offset-m2">
+                {{ form_start(imageForm) }}
+                {{ form_widget(imageForm) }}
+                {{ form_end(imageForm) }}
+            </div>
         </div>
 
         <h1>edit {{ trick.name }}</h1>
@@ -50,7 +39,8 @@
         {# Getting the logs #}
         {% if is_granted('ROLE_ADMIN') %}
             <div class="row center">
-                <a class="btn waves-effect waves-light mb-3" href="{{ path('trick.history', {'id': trick.id}) }}">view {{ trick.name }} history</a>
+                <a class="btn waves-effect waves-light mb-3"
+                   href="{{ path('trick.history', {'id': trick.id}) }}">view {{ trick.name }} history</a>
             </div>
 
         {% endif %}
