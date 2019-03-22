@@ -24,14 +24,12 @@
         </div>
 
         <!-- Images and videos -->
-        <div class="row flex-center" id="trick-images">
-            {% for i in 0..10 %}
+        <div class="row flex-center valign-wrapper" id="trick-images">
+            {% for image in trick.images %}
                 <div class="col xl2 l3 m6 s12 mt-3">
-                    <img src="https://via.placeholder.com/350x150" alt="" class="responsive-img w100 z-depth-2">
+                    {% include 'image/_trick-image.html.twig' with {'image': image} %}
                 </div>
-
             {% endfor %}
-
         </div>
 
         <article class="px-5 trick-article">
