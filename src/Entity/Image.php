@@ -4,12 +4,15 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
+ * @Vich\Uploadable
  */
-class Image
+class Image extends AppEntity
 {
     /**
      * @ORM\Id()
@@ -19,7 +22,13 @@ class Image
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false)
+     * @Assert\Length(
+     *     min=5,
+     *     max=255,
+     *     minMessage = "Title must be at least {{ limit }} characters",
+     *     maxMessage = "Title can not exceed {{ limit }} characters"
+     * )
      */
     private $title;
 
@@ -41,6 +50,7 @@ class Image
 
     /**
      * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="update")
      */
     private $updatedAt;
 
@@ -98,9 +108,9 @@ class Image
     }
 
     /**
-     * @return File
+     * @return null|File
      */
-    public function getImageFile(): File
+    public function getImageFile(): ?File
     {
         return $this->imageFile;
     }
