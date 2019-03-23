@@ -47,8 +47,12 @@ class EditTrickController extends AbstractController
      */
     private $tagSerializer;
 
-    public function __construct(EventDispatcherInterface $dispatcher, TrickHistory $trickHistory, TagRepository $tagRepository, TagSerializer $tagSerializer )
-    {
+    public function __construct(
+        EventDispatcherInterface $dispatcher,
+        TrickHistory $trickHistory,
+        TagRepository $tagRepository,
+        TagSerializer $tagSerializer
+    ) {
         $this->dispatcher = $dispatcher;
         $this->trickHistory = $trickHistory;
         $this->tagRepository = $tagRepository;

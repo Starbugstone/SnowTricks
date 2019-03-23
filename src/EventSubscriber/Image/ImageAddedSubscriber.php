@@ -37,7 +37,6 @@ class ImageAddedSubscriber extends ImageSubscriber implements EventSubscriberInt
     {
         return [
             ImageAddEvent::NAME => 'registerImageToDatabase',
-//            CommentCreatedEvent::NAME => 'registerCommentToDatabase',
         ];
     }
 }

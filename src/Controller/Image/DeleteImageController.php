@@ -3,23 +3,28 @@
 namespace App\Controller\Image;
 
 use App\Entity\Image;
-use App\Entity\Trick;
-use App\FlashMessage\FlashMessageCategory;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Event\Image\ImageDeleteEvent;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class DeleteImageController
+ * @package App\Controller\Image
+ * @IsGranted("ROLE_USER")
+ */
 class DeleteImageController extends AbstractController
 {
 
     /**
-     * @var EntityManagerInterface
+     * @var EventDispatcherInterface
      */
-    private $em;
+    private $dispatcher;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EventDispatcherInterface $dispatcher)
     {
-        $this->em = $em;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -27,26 +32,14 @@ class DeleteImageController extends AbstractController
      * @param Image $image
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteTrickImage(Image $image){
-
-        $imageTitle = $image->getTitle();
-        /** @var Trick $trick */
+    public function deleteTrickImage(Image $image)
+    {
         $trick = $image->getTrick();
-        $trick->removeImage($image);
-        $this->em->persist($trick);
-        $this->em->flush();
+        $event = new ImageDeleteEvent($image, $image->getTrick());
+        $this->dispatcher->dispatch(ImageDeleteEvent::NAME, $event);
 
-        try{
-            $this->get('vich_uploader.upload_handler')->remove($image, 'imageFile');
-        }
-        catch (\Exception $e){
-            $this->addFlash(FlashMessageCategory::WARNING, 'image '.$imageTitle.' was no longer present');
-        }
-
-        $this->addFlash(FlashMessageCategory::SUCCESS, 'image '.$imageTitle.' deleted');
-
-        return $this->redirectToRoute('trick.edit',[
-            'id'=>$trick->getId(),
+        return $this->redirectToRoute('trick.edit', [
+            'id' => $trick->getId(),
         ]);
     }
 }
