@@ -19,4 +19,5 @@ easy_admin:
       - {entity: 'Category', icon: 'tag'}
       - {entity: 'Tag', icon: 'tag'}
       - {entity: 'Comment', icon: 'comments-o'}
+      - {entity: 'Image', icon: 'picture-o'}
       - {label: 'Return to site', icon: 'home', route: 'home'}

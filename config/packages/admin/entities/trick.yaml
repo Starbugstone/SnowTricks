@@ -11,9 +11,11 @@ easy_admin:
           - {property: 'editedAt'}
           - {property: 'tags'}
           - {property: 'comments'}
+          - {property: 'images'}
       form:
         fields:
           - {property: 'name'}
           - {property: 'text'}
           - {property: 'category'}
           - {property: 'tags', type_options: {by_reference: false}}
+          - {property: 'images'}
