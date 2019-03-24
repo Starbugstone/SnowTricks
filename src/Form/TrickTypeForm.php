@@ -38,13 +38,9 @@ class TrickTypeForm extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'Name',
             ])
+            //Hidden encoded tags
             ->add('tags', TagsType::class)
-            ->add('save', SubmitType::class, [
-                'label' => $options['save_button_label'],
-                'attr' => [
-                    'class' => 'waves-effect waves-light btn right mr-2'
-                ]
-            ])
+            //hidden tags data
             ->add('tagsData', HiddenType::class, [
                 "mapped" => false,
                 'attr' => [
@@ -53,6 +49,12 @@ class TrickTypeForm extends AbstractType
                     'data-trick-tags-json' => $options['trick_tags_json'],
                 ]
 
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => $options['save_button_label'],
+                'attr' => [
+                    'class' => 'waves-effect waves-light btn right mr-2'
+                ]
             ])
         ;
     }

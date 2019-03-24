@@ -52,14 +52,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     );
 
+    let trickTagsObj = trickTags.map(function (tt) {
+        return {tag: tt.name} //mapping the name from json to tag: name
+    });
+
     var instances = M.Chips.init(elems, {
         placeholder: "Add some tags",
         secondaryPlaceholder: "keep adding Tags",
         onChipAdd: chipInput,
         onChipDelete: chipInput,
-        data: trickTags.map(function (tt) {
-            return {tag: tt.name} //mapping the name from json to tag: name
-        }),
+        data: trickTagsObj,
         autocompleteOptions: {
             data: allTagsObj,
             limit: Infinity,
@@ -69,15 +71,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function chipInput() {
         var elem = document.getElementById('chips1');
-        var tagInput = document.getElementById('trick_tags');
+
+        var tagInput = document.getElementById('trick_type_form_tags');
         var instance = M.Chips.getInstance(elem);
         var tagData = instance.chipsData;
-
         var tags = [];
-        for (var $i = 0; $i < tagData.length; $i++) {
+        for (let $i = 0; $i < tagData.length; $i++) {
             tags.push(tagData[$i].tag.toLowerCase());
         }
-
         let uniqTags = [...new Set(tags)];
         tagInput.value = JSON.stringify(uniqTags);
     }
