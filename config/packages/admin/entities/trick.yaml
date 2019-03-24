@@ -18,4 +18,3 @@ easy_admin:
           - {property: 'text'}
           - {property: 'category'}
           - {property: 'tags', type_options: {by_reference: false}}
-          - {property: 'images'}

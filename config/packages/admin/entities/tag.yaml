@@ -10,3 +10,4 @@ easy_admin:
       form:
         fields:
           - {property: 'name', type: 'text'}
+          - {property: 'trick'}

@@ -9,3 +9,9 @@ easy_admin:
           - {property: 'user'}
           - {property: 'createdAt'}
           - {property: 'commentExcerpt'}
+      form:
+        fields:
+          - {property: 'trick'}
+          - {property: 'user'}
+          - {property: 'createdAt'}
+          - {property: 'comment'}
