@@ -82,6 +82,7 @@ class Trick extends AppEntity
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="trick", cascade={"remove", "persist"})
+     * @ORM\orderBy({"updatedAt"="DESC"})
      */
     private $images;
 
@@ -182,7 +183,8 @@ class Trick extends AppEntity
         return $this->tags;
     }
 
-    public function getTagsJson(){
+    public function getTagsJson()
+    {
 
         $tagSerializer = new TagSerializer();
         return $tagSerializer->trickTagsJson($this);
@@ -269,5 +271,16 @@ class Trick extends AppEntity
         }
 
         return $this;
+    }
+
+    /**
+     * Get the primary images associated with the trick
+     * @return Collection|null
+     */
+    public function getPrimaryImages(): ?Collection
+    {
+        return $this->getImages()->filter(function (Image $image){
+            return $image->getPrimaryImage() === true;
+        });
     }
 }

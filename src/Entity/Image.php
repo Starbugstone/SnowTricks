@@ -54,6 +54,11 @@ class Image extends AppEntity
      */
     private $updatedAt;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $primaryImage = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -133,6 +138,18 @@ class Image extends AppEntity
     public function __toString()
     {
         return $this->getTitle();
+    }
+
+    public function getPrimaryImage(): ?bool
+    {
+        return $this->primaryImage;
+    }
+
+    public function setPrimaryImage(bool $primaryImage): self
+    {
+        $this->primaryImage = $primaryImage;
+
+        return $this;
     }
 
 }
