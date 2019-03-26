@@ -19,11 +19,12 @@
                 </div>
             {% endif %}
 
-            <img src="https://via.placeholder.com/350x150" alt="" class="responsive-img w100">
+            <!-- Header image -->
+            {% include 'image/_trick-primary-image.html.twig' with {'primaryImages': trick.primaryImages} %}
+
             <h1 class="trick-name center-align w100 font-coiny m-0 text-shadow">{{ trick.name }}</h1>
         </div>
-        {#{{ dump(trick.images|first) }}#}
-        {{ dump(trick.primaryImages) }}
+
         <!-- Images and videos -->
         <div class="row flex-center valign-wrapper" id="trick-images">
             {% for image in trick.images %}
