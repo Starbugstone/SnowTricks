@@ -20,7 +20,7 @@
         <div class="row flex-center valign-wrapper" id="trick-images">
             {% for image in trick.images %}
                 <div class="col xl2 l3 m6 s12 mt-3">
-                    {% include 'image/_trick-image.html.twig' with {'image': image, 'edit': true} %}
+                    {% include 'image/_trick-image.html.twig' with {'image': image, 'edit': true, 'trick': trick} %}
                 </div>
             {% endfor %}
         </div>

@@ -82,7 +82,6 @@ class Trick extends AppEntity
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="trick", cascade={"remove", "persist"})
-     * @ORM\orderBy({"updatedAt"="DESC"})
      */
     private $images;
 
