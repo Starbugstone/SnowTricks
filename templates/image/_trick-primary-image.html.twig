@@ -1,6 +1,6 @@
-{% set primaryImage = primaryImages|first %}
+{% set primaryImage = trick.primaryImages|first %}
 {% if primaryImage %}
     <img src="{{ vich_uploader_asset(primaryImage, 'imageFile') }}" alt="" class="responsive-img w100">
 {% else %}
-    <img src="https://via.placeholder.com/350x150" alt="" class="responsive-img w100">
+    <img src="{{ app_default_trick_image }}" alt="" class="responsive-img w100">
 {% endif %}
