@@ -40,6 +40,7 @@ class TrickImageFixtures extends Fixture implements DependentFixtureInterface
 
         foreach ($tricks as $trick) {
             $maxTags = rand(0, 8);
+            $primaryImageSet = false;
             if ($maxTags > 0) {
                 for ($i = 0; $i <= $maxTags; $i++) {
                     $image = new Image();
@@ -47,6 +48,10 @@ class TrickImageFixtures extends Fixture implements DependentFixtureInterface
                     $image->setTitle($faker->words(rand(1, 3), true));
                     $image->setImage($faker->image('public/uploads/trick_images', 400, 300, null, false));
                     $image->setTrick($trick);
+                    if(rand(0,2)>0 && !$primaryImageSet){
+                        $image->setPrimaryImage(true);
+                        $primaryImageSet = true;
+                    }
 
                     $manager->persist($image);
                     $manager->persist($trick);
