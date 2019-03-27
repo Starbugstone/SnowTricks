@@ -28,22 +28,26 @@ class ImageSetPrimarySubscriber extends ImageSubscriber implements EventSubscrib
 
     public function resetPrimaryImages(ImageSetPrimaryEvent $event)
     {
-        $trick = $event->getTrick();
+        if (!getenv('PRIMARY_IMAGE_CAROUSEL')) {
+            $trick = $event->getTrick();
 
-        //we only want one front image, so reset others. we could just reset the primary but this corrects bugs if we have 2 primary images for some unknown reason
-        $trickImages = $trick->getImages();
+            //we only want one front image, so reset others. we could just reset the primary but this corrects bugs if we have 2 primary images for some unknown reason
+            $trickImages = $trick->getImages();
 
-        /** @var Image $trickImage */
-        foreach ($trickImages as $trickImage) {
-            if ($trickImage->getPrimaryImage()) {
-                $trickImage->setPrimaryImage(false);
+            /** @var Image $trickImage */
+            foreach ($trickImages as $trickImage) {
+                if ($trickImage->getPrimaryImage()) {
+                    $trickImage->setPrimaryImage(false);
+                }
             }
+            $this->em->persist($trick);
         }
-        $this->em->persist($trick);
+
     }
 
     public function setPrimaryImageToggle(ImageSetPrimaryEvent $event)
     {
+
         $trick = $event->getTrick();
         $image = $event->getEntity();
 
@@ -52,11 +56,12 @@ class ImageSetPrimarySubscriber extends ImageSubscriber implements EventSubscrib
 
         //setting the actual image, if we clicked on the same image then unset
         /** @var Image $trickImage */
-        foreach ($trickImages as $trickImage){
+        foreach ($trickImages as $trickImage) {
             if ($trickImage === $image && $actualPrimaryImage !== $image) {
                 $trickImage->setPrimaryImage(true);
             }
         }
+
 
     }
 
