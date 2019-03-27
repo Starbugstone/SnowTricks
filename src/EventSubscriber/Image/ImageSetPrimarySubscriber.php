@@ -3,32 +3,15 @@
 namespace App\EventSubscriber\Image;
 
 use App\Entity\Image;
-use App\Entity\Trick;
 use App\Event\Image\ImageSetPrimaryEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ImageSetPrimarySubscriber extends ImageSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var Trick $sentTrick
-     */
-    private $sentTrick;
-
-    /**
-     * @var Image $sentImage
-     */
-    private $sentImage;
-
-    public function registerSentItems(ImageSetPrimaryEvent $event)
-    {
-        $this->sentTrick = $event->getTrick();
-        $this->sentImage = $event->getEntity();
-    }
-
 
     public function resetPrimaryImages(ImageSetPrimaryEvent $event)
     {
-        if (!getenv('PRIMARY_IMAGE_CAROUSEL')) {
+        if (getenv('PRIMARY_IMAGE_CAROUSEL') === "false") {
             $trick = $event->getTrick();
 
             //we only want one front image, so reset others. we could just reset the primary but this corrects bugs if we have 2 primary images for some unknown reason
@@ -39,10 +22,10 @@ class ImageSetPrimarySubscriber extends ImageSubscriber implements EventSubscrib
                 if ($trickImage->getPrimaryImage()) {
                     $trickImage->setPrimaryImage(false);
                 }
+
             }
             $this->em->persist($trick);
         }
-
     }
 
     public function setPrimaryImageToggle(ImageSetPrimaryEvent $event)
@@ -52,14 +35,19 @@ class ImageSetPrimarySubscriber extends ImageSubscriber implements EventSubscrib
         $image = $event->getEntity();
 
         $trickImages = $trick->getImages();
-        $actualPrimaryImage = $this->sentTrick->getPrimaryImages()[0];
 
         //setting the actual image, if we clicked on the same image then unset
         /** @var Image $trickImage */
         foreach ($trickImages as $trickImage) {
-            if ($trickImage === $image && $actualPrimaryImage !== $image) {
-                $trickImage->setPrimaryImage(true);
+            if ($trickImage === $image) {
+                if($trickImage->getPrimaryImage()){
+                    $trickImage->setPrimaryImage(false);
+                }else{
+                    $trickImage->setPrimaryImage(true);
+                }
+
             }
+            $this->em->persist($trick);
         }
 
 
@@ -72,7 +60,6 @@ class ImageSetPrimarySubscriber extends ImageSubscriber implements EventSubscrib
     {
         return [
             ImageSetPrimaryEvent::NAME => [
-                ['registerSentItems', 80],
                 ['resetPrimaryImages', 50],
                 ['setPrimaryImageToggle', 40],
                 ['flush', 20],
