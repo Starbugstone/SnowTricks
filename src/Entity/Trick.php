@@ -80,10 +80,16 @@ class Trick extends AppEntity
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="trick", cascade={"remove", "persist"})
+     */
+    private $images;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -176,7 +182,8 @@ class Trick extends AppEntity
         return $this->tags;
     }
 
-    public function getTagsJson(){
+    public function getTagsJson()
+    {
 
         $tagSerializer = new TagSerializer();
         return $tagSerializer->trickTagsJson($this);
@@ -232,5 +239,47 @@ class Trick extends AppEntity
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Image[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+            // set the owning side to null (unless already changed)
+            if ($image->getTrick() === $this) {
+                $image->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the primary images associated with the trick
+     * @return Collection|null
+     */
+    public function getPrimaryImages(): ?Collection
+    {
+        return $this->getImages()->filter(function (Image $image){
+            return $image->getPrimaryImage() === true;
+        });
     }
 }

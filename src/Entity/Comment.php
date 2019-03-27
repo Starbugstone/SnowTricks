@@ -34,7 +34,7 @@ class Comment extends AppEntity
     private $trick;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="Comments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
      */
     private $user;
 

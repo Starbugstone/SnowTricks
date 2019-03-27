@@ -1,0 +1,17 @@
+{# Avoid sending the edit tag when not needed #}
+{% if not edit is defined %}
+    {% set edit = false %}
+{% endif %}
+
+{# if the image is primary, set a special class #}
+{% set primaryImageClass = "" %}
+{% if image.primaryImage %}
+    {% set primaryImageClass = "primary-trick-image" %}
+{% endif %}
+
+<div class="trick-image-box">
+
+    <img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.title }}" title="{{ image.title }}"
+     class="responsive-img w100 z-depth-2 {{ not edit ? 'materialboxed' :  primaryImageClass }}">
+
+</div>

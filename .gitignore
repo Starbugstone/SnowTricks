@@ -27,4 +27,9 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 ###> Uploaded images ###
-/public/uploads/
+/public/uploads/trick_images
+/public/uploads/user_images
+
+!/public/uploads/trick_images/index.php
+!/public/uploads/user_images/index.php
+

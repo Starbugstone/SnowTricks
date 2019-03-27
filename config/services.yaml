@@ -6,7 +6,8 @@
 parameters:
     locale: 'en'
     #VichUploaderBundle
-    app.path.user_images: '%env(DEFAULT_UPLOAD_IMAGE_PATH)%'
+    app.path.user_images: '%env(DEFAULT_UPLOAD_USER_IMAGE_PATH)%'
+    app.path.trick_images: '%env(DEFAULT_UPLOAD_TRICK_IMAGE_PATH)%'
 
 
 services:

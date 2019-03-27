@@ -3,9 +3,12 @@
 namespace App\Controller\Trick\Admin;
 
 
+use App\Entity\Image;
 use App\Entity\Trick;
+use App\Event\Image\ImageAddEvent;
 use App\Event\Trick\TrickDeletedEvent;
 use App\Event\Trick\TrickEditedEvent;
+use App\Form\ImageTypeForm;
 use App\Form\TrickTypeForm;
 use App\History\TrickHistory;
 use App\Repository\TagRepository;
@@ -44,8 +47,12 @@ class EditTrickController extends AbstractController
      */
     private $tagSerializer;
 
-    public function __construct(EventDispatcherInterface $dispatcher, TrickHistory $trickHistory, TagRepository $tagRepository, TagSerializer $tagSerializer )
-    {
+    public function __construct(
+        EventDispatcherInterface $dispatcher,
+        TrickHistory $trickHistory,
+        TagRepository $tagRepository,
+        TagSerializer $tagSerializer
+    ) {
         $this->dispatcher = $dispatcher;
         $this->trickHistory = $trickHistory;
         $this->tagRepository = $tagRepository;
@@ -73,6 +80,19 @@ class EditTrickController extends AbstractController
 
         $form->handleRequest($request);
 
+        $trickImage = new Image();
+        $imageForm = $this->createForm(ImageTypeForm::class, $trickImage);
+        $imageForm->handleRequest($request);
+
+        if ($imageForm->isSubmitted() && $imageForm->isValid()) {
+            $event = new ImageAddEvent($trickImage, $trick);
+            $this->dispatcher->dispatch(ImageAddEvent::NAME, $event);
+
+            //Forcing the next form shown to be a new image
+            $trickImage = new Image();
+            $imageForm = $this->createForm(ImageTypeForm::class, $trickImage);
+        }
+
 
         if ($form->getClickedButton() && $form->getClickedButton()->getName() === 'delete') {
 
@@ -96,6 +116,7 @@ class EditTrickController extends AbstractController
         return $this->render('trick/admin/edit.html.twig', [
             'trick' => $trick,
             'form' => $form->createView(),
+            'imageForm' => $imageForm->createView(),
         ]);
     }
 

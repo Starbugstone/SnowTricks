@@ -4,5 +4,7 @@ twig:
     strict_variables: '%kernel.debug%'
     globals:
         app_default_user_image: '%env(DEFAULT_IMAGE_PATH)%/%env(DEFAULT_USER_IMAGE)%'
+        app_default_trick_image: '%env(DEFAULT_IMAGE_PATH)%/%env(DEFAULT_TRICK_IMAGE)%'
         app_menu_logo: '%env(DEFAULT_IMAGE_PATH)%/%env(DEFAULT_MENU_LOGO)%'
+        primary_image_carouse: '%env(PRIMARY_IMAGE_CAROUSEL)%'
 
