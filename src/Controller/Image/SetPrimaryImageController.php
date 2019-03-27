@@ -4,9 +4,10 @@ namespace App\Controller\Image;
 
 use App\Entity\Image;
 use App\Entity\Trick;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Event\Image\ImageSetPrimaryEvent;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,13 +21,13 @@ class SetPrimaryImageController extends AbstractController
 {
 
     /**
-     * @var EntityManagerInterface
+     * @var EventDispatcherInterface
      */
-    private $em;
+    private $dispatcher;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EventDispatcherInterface $dispatcher)
     {
-        $this->em = $em;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -37,25 +38,8 @@ class SetPrimaryImageController extends AbstractController
      */
     public function setPrimaryController(Trick $trick, Image $image)
     {
-
-        //we only want one front image, so reset others. we could just reset the primary but this corrects bugs if we have 2 primary images for some unknown reason
-        $trickImages = $trick->getImages();
-        $actualPrimaryImage = $trick->getPrimaryImages()[0];
-        /** @var Image $trickImage */
-        foreach ($trickImages as $trickImage) {
-            if ($trickImage->getPrimaryImage()) {
-                $trickImage->setPrimaryImage(false);
-            }
-
-            //setting the actual image, if we clicked on the same image then unset
-            if($trickImage === $image && $actualPrimaryImage !== $image){
-                $trickImage->setPrimaryImage(true);
-            }
-        }
-        $this->em->flush();
-//        dump($trick);
-//        dump($image);
-//        dd("end");
+        $event = new ImageSetPrimaryEvent($image, $trick);
+        $this->dispatcher->dispatch(ImageSetPrimaryEvent::NAME, $event);
 
         return $this->redirectToRoute('trick.edit', ['id' => $trick->getId()]);
     }

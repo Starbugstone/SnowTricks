@@ -15,12 +15,16 @@ abstract class ImageEvent extends AppEvent
     /**
      * @var Image
      */
-    protected $image;
+    protected $entity;
+
+    /**
+     * @var Trick
+     */
     protected $trick;
 
     public function __construct(Image $image, Trick $trick)
     {
-        $this->image = $image;
+        $this->entity = $image;
         $this->trick = $trick;
     }
 
@@ -29,7 +33,7 @@ abstract class ImageEvent extends AppEvent
      */
     public function getEntity(): AppEntity
     {
-        return $this->image;
+        return $this->entity;
     }
 
     public function getTrick(): Trick
