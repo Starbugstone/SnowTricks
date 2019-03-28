@@ -32,6 +32,12 @@
                     {% include 'image/_trick-image.html.twig' with {'image': image} %}
                 </div>
             {% endfor %}
+
+            {% for video in trick.videos %}
+                <div class="col xl2 l3 m6 s12 mt-3">
+                    {{ video.videoIntegrationCode|raw }}
+                </div>
+            {% endfor %}
         </div>
 
         <article class="px-5 trick-article">

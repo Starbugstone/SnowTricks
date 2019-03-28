@@ -21,7 +21,7 @@ class VideoTypeFixtures extends Fixture
 
         $youtubeVideo->setSite("Youtube");
         $youtubeVideo->setCode("
-            <iframe width=\"1691\" height=\"592\" src=\"https://www.youtube.com/embed/{{code}}\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>
+            <iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/{{code}}\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>
         ");
 
         $manager->persist($youtubeVideo);
@@ -31,7 +31,16 @@ class VideoTypeFixtures extends Fixture
 
         $dailymotionVideo->setSite("DailyMotion");
         $dailymotionVideo->setCode("
-            <iframe frameborder=\"0\" width=\"480\" height=\"270\" src=\"https://www.dailymotion.com/embed/video/{{code}}\" allowfullscreen allow=\"autoplay\"></iframe>
+            <iframe frameborder=\"0\" width=\"100%\" height=\"100%\" src=\"https://www.dailymotion.com/embed/video/{{code}}\" allowfullscreen allow=\"autoplay\"></iframe>
+        ");
+
+        $manager->persist($dailymotionVideo);
+
+        $twitchVideo = new VideoType();
+
+        $twitchVideo->setSite("Twitch");
+        $twitchVideo->setCode("
+            <iframe src=\"https://player.twitch.tv/?autoplay=false&video={{code}}\" frameborder=\"0\" allowfullscreen=\"true\" scrolling=\"no\" height=\"100%\" width=\"100%\"></iframe>
         ");
 
         $manager->persist($dailymotionVideo);
