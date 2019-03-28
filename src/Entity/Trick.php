@@ -86,7 +86,7 @@ class Trick extends AppEntity
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick")
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", cascade={"remove", "persist"})
      */
     private $videos;
 
