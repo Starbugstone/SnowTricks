@@ -100,3 +100,9 @@ document.addEventListener('DOMContentLoaded', function() {
     var elemCarousel = document.querySelectorAll('.carousel');
     var instances = M.Carousel.init(elemCarousel);
 });
+
+//init modal
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems/*, options*/);
+});

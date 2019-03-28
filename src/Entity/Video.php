@@ -94,6 +94,10 @@ class Video
         return str_replace("{{code}}", $this->getCode(), $this->getVideoType()->getCode());
     }
 
+    public function getVideoIntegrationImage(){
+        return str_replace("{{code}}", $this->getCode(), $this->getVideoType()->getImageCode());
+    }
+
     public function __toString()
     {
         return $this->getTitle();

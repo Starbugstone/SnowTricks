@@ -33,6 +33,11 @@ class VideoType
      */
     private $video;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imageCode;
+
     public function __construct()
     {
         $this->video = new ArrayCollection();
@@ -94,6 +99,18 @@ class VideoType
                 $video->setVideoType(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImageCode(): ?string
+    {
+        return $this->imageCode;
+    }
+
+    public function setImageCode(?string $imageCode): self
+    {
+        $this->imageCode = $imageCode;
 
         return $this;
     }
