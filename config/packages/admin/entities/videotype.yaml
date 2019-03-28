@@ -1,0 +1,4 @@
+easy_admin:
+  entities:
+    VideoType:
+      class: App\Entity\VideoType

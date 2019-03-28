@@ -21,4 +21,5 @@ easy_admin:
       - {entity: 'Tag', icon: 'tag'}
       - {entity: 'Comment', icon: 'comments-o'}
       - {entity: 'Image', icon: 'picture-o'}
+      - {entity: 'VideoType', icon: 'picture-o'}
       - {label: 'Return to site', icon: 'home', route: 'home'}
