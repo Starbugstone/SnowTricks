@@ -114,4 +114,9 @@ class VideoType
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getSite();
+    }
 }
