@@ -4,7 +4,6 @@ namespace App\Controller\Image;
 
 use App\Entity\Image;
 use App\Event\Image\ImageDeleteEvent;
-use App\Exception\RedirectException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -35,11 +34,6 @@ class DeleteImageController extends AbstractController
      */
     public function deleteTrickImage(Image $image)
     {
-        $submittedToken = $request->request->get('_token');
-        if (!$this->isCsrfTokenValid('delete-image' . $image->getId(), $submittedToken)) {
-            throw new RedirectException($this->generateUrl('home'), 'Bad CSRF Token');
-        }
-
         $trick = $image->getTrick();
         $event = new ImageDeleteEvent($image, $image->getTrick());
         $this->dispatcher->dispatch(ImageDeleteEvent::NAME, $event);
