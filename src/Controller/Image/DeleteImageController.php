@@ -8,6 +8,7 @@ use App\Exception\RedirectException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -31,9 +32,10 @@ class DeleteImageController extends AbstractController
     /**
      * @Route("/image/delete/{id}", name="image.deleteFromTrick", methods={"POST"})
      * @param Image $image
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteTrickImage(Image $image)
+    public function deleteTrickImage(Image $image, Request $request)
     {
         $submittedToken = $request->request->get('_token');
         if (!$this->isCsrfTokenValid('delete-image' . $image->getId(), $submittedToken)) {
