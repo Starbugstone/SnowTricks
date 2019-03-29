@@ -34,28 +34,8 @@
             {% endfor %}
 
             {% for video in trick.videos %}
-                {#<div class="col xl2 l3 m6 s12 mt-3">#}
-                    {#{{ video.videoIntegrationCode|raw }}#}
-                {#</div>#}
                 <div class="col xl2 l3 m6 s12 mt-3">
-                    <div class="video-display">
-                        <a href="#modal{{ video.id }}" class="modal-trigger" title="{{ video.title }}">
-                            <img src="{{ video.videoIntegrationImage }}" alt="{{ video.title }}" class="responsive-img w100 z-depth-2">
-                            <i class="material-icons video-play-icon large">play_circle_outline</i>
-                        </a>
-
-                    </div>
-
-                </div>
-                <!-- Modal Structure -->
-                <div id="modal{{ video.id }}" class="modal">
-                    <div class="modal-content">
-                        <h4 class="center-align">{{ video.title }}</h4>
-                        {{ video.videoIntegrationCode|raw }}
-                    </div>
-                    {#<div class="modal-footer">#}
-                        {#<a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>#}
-                    {#</div>#}
+                    {% include 'image/_trick-video.html.twig' with {'video': video} %}
                 </div>
             {% endfor %}
         </div>
