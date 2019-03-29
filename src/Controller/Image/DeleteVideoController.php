@@ -2,11 +2,13 @@
 
 namespace App\Controller\Image;
 
-use App\Entity\Image;
-use App\Event\Image\ImageDeleteEvent;
+use App\Entity\Video;
+use App\Event\Video\VideoDeleteEvent;
+use App\Exception\RedirectException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -14,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package App\Controller\Image
  * @IsGranted("ROLE_USER")
  */
-class DeleteImageController extends AbstractController
+class DeleteVideoController extends AbstractController
 {
 
     /**
@@ -28,15 +30,21 @@ class DeleteImageController extends AbstractController
     }
 
     /**
-     * @Route("/image/delete/{id}", name="image.deleteFromTrick", methods={"POST"})
-     * @param Image $image
+     * @Route("/video/delete/{id}", name="video.deleteFromTrick", methods={"POST"})
+     * @param Video $video
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteTrickImage(Image $image)
+    public function deleteTrickImage(video $video, Request $request)
     {
-        $trick = $image->getTrick();
-        $event = new ImageDeleteEvent($image, $image->getTrick());
-        $this->dispatcher->dispatch(ImageDeleteEvent::NAME, $event);
+        $submittedToken = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('delete-video' . $video->getId(), $submittedToken)) {
+            throw new RedirectException($this->generateUrl('home'), 'Bad CSRF Token');
+        }
+
+        $trick = $video->getTrick();
+        $event = new VideoDeleteEvent($video, $video->getTrick());
+        $this->dispatcher->dispatch(VideoDeleteEvent::NAME, $event);
 
         return $this->redirectToRoute('trick.edit', [
             'id' => $trick->getId(),
