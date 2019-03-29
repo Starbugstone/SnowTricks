@@ -25,12 +25,17 @@
             {% endfor %}
         </div>
 
-        <!-- Add image -->
+        <!-- Add image and video -->
         <div class="row">
-            <div class="col m8 offset-m2">
+            <div class="col m4 offset-m1">
                 {{ form_start(imageForm) }}
                 {{ form_widget(imageForm) }}
                 {{ form_end(imageForm) }}
+            </div>
+            <div class="col m4 offset-m1">
+                {{ form_start(videoForm) }}
+                {{ form_widget(videoForm) }}
+                {{ form_end(videoForm) }}
             </div>
         </div>
 
