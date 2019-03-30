@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Image;
+namespace App\Controller\Media;
 
 use App\Entity\Video;
 use App\Event\Video\VideoDeleteEvent;

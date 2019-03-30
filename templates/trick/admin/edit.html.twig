@@ -17,7 +17,7 @@
             </div>
 
             <!-- Header image -->
-            {% include 'image/_trick-primary-image.html.twig' with {'trick': trick} %}
+            {% include 'media/_trick-primary-image.html.twig' with {'trick': trick} %}
 
             <h1 class="trick-name center-align w100 font-coiny m-0 text-shadow">{{ trick.name }}</h1>
         </div>
@@ -26,13 +26,13 @@
         <div class="row flex-center valign-wrapper" id="trick-images">
             {% for image in trick.images %}
                 <div class="col xl2 l3 m6 s12 mt-3">
-                    {% include 'image/_edit-trick-image.html.twig' with {'image': image, 'edit': true, 'trick': trick} %}
+                    {% include 'media/_edit-trick-image.html.twig' with {'image': image, 'edit': true, 'trick': trick} %}
                 </div>
             {% endfor %}
 
             {% for video in trick.videos %}
                 <div class="col xl2 l3 m6 s12 mt-3">
-                    {% include 'image/_trick-video.html.twig' with {'video': video, 'edit': true} %}
+                    {% include 'media/_trick-video.html.twig' with {'video': video, 'edit': true} %}
                 </div>
             {% endfor %}
         </div>
