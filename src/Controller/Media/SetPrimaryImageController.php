@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Image;
+namespace App\Controller\Media;
 
 use App\Entity\Image;
 use App\Entity\Trick;

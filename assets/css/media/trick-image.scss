@@ -1,0 +1,40 @@
+.trick-image-box {
+  position: relative;
+}
+
+.image-delete-button{
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.primary-trick-image{
+  border: 5px solid yellow;
+}
+
+.modal{
+  height: 70%;
+  .modal-content{
+    height: 90%;
+  }
+}
+
+.video-display{
+  position: relative;
+
+  a:hover{
+    cursor: zoom-in;
+  }
+
+  i{
+    color: white;
+  }
+}
+
+.video-play-icon{
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+}
+

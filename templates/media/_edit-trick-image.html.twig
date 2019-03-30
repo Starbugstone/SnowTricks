@@ -1,7 +1,7 @@
 <div class="trick-image-box">
 
     <a href="{{ path('image.setprimary', {'image': image.id, 'trick': trick.id}) }}">
-        {% include 'image/_trick-image.html.twig' with {'image': image, 'edit': true} %}
+        {% include 'media/_trick-image.html.twig' with {'image': image, 'edit': true} %}
     </a>
 
     <div class="image-delete-button mr-1">

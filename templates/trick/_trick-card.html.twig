@@ -1,6 +1,9 @@
 <div class="card trick-card">
     <div class="card-image">
-        {% include 'image/_trick-primary-image-card.html.twig' with {'trick': trick} %}
+        <a href="{{ path('trick.show', {id:trick.id, slug:trick.slug}) }}">
+            {% include 'media/_trick-primary-image-card.html.twig' with {'trick': trick} %}
+        </a>
+
 
     </div>
     <div class="card-content">

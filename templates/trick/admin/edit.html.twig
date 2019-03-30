@@ -9,10 +9,16 @@
 
         <!-- Header image with edit buttons -->
         <div class="trick-image-header">
+            <div class="trick-edit-button px-3 mt-3 mr-2">
+                <a href="{{ path('trick.show', {id:trick.id, slug:trick.slug}) }}"
+                   class="waves-effect waves-light btn-small px-2 mt-1">
+                    <i class="material-icons">visibility</i>
+                </a>
+            </div>
 
             <!-- Header image -->
-            {% include 'image/_trick-primary-image.html.twig' with {'trick': trick} %}
-            
+            {% include 'media/_trick-primary-image.html.twig' with {'trick': trick} %}
+
             <h1 class="trick-name center-align w100 font-coiny m-0 text-shadow">{{ trick.name }}</h1>
         </div>
 
@@ -20,17 +26,28 @@
         <div class="row flex-center valign-wrapper" id="trick-images">
             {% for image in trick.images %}
                 <div class="col xl2 l3 m6 s12 mt-3">
-                    {% include 'image/_edit-trick-image.html.twig' with {'image': image, 'edit': true, 'trick': trick} %}
+                    {% include 'media/_edit-trick-image.html.twig' with {'image': image, 'edit': true, 'trick': trick} %}
+                </div>
+            {% endfor %}
+
+            {% for video in trick.videos %}
+                <div class="col xl2 l3 m6 s12 mt-3">
+                    {% include 'media/_trick-video.html.twig' with {'video': video, 'edit': true} %}
                 </div>
             {% endfor %}
         </div>
 
-        <!-- Add image -->
+        <!-- Add image and video -->
         <div class="row">
-            <div class="col m8 offset-m2">
+            <div class="col m4 offset-m1">
                 {{ form_start(imageForm) }}
                 {{ form_widget(imageForm) }}
                 {{ form_end(imageForm) }}
+            </div>
+            <div class="col m4 offset-m1">
+                {{ form_start(videoForm) }}
+                {{ form_widget(videoForm) }}
+                {{ form_end(videoForm) }}
             </div>
         </div>
 

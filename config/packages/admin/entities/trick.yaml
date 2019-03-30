@@ -12,6 +12,7 @@ easy_admin:
           - {property: 'tags'}
           - {property: 'comments'}
           - {property: 'images'}
+          - {property: 'videos'}
       form:
         fields:
           - {property: 'name'}
