@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}SnowTricks - search trick{% endblock %}
+{% block title %}SnowTricks - search: {{ tricks|length }} found{% endblock %}
 
 {% block body %}
     <div id="trickSearchContainer">
@@ -34,11 +34,15 @@
             </div>
             <div class="col s12 m8 l9 xl10">
                 <div class="row flex-center">
+                    {% if tricks|length > 0 %}
                     {% for trick in tricks %}
                         <div class="col l3 m6 s12 xl5ths">
                             {% include 'trick/_trick-card.html.twig' with {'trick': trick} %}
                         </div>
                     {% endfor %}
+                    {% else %}
+                        <p>Sorry, no results found</p>
+                    {% endif %}
                 </div>
 
             </div>
