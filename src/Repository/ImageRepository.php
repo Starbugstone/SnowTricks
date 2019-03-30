@@ -19,6 +19,22 @@ class ImageRepository extends ServiceEntityRepository
         parent::__construct($registry, Image::class);
     }
 
+    public function findBySearchQuery(array $searchTerms){
+
+        $queryBuilder = $this->createQueryBuilder('p');
+
+        foreach ($searchTerms as $key => $term) {
+            $queryBuilder
+                ->orWhere('p.title LIKE :term_' . $key)
+                ->setParameter('term_' . $key, '%' . $term . '%');
+
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Image[] Returns an array of Image objects
     //  */

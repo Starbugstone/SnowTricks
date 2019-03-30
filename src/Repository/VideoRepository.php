@@ -19,6 +19,22 @@ class VideoRepository extends ServiceEntityRepository
         parent::__construct($registry, Video::class);
     }
 
+    public function findBySearchQuery(array $searchTerms){
+
+        $queryBuilder = $this->createQueryBuilder('p');
+
+        foreach ($searchTerms as $key => $term) {
+            $queryBuilder
+                ->orWhere('p.title LIKE :term_' . $key)
+                ->setParameter('term_' . $key, '%' . $term . '%');
+
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Video[] Returns an array of Video objects
     //  */
