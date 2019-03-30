@@ -105,15 +105,10 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('.modal');
     var instances = M.Modal.init(elems, {
-        onOpenStart: setVideo,
         onCloseEnd: removeVideo
 
     });
 });
-
-function setVideo(instances) {
-
-}
 
 function removeVideo(instances) {
     var iframe = instances.querySelector('iframe');
