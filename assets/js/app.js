@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 //init materialBox
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('.materialboxed');
     if (elems.length === 0) {
         return;
@@ -96,13 +96,27 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 //init carousel
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var elemCarousel = document.querySelectorAll('.carousel');
     var instances = M.Carousel.init(elemCarousel);
 });
 
 //init modal
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('.modal');
-    var instances = M.Modal.init(elems/*, options*/);
+    var instances = M.Modal.init(elems, {
+        onOpenStart: setVideo,
+        onCloseEnd: removeVideo
+
+    });
 });
+
+function setVideo(instances) {
+
+}
+
+function removeVideo(instances) {
+    var iframe = instances.querySelector('iframe');
+    var iframeSrc = iframe.src;
+    iframe.src = iframeSrc; //force a reload so stops video
+}
