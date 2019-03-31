@@ -43,8 +43,11 @@ class DeleteVideoController extends AbstractController
         }
 
         $trick = $video->getTrick();
-        $event = new VideoDeleteEvent($video, $video->getTrick());
-        $this->dispatcher->dispatch(VideoDeleteEvent::NAME, $event);
+        if($trick !== null){
+            $event = new VideoDeleteEvent($video, $video->getTrick());
+            $this->dispatcher->dispatch(VideoDeleteEvent::NAME, $event);
+        }
+
 
         return $this->redirectToRoute('trick.edit', [
             'id' => $trick->getId(),
