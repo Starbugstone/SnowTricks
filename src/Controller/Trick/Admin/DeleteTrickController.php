@@ -44,21 +44,10 @@ class DeleteTrickController extends AbstractController
             throw new RedirectException($this->generateUrl('home'), 'Bad CSRF Token');
         }
 
-        $referer = $request->headers->get('referer');
-        $url = $this->generateUrl('trick.show',['id'=>$trick->getId(), 'slug'=>$trick->getSlug()]);
-
         $event = new TrickDeletedEvent($trick);
         $this->dispatcher->dispatch(TrickDeletedEvent::NAME, $event);
 
-        //If we came from the show page, go to home page
-        if(mb_substr_count($referer, $url)>0)
-        {
-            return $this->redirectToRoute('home');
-        }
-
         return $this->redirectToRoute('home');
-
-        return $this->redirect($referer);
 
     }
 

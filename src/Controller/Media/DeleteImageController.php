@@ -43,8 +43,10 @@ class DeleteImageController extends AbstractController
         }
 
         $trick = $image->getTrick();
-        $event = new ImageDeleteEvent($image, $image->getTrick());
-        $this->dispatcher->dispatch(ImageDeleteEvent::NAME, $event);
+        if ($trick !== null){
+            $event = new ImageDeleteEvent($image, $image->getTrick());
+            $this->dispatcher->dispatch(ImageDeleteEvent::NAME, $event);
+        }
 
         return $this->redirectToRoute('trick.edit', [
             'id' => $trick->getId(),

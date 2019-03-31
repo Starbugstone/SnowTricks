@@ -128,10 +128,8 @@ class Image extends AppEntity
     public function setImageFile(File $imageFile): Image
     {
         $this->imageFile = $imageFile;
+        $this->updatedAt = new \DateTimeImmutable();
 
-        if ($imageFile) {
-            $this->updatedAt = new \DateTimeImmutable();
-        }
         return $this;
     }
 

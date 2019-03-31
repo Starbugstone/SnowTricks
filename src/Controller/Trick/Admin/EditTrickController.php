@@ -19,6 +19,7 @@ use App\Serializer\TagSerializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -67,7 +68,7 @@ class EditTrickController extends AbstractController
      */
     public function edit(Trick $trick, Request $request)
     {
-
+        /** @var Form $form */
         $form = $this->createForm(TrickTypeForm::class, $trick, [
             'all_tags_json' => $this->tagSerializer->allTagsJson(),
             'trick_tags_json' => $trick->getTagsJson(),
