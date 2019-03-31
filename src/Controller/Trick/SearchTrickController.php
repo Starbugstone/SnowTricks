@@ -46,11 +46,11 @@ class SearchTrickController extends AbstractController
         if (!$this->isCsrfTokenValid('search-trick', $submittedToken)) {
             throw new RedirectException($this->generateUrl('home'), 'Bad CSRF Token');
         }
-
         $categories = $this->categoryRepository->findAll();
         $searchTerm = $request->request->get('search_trick');
-//        $tricks = $this->trickRepository->findBySearchQuery($searchTerm);
+
         $tricks = $this->search->searchTricks($searchTerm);
+
         return $this->render('trick/search.html.twig', [
             'tricks' => $tricks,
             'categories' => $categories,

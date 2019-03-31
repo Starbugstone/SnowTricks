@@ -79,13 +79,19 @@ class TrickSearch
         $imageSearch = $this->imageRepository->findBySearchQuery($searchTerms);
         /** @var Image $image */
         foreach ($imageSearch as $image) {
-            $trickList[] = $image->getTrick();
+            if($image->getTrick() !== null){
+                $trickList[] = $image->getTrick();
+            }
+
         }
 
         $videoSearch = $this->videoRepository->findBySearchQuery($searchTerms);
         /** @var Video $video */
         foreach ($videoSearch as $video) {
-            $trickList[] = $video->getTrick();
+            if($video->getTrick() !== null){
+                $trickList[] = $video->getTrick();
+            }
+
         }
 
         return array_unique($trickList);
