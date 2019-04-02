@@ -24,6 +24,9 @@
 <div id="modal{{ video.id }}" class="modal">
     <div class="modal-content">
         <h4 class="center-align">{{ video.title }}</h4>
-        {{ video.videoIntegrationCode|raw }}
+        <div class="video-container">
+            {{ video.videoIntegrationCode|raw }}
+        </div>
+
     </div>
 </div>
