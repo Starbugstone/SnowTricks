@@ -44,7 +44,7 @@ class DeleteVideoController extends AbstractController
 
         $trick = $video->getTrick();
         if($trick !== null){
-            $event = new VideoDeleteEvent($video, $video->getTrick());
+            $event = new VideoDeleteEvent($video, $trick);
             $this->dispatcher->dispatch(VideoDeleteEvent::NAME, $event);
         }
 

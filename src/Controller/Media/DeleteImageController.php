@@ -44,7 +44,7 @@ class DeleteImageController extends AbstractController
 
         $trick = $image->getTrick();
         if ($trick !== null){
-            $event = new ImageDeleteEvent($image, $image->getTrick());
+            $event = new ImageDeleteEvent($image, $trick));
             $this->dispatcher->dispatch(ImageDeleteEvent::NAME, $event);
         }
 
