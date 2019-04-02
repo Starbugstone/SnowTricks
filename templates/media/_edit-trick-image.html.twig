@@ -1,6 +1,6 @@
 <div class="trick-image-box">
 
-    <a href="{{ path('image.setprimary', {'image': image.id, 'trick': trick.id}) }}">
+    <a href="{{ path('image.setprimary', {'image': image.id, 'trick': trick.id}) }}" class="waves-effect waves-light">
         {% include 'media/_trick-image.html.twig' with {'image': image, 'edit': true} %}
     </a>
 
