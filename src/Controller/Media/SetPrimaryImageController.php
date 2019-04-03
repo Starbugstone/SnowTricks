@@ -8,6 +8,8 @@ use App\Event\Image\ImageSetPrimaryEvent;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -34,14 +36,27 @@ class SetPrimaryImageController extends AbstractController
      * @Route("/image/set/{trick}-{image}", name="image.setprimary")
      * @param Trick $trick
      * @param Image $image
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function setPrimaryController(Trick $trick, Image $image)
+    public function setPrimaryController(Trick $trick, Image $image, Request $request)
     {
         $event = new ImageSetPrimaryEvent($image, $trick);
         $this->dispatcher->dispatch(ImageSetPrimaryEvent::NAME, $event);
 
+        if ($request->isXmlHttpRequest()) {
+            $jsonResponse = array(
+                'id' => $image->getId(),
+                'image' => $image->getImage(),
+                'isPrimary' => $image->getPrimaryImage(),
+                'isCarousel' => getenv('PRIMARY_IMAGE_CAROUSEL'),
+            );
+            
+            return new JsonResponse($jsonResponse);
+        }
+
         return $this->redirectToRoute('trick.edit', ['id' => $trick->getId()]);
+
+
     }
 
 }

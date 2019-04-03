@@ -13,4 +13,8 @@ require('../css/app.scss');
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
 //
 
+//all the materialize calls
 require('./materializeInitialisers.js');
+
+//our ajax library calls
+require('./axiosCalls.js');
