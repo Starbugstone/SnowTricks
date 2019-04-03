@@ -12,7 +12,6 @@ for(var i=0; i<images.length; i++){
     let image = images[i];
     image.addEventListener('click', function(e){
         e.preventDefault();
-        // console.log(image.href);
         setPrimaryImage(image);
     });
 }
@@ -45,6 +44,7 @@ function setPrimaryImage(image){
         })
         .catch(function(err){
             primaryImageLoader.style.display = "none";
+            M.toast({html: 'Error getting image: '+err});
             console.error(err);
         });
 
