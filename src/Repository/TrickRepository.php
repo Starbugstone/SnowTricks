@@ -4,7 +4,10 @@ namespace App\Repository;
 
 use App\Entity\Trick;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+
+use InvalidArgumentException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * @method Trick|null find($id, $lockMode = null, $lockVersion = null)
@@ -20,19 +23,37 @@ class TrickRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param int $currentPage
      * @return Trick[] Returns an array of Trick objects
      */
-    public function findLatestEdited($limit = Trick::NUMBER_OF_DISPLAYED_TRICKS)
+    public function findLatestEdited(int $currentPage = 1)
     {
-        return $this->createQueryBuilder('t')
+        if($currentPage <1){
+            throw new InvalidArgumentException("Current page can not be lower than one");
+        }
+
+        $query = $this->createQueryBuilder('t')
             ->orderBy('t.editedAt', 'DESC')
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
+        $paginator = $this->paginate($query, $currentPage);
+
+        return $paginator;
+
     }
 
+    public function paginate($dql, $page = 1, $limit = Trick::NUMBER_OF_DISPLAYED_TRICKS)
+    {
+        $paginator = new Paginator($dql);
 
-    public function findBySearchQuery(array $searchTerms){
+        $paginator->getQuery()
+            ->setFirstResult($limit * ($page - 1)) // Offset
+            ->setMaxResults($limit); // Limit
+
+        return $paginator;
+    }
+
+    public function findBySearchQuery(array $searchTerms)
+    {
 
         $queryBuilder = $this->createQueryBuilder('p');
 
