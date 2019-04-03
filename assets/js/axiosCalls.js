@@ -3,20 +3,28 @@ import axios from 'axios';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 // axios.get('https://jsonplaceholder.typicode.com/todos/1')
-axios.get('/ajax')
-    .then(res => console.log(res.data))
-    .catch(err => console.error(err));
+// axios.get('/ajax')
+//     .then(res => console.log(res.data))
+//     .catch(err => console.error(err));
+
+
+// ----------------------------------
+// Set primary image in edit
+// ----------------------------------
 
 var images = document.querySelectorAll('.js-set-primary-image');
-for(var i=0; i<images.length; i++){
-    let image = images[i];
-    image.addEventListener('click', function(e){
-        e.preventDefault();
-        setPrimaryImage(image);
-    });
+if (images.length > 0) {
+    for (var i = 0; i < images.length; i++) {
+        let image = images[i];
+        image.addEventListener('click', function (e) {
+            e.preventDefault();
+            setPrimaryImage(image);
+        });
+    }
 }
 
-function setPrimaryImage(image){
+
+function setPrimaryImage(image) {
 
     let primaryImageLoader = document.querySelector('#primary-image-preloader');
     let primaryImage = document.querySelector('#trick-primary-image');
@@ -24,30 +32,35 @@ function setPrimaryImage(image){
     primaryImageLoader.style.display = "block";
 
     axios.get(image.href)
-        .then(function(res){
+        .then(function (res) {
             let data = res.data;
-            if(data.isCarousel==="false"){
+            if (data.isCarousel === "false") {
                 //reset all the other images
-                for(var i=0; i<images.length; i++){
+                for (var i = 0; i < images.length; i++) {
                     images[i].classList.remove('primary-trick-image');
                 }
             }//todo: hook into the carousel to add images
 
-            if(data.isPrimary){
+            if (data.isPrimary) {
                 image.classList.add('primary-trick-image');
                 primaryImage.src = data.image;
-            }else{
+            } else {
                 image.classList.remove('primary-trick-image');
                 primaryImage.src = data.defaultPrimaryImage;
             }
-            primaryImageLoader.style.display = "none";
             M.toast({html: 'primary image updated'});
         })
-        .catch(function(err){
-            primaryImageLoader.style.display = "none";
-            M.toast({html: 'Error getting image: '+err});
+        .catch(function (err) {
+            M.toast({html: 'Error getting image: ' + err});
             console.error(err);
+        })
+        .then(function(){
+            primaryImageLoader.style.display = "none";
         });
-
-
 }
+
+// ----------------------------------
+// load more Home page
+// ----------------------------------
+
+var loadMoreHomePage = document.querySelector('#home-page-load-more');
