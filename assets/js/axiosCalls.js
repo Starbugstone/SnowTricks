@@ -32,10 +32,10 @@ function setPrimaryImage(image){
             let primaryImage = document.querySelector('#trick-primary-image');
             if(data.isPrimary){
                 image.classList.add('primary-trick-image');
-                primaryImage.src = '/uploads/trick_images/'+data.image;
+                primaryImage.src = data.image;
             }else{
                 image.classList.remove('primary-trick-image');
-                primaryImage.src = '/img/trick-default.jpg';
+                primaryImage.src = data.defaultPrimaryImage;
             }
         })
         .catch(err => console.error(err));

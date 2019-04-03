@@ -46,11 +46,12 @@ class SetPrimaryImageController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             $jsonResponse = array(
                 'id' => $image->getId(),
-                'image' => $image->getImage(),
+                'image' => getenv('DEFAULT_UPLOAD_TRICK_IMAGE_PATH').'/'.$image->getImage(),
                 'isPrimary' => $image->getPrimaryImage(),
+                'defaultPrimaryImage' => getenv('DEFAULT_IMAGE_PATH').'/'.getenv('DEFAULT_TRICK_IMAGE'),
                 'isCarousel' => getenv('PRIMARY_IMAGE_CAROUSEL'),
             );
-            
+
             return new JsonResponse($jsonResponse);
         }
 
