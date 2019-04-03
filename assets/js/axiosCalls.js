@@ -18,7 +18,12 @@ for(var i=0; i<images.length; i++){
 }
 
 function setPrimaryImage(image){
-    //todo: add a progress bar or wait logo
+
+    let primaryImageLoader = document.querySelector('#primary-image-preloader');
+    let primaryImage = document.querySelector('#trick-primary-image');
+
+    primaryImageLoader.style.display = "block";
+
     axios.get(image.href)
         .then(function(res){
             let data = res.data;
@@ -29,7 +34,6 @@ function setPrimaryImage(image){
                 }
             }//todo: hook into the carousel to add images
 
-            let primaryImage = document.querySelector('#trick-primary-image');
             if(data.isPrimary){
                 image.classList.add('primary-trick-image');
                 primaryImage.src = data.image;
@@ -37,6 +41,12 @@ function setPrimaryImage(image){
                 image.classList.remove('primary-trick-image');
                 primaryImage.src = data.defaultPrimaryImage;
             }
+            primaryImageLoader.style.display = "none";
         })
-        .catch(err => console.error(err));
+        .catch(function(err){
+            primaryImageLoader.style.display = "none";
+            console.error(err);
+        });
+
+
 }
