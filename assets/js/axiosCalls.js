@@ -41,6 +41,7 @@ function setPrimaryImage(image){
                 primaryImage.src = data.defaultPrimaryImage;
             }
             primaryImageLoader.style.display = "none";
+            M.toast({html: 'primary image updated'});
         })
         .catch(function(err){
             primaryImageLoader.style.display = "none";
