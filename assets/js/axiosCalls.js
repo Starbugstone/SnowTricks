@@ -18,10 +18,10 @@ for(var i=0; i<images.length; i++){
 }
 
 function setPrimaryImage(image){
+    //todo: add a progress bar or wait logo
     axios.get(image.href)
         .then(function(res){
             let data = res.data;
-            console.log(data);
             if(data.isCarousel==="false"){
                 //reset all the other images
                 for(var i=0; i<images.length; i++){
@@ -35,7 +35,7 @@ function setPrimaryImage(image){
                 primaryImage.src = '/uploads/trick_images/'+data.image;
             }else{
                 image.classList.remove('primary-trick-image');
-                primaryImage.src = 'img/trick-default.jpg';
+                primaryImage.src = '/img/trick-default.jpg';
             }
         })
         .catch(err => console.error(err));
