@@ -6,6 +6,7 @@ use App\Entity\Trick;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -51,9 +52,19 @@ class HomeController extends AbstractController
             $nextPage = $page + 1;
         }
 
+        if ($request->isXmlHttpRequest()){
+            $render = $this->renderView('trick/_trick-card.html.twig', [
+                'tricks' => $tricks,
+            ]);
+            $jsonResponse = array(
+                'render' => $render,
+                'nextPage' => $nextPage,
+            );
 
+            return new JsonResponse($jsonResponse);
+        }
 
-        return $this->render('trick/index.html.twig', [
+            return $this->render('trick/index.html.twig', [
             'tricks' => $tricks,
             'totalTricks' => $totalTricks,
             'page' => $page,

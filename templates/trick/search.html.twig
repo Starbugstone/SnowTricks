@@ -38,9 +38,7 @@
             <div class="col s12 m8 l9 xl10">
                 <div class="row flex-center">
                     {% if tricks|length > 0 %}
-                        {% for trick in tricks %}
-                            {% include 'trick/_trick-card.html.twig' with {'trick': trick} %}
-                        {% endfor %}
+                            {% include 'trick/_trick-card.html.twig' with {'tricks': tricks} %}
                     {% else %}
                         <p>Sorry, no results found</p>
                     {% endif %}

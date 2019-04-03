@@ -64,3 +64,24 @@ function setPrimaryImage(image) {
 // ----------------------------------
 
 var loadMoreHomePage = document.querySelector('#home-page-load-more');
+if (loadMoreHomePage){
+    loadMoreHomePage.addEventListener('click', function (e) {
+        e.preventDefault();
+        loadMoreTricks(loadMoreHomePage.href);
+    })
+}
+
+function loadMoreTricks(url){
+    let trickCardList = document.querySelector('#trick-card-list');
+
+    //TODO: take care of the different pages.
+    axios.get(url)
+        .then(function(res){
+            console.log(res.data);
+            trickCardList.insertAdjacentHTML('beforeend',res.data.render);
+        })
+        .catch(function(err){
+            console.error(err);
+        })
+    ;
+}
