@@ -19,10 +19,9 @@
 
         {% if nextPage > 0 %}
             <div class="center-align mb-4">
-                <a href="{{ path('home', {page: nextPage,}) }}" class="btn-large" id="home-page-load-more">Load more</a>
+                <a href="{{ path('home', {'page': nextPage,}) }}" class="btn-large" id="home-page-load-more">Load more</a>
             </div>
         {% endif %}
 
-        {# TODO: Load More #}
     </div>
 {% endblock %}

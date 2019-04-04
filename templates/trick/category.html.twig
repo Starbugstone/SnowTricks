@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SnowTricks - Categories {% endblock %}
+
+{% block body %}
+    <div id="trickSearchContainer">
+        <div class="row">
+            <form method="post" action="{{ path('trick.searchTrick') }}">
+                <div class="input-field col s8 offset-s2 center">
+                    <i class="material-icons prefix">search</i>
+                    <input placeholder="search tricks" id="search_trick" name="search_trick" type="text"
+                           class="validate" value="{{ searchTerm is defined ? searchTerm }}">
+                </div>
+                <input type="hidden" name="_token" value="{{ csrf_token('search-trick') }}"/>
+            </form>
+
+        </div>
+        {% if is_granted('ROLE_USER') %}
+            <div class="hide-on-med-and-up center">
+                <p><a href="{{ path('trick.new') }}" class="btn">Create a new trick</a></p>
+            </div>
+
+        {% endif %}
+        <div class="row">
+            <div class="col s12 m4 l3 xl2 w100">
+                <p class="center">Categories</p>
+                <div class="collection">
+
+                    <a href="{{ path('trick.search', {'categoryId':"", 'slug':""}) }}"
+                       class="collection-item {{ categoryId == "" ? 'active' }}">All</a>
+                    {% for category in categories %}
+                        <a href="{{ path('trick.search', {'categoryId':category.id, 'slug':category.slug}) }}"
+                           class="collection-item {{ categoryId == category.id ? 'active' }}">{{ category.Name }}</a>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <div class="col s12 m8 l9 xl10">
+                <div class="row flex-center" id="trick-card-list">
+                    {% if tricks|length > 0 %}
+                            {% include 'trick/_trick-card.html.twig' with {'tricks': tricks} %}
+                    {% else %}
+                        <p>Sorry, no results found</p>
+                    {% endif %}
+                </div>
+
+                {% if nextPage > 0 %}
+                    <div class="center-align mb-4">
+
+                        <a href="{{ path('trick.search', {'page': nextPage, 'categoryId': categoryId, 'slug': slug}) }}" class="btn-large" id="home-page-load-more-des">Load more</a>
+                    </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}

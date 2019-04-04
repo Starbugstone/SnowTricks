@@ -2,10 +2,14 @@
 
 namespace App\Controller\Trick;
 
+use App\Entity\Category;
+use App\Entity\Trick;
 use App\Repository\CategoryRepository;
 use App\Repository\TrickRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TricksByCategoryController extends AbstractController
@@ -33,8 +37,10 @@ class TricksByCategoryController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * show tricks in category
      */
-    public function search(Request $request, $categoryId = "", $slug = "")
+    public function search(Request $request,$categoryId = "", $slug = "")
     {
+        $page = $request->get('page')??1;
+
         if ($categoryId !== "") {
             $category = $this->categoryRepository->find($categoryId);
             if($category->getSlug() !== $slug){
@@ -46,11 +52,29 @@ class TricksByCategoryController extends AbstractController
         }
 
 
-        $tricks = $this->trickRepository->findLatestEditedByCategory((int)$categoryId);
-        return $this->render('trick/search.html.twig', [
+        /** @var Paginator $tricks */
+        $tricks = $this->trickRepository->findLatestEdited($page,(int)$categoryId);
+        $totalTricks = $tricks->count(); //TODO: this is duplicate of HomeController, refactor
+
+        if ($page > ceil($totalTricks / Trick::NUMBER_OF_DISPLAYED_TRICKS)) {
+            throw new NotFoundHttpException("Page does not exist");
+        }
+
+        $nextPage = 0;
+        if (!($page + 1 > ceil($totalTricks / Trick::NUMBER_OF_DISPLAYED_TRICKS))) {
+            $nextPage = $page + 1;
+        }
+
+        //TODO: if is xmlhttprequest
+
+        return $this->render('trick/category.html.twig', [
             'tricks' => $tricks,
             'categories' => $this->categoryRepository->findAll(),
             'categoryId' =>$categoryId,
+            'slug' => $slug,
+            'totalTricks' => $totalTricks,
+            'page' => $page,
+            'nextPage' => $nextPage,
         ]);
     }
 }

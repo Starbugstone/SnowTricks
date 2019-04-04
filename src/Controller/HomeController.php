@@ -29,15 +29,7 @@ class HomeController extends AbstractController
      */
     public function index(Request $request)
     {
-        $page = $request->get('page');
-
-        if (!$page) {
-            $page = 1;
-        }
-
-        if (!is_numeric($page) || $page < 1) {
-            throw new \InvalidArgumentException("Page number is not valid");
-        }
+        $page = $request->get('page')??1;
 
         /** @var Paginator $tricks */
         $tricks = $this->repository->findLatestEdited($page);

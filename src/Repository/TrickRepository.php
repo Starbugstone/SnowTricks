@@ -24,16 +24,23 @@ class TrickRepository extends ServiceEntityRepository
 
     /**
      * @param int $currentPage
+     * @param int $categoryId
      * @return Trick[] Returns an array of Trick objects
      */
-    public function findLatestEdited(int $currentPage = 1)
+    public function findLatestEdited(int $currentPage = 1, int $categoryId = 0)
     {
         if($currentPage <1){
             throw new InvalidArgumentException("Current page can not be lower than one");
         }
 
-        $query = $this->createQueryBuilder('t')
-            ->orderBy('t.editedAt', 'DESC')
+        $query = $this->createQueryBuilder('t');
+
+        if($categoryId>0){
+            $query->where('t.category = :categoryId')
+                ->setParameter('categoryId', $categoryId);
+        }
+
+        $query->orderBy('t.editedAt', 'DESC')
             ->getQuery();
         $paginator = $this->paginate($query, $currentPage);
 
