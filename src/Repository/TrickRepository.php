@@ -41,6 +41,23 @@ class TrickRepository extends ServiceEntityRepository
 
     }
 
+    public function findLatestEditedByCategory(int $categoryId = 0, int $currentPage = 1){
+        if($currentPage <1){
+            throw new InvalidArgumentException("Current page can not be lower than one");
+        }
+
+        $query = $this->createQueryBuilder('t');
+        if($categoryId>0){
+            $query->where('t.category = :categoryId')
+                ->setParameter('categoryId', $categoryId);
+        }
+        return $query->orderBy('t.editedAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+
+    }
+
     public function paginate($dql, $page = 1, $limit = Trick::NUMBER_OF_DISPLAYED_TRICKS)
     {
         $paginator = new Paginator($dql);

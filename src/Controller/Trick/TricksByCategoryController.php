@@ -5,6 +5,7 @@ namespace App\Controller\Trick;
 use App\Repository\CategoryRepository;
 use App\Repository\TrickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TricksByCategoryController extends AbstractController
@@ -32,10 +33,8 @@ class TricksByCategoryController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * show tricks in category
      */
-    public function search($categoryId = "", $slug = "")
+    public function search(Request $request, $categoryId = "", $slug = "")
     {
-        $categories = $this->categoryRepository->findAll();
-        $criteria = array();
         if ($categoryId !== "") {
             $category = $this->categoryRepository->find($categoryId);
             if($category->getSlug() !== $slug){
@@ -44,12 +43,13 @@ class TricksByCategoryController extends AbstractController
                     'slug' => $category->getSlug()
                 ], 301);
             }
-            $criteria = array('category' => $category->getId());
         }
-        $tricks = $this->trickRepository->findBy($criteria);
+
+
+        $tricks = $this->trickRepository->findLatestEditedByCategory((int)$categoryId);
         return $this->render('trick/search.html.twig', [
             'tricks' => $tricks,
-            'categories' => $categories,
+            'categories' => $this->categoryRepository->findAll(),
             'categoryId' =>$categoryId,
         ]);
     }
