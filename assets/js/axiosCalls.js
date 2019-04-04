@@ -60,18 +60,18 @@ function setPrimaryImage(image) {
 }
 
 // ----------------------------------
-// load more Home page
+// load more button
 // ----------------------------------
 
-var loadMoreHomePage = document.querySelector('#home-page-load-more');
-if (loadMoreHomePage){
-    loadMoreHomePage.addEventListener('click', function (e) {
+var loadMoreElement = document.querySelector('#load-more');
+if (loadMoreElement){
+    loadMoreElement.addEventListener('click', function (e) {
         e.preventDefault();
-        loadMoreTricks(loadMoreHomePage);
+        loadMoreFunction(loadMoreElement);
     })
 }
 
-function loadMoreTricks(linkElement){
+function loadMoreFunction(linkElement){
     let url = linkElement.href;
     let trickCardList = document.querySelector('#trick-card-list');
 
@@ -81,10 +81,10 @@ function loadMoreTricks(linkElement){
             console.log(res.data);
             if(res.data.nextPage === 0){
                 let template = document.createElement('div');
-                template.innerHTML = '<p>No more Tricks</p>';
+                template.innerHTML = '<p>No more elements to be loaded</p>';
                 linkElement.replaceWith(template);
             }
-            loadMoreHomePage.href = res.data.nextPageUrl;
+            loadMoreElement.href = res.data.nextPageUrl;
             trickCardList.insertAdjacentHTML('beforeend',res.data.render);
         })
         .catch(function(err){

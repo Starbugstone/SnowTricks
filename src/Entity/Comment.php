@@ -10,6 +10,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Comment extends AppEntity
 {
+
+    const NUMBER_OF_DISPLAYED_COMMENTS = 2;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
