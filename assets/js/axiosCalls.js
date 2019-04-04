@@ -67,17 +67,24 @@ var loadMoreHomePage = document.querySelector('#home-page-load-more');
 if (loadMoreHomePage){
     loadMoreHomePage.addEventListener('click', function (e) {
         e.preventDefault();
-        loadMoreTricks(loadMoreHomePage.href);
+        loadMoreTricks(loadMoreHomePage);
     })
 }
 
-function loadMoreTricks(url){
+function loadMoreTricks(linkElement){
+    let url = linkElement.href;
     let trickCardList = document.querySelector('#trick-card-list');
 
     //TODO: take care of the different pages.
     axios.get(url)
         .then(function(res){
             console.log(res.data);
+            if(res.data.nextPage === 0){
+                let template = document.createElement('div');
+                template.innerHTML = '<p>No more Tricks</p>';
+                linkElement.replaceWith(template);
+            }
+            loadMoreHomePage.href = res.data.nextPageUrl;
             trickCardList.insertAdjacentHTML('beforeend',res.data.render);
         })
         .catch(function(err){

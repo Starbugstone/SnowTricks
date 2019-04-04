@@ -59,6 +59,7 @@ class HomeController extends AbstractController
             $jsonResponse = array(
                 'render' => $render,
                 'nextPage' => $nextPage,
+                'nextPageUrl' => $this->generateUrl('home', array('page' => $nextPage)),
             );
 
             return new JsonResponse($jsonResponse);
