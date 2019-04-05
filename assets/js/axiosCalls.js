@@ -2,12 +2,6 @@ import axios from 'axios';
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-// axios.get('https://jsonplaceholder.typicode.com/todos/1')
-// axios.get('/ajax')
-//     .then(res => console.log(res.data))
-//     .catch(err => console.error(err));
-
-
 // ----------------------------------
 // Set primary image in edit
 // ----------------------------------
@@ -54,7 +48,7 @@ function setPrimaryImage(image) {
             M.toast({html: 'Error getting image: ' + err});
             console.error(err);
         })
-        .then(function(){
+        .then(function () {
             primaryImageLoader.style.display = "none";
         });
 }
@@ -64,30 +58,28 @@ function setPrimaryImage(image) {
 // ----------------------------------
 
 var loadMoreElement = document.querySelector('#load-more');
-if (loadMoreElement){
+if (loadMoreElement) {
     loadMoreElement.addEventListener('click', function (e) {
         e.preventDefault();
         loadMoreFunction(loadMoreElement);
     })
 }
 
-function loadMoreFunction(linkElement){
+function loadMoreFunction(linkElement) {
     let url = linkElement.href;
     let trickCardList = document.querySelector('#trick-card-list');
 
-    //TODO: take care of the different pages.
     axios.get(url)
-        .then(function(res){
-            console.log(res.data);
-            if(res.data.nextPage === 0){
+        .then(function (res) {
+            if (res.data.nextPage === 0) {
                 let template = document.createElement('div');
                 template.innerHTML = '<p>No more elements to be loaded</p>';
                 linkElement.replaceWith(template);
             }
             loadMoreElement.href = res.data.nextPageUrl;
-            trickCardList.insertAdjacentHTML('beforeend',res.data.render);
+            trickCardList.insertAdjacentHTML('beforeend', res.data.render);
         })
-        .catch(function(err){
+        .catch(function (err) {
             console.error(err);
         })
     ;

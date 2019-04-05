@@ -2,41 +2,41 @@
   position: relative;
 }
 
-.image-delete-button{
+.image-delete-button {
   position: absolute;
   right: 0.5rem;
   top: 0.5rem;
   z-index: 1;
 }
 
-.primary-trick-image, .trick-image:hover{
+.primary-trick-image, .trick-image:hover {
   border: 3px solid #1a237e;
 }
 
-.trick-image:hover{
+.trick-image:hover {
   border-width: 2px;
 }
 
-.video-display{
+.video-display {
   position: relative;
 
-  a:hover{
+  a:hover {
     cursor: zoom-in;
   }
 
-  i{
+  i {
     color: white;
   }
 }
 
-.video-play-icon{
+.video-play-icon {
   position: absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-#primary-image-preloader{
+#primary-image-preloader {
   position: absolute;
   top: 50%;
   width: 100%;

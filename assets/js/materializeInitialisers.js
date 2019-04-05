@@ -1,4 +1,3 @@
-
 //init select elements
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('select');
