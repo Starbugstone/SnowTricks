@@ -19,15 +19,5 @@ require('./materializeInitialisers.js');
 //our ajax library calls
 require('./axiosCalls.js');
 
-var prevScrollpos = window.pageYOffset;
-var scrollToTricks = document.getElementById("scroll-to-tricks")
-window.onscroll = function() {
-    var currentScrollPos = window.pageYOffset;
-    if (prevScrollpos > currentScrollPos) {
-        document.getElementById("scroll-to-tricks").style.top = "0";
-    } else {
-        scrollToTricks.offsetTop = scrollToTricks.offsetTop -1;
-
-    }
-    prevScrollpos = currentScrollPos;
-}
+//the scroll button functions
+require('./scrollButtons.js');
