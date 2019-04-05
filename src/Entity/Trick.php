@@ -18,7 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Trick extends AppEntity
 {
 
-    const NUMBER_OF_DISPLAYED_TRICKS = 2;
+    const NUMBER_OF_DISPLAYED_TRICKS = 10;
 
     /**
      * @ORM\Id()

@@ -1,0 +1,20 @@
+//Adding a smooth scroll behavior, doesn't work on IE or Edge
+
+html{
+  scroll-behavior: smooth;
+}
+
+#scroll-to-tricks{
+  position: absolute;
+  top: 0;
+  right: 2rem;
+  .scroll-arrows{
+    margin-top: 10rem;
+  }
+}
+
+#scroll-to-top{
+  position: fixed;
+  bottom: 5rem;
+  right: 2rem;
+}
