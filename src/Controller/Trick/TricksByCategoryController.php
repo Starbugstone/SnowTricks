@@ -4,6 +4,7 @@ namespace App\Controller\Trick;
 
 use App\Entity\Category;
 use App\Entity\Trick;
+use App\Pagination\PagePagination;
 use App\Repository\CategoryRepository;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -24,11 +25,16 @@ class TricksByCategoryController extends AbstractController
      * @var CategoryRepository
      */
     private $categoryRepository;
+    /**
+     * @var PagePagination
+     */
+    private $pagePagination;
 
-    public function __construct(TrickRepository $trickRepository, CategoryRepository $categoryRepository)
+    public function __construct(TrickRepository $trickRepository, CategoryRepository $categoryRepository, PagePagination $pagePagination)
     {
         $this->trickRepository = $trickRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->pagePagination = $pagePagination;
     }
 
     /**
@@ -54,16 +60,8 @@ class TricksByCategoryController extends AbstractController
 
         /** @var Paginator $tricks */
         $tricks = $this->trickRepository->findLatestEdited($page, (int)$categoryId);
-        $totalTricks = $tricks->count(); //TODO: this is duplicate of HomeController, refactor
 
-        if ($page > ceil($totalTricks / Trick::NUMBER_OF_DISPLAYED_TRICKS)) {
-            throw new NotFoundHttpException("Page does not exist");
-        }
-
-        $nextPage = 0;
-        if (!($page + 1 > ceil($totalTricks / Trick::NUMBER_OF_DISPLAYED_TRICKS))) {
-            $nextPage = $page + 1;
-        }
+        $nextPage = $this->pagePagination->nextPage($tricks, $page, Trick::NUMBER_OF_DISPLAYED_TRICKS);
 
         $categories = $this->categoryRepository->findAll();
 

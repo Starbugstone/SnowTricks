@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
+use App\Pagination\PagePagination;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,10 +19,15 @@ class HomeController extends AbstractController
      * @var TrickRepository
      */
     private $repository;
+    /**
+     * @var PagePagination
+     */
+    private $pagePagination;
 
-    public function __construct(TrickRepository $repository)
+    public function __construct(TrickRepository $repository, PagePagination $pagePagination)
     {
         $this->repository = $repository;
+        $this->pagePagination = $pagePagination;
     }
 
     /**
@@ -33,16 +39,8 @@ class HomeController extends AbstractController
 
         /** @var Paginator $tricks */
         $tricks = $this->repository->findLatestEdited($page);
-        $totalTricks = $tricks->count();
 
-        if ($page > ceil($totalTricks / Trick::NUMBER_OF_DISPLAYED_TRICKS)) {
-            throw new NotFoundHttpException("Page does not exist");
-        }
-
-        $nextPage = 0;
-        if (!($page + 1 > ceil($totalTricks / Trick::NUMBER_OF_DISPLAYED_TRICKS))) {
-            $nextPage = $page + 1;
-        }
+        $nextPage = $this->pagePagination->nextPage($tricks, $page, Trick::NUMBER_OF_DISPLAYED_TRICKS);
 
         if ($request->isXmlHttpRequest()) {
             $render = $this->renderView('trick/_trick-card.html.twig', [

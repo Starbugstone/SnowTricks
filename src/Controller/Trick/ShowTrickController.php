@@ -5,6 +5,7 @@ namespace App\Controller\Trick;
 use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Form\CommentTypeForm;
+use App\Pagination\PagePagination;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,10 +21,15 @@ class ShowTrickController extends AbstractController
      * @var CommentRepository
      */
     private $repository;
+    /**
+     * @var PagePagination
+     */
+    private $pagePagination;
 
-    public function __construct(CommentRepository $repository)
+    public function __construct(CommentRepository $repository, PagePagination $pagePagination)
     {
         $this->repository = $repository;
+        $this->pagePagination = $pagePagination;
     }
 
     /**
@@ -45,17 +51,8 @@ class ShowTrickController extends AbstractController
 
         /** @var Paginator $tricks */
         $comments = $this->repository->findLatestEdited($trick->getId(), $page);
-        $totalComments = $comments->count();
 
-        if ($totalComments > 0 && $page > ceil($totalComments / Comment::NUMBER_OF_DISPLAYED_COMMENTS)) {
-            //TODO: On refactor add the total > 0 to all tests
-            throw new NotFoundHttpException("Page does not exist");
-        }
-
-        $nextPage = 0;
-        if (!($page + 1 > ceil($totalComments / Comment::NUMBER_OF_DISPLAYED_COMMENTS))) {
-            $nextPage = $page + 1;
-        }
+        $nextPage = $this->pagePagination->nextPage($comments, $page, Comment::NUMBER_OF_DISPLAYED_COMMENTS);
 
         if ($request->isXmlHttpRequest()) {
             $render = $this->renderView('comment/_comment-line.html.twig', [
