@@ -57,7 +57,6 @@ class HomeController extends AbstractController
 
         return $this->render('trick/index.html.twig', [
             'tricks' => $tricks,
-            'totalTricks' => $totalTricks,
             'page' => $page,
             'nextPage' => $nextPage,
         ]);

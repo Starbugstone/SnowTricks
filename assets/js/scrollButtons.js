@@ -9,7 +9,7 @@ function isScrolledIntoView(el) {
 
 
 //get all our required elements
-let trickCardList = document.querySelector('#trick-card-list');
+let trickCardList = document.querySelector('#card-list');
 let scrollToTricks = document.querySelector('#scroll-to-tricks');
 let scrollToTop = document.querySelector('#scroll-to-top');
 

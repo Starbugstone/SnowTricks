@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Comment;
+use App\Pagination\PaginateRepositoryTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -15,6 +16,8 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class CommentRepository extends ServiceEntityRepository
 {
+    use PaginateRepositoryTrait;
+
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Comment::class);
@@ -32,19 +35,19 @@ class CommentRepository extends ServiceEntityRepository
             ->orderBy('c.createdAt', 'DESC')
             ->getQuery();
 
-        $paginator = $this->paginate($query, $currentPage);
+        $paginator = $this->paginate($query,Comment::NUMBER_OF_DISPLAYED_COMMENTS, $currentPage);
 
         return $paginator;
     }
 
-    public function paginate($dql, $page = 1, $limit = Comment::NUMBER_OF_DISPLAYED_COMMENTS)
-    {
-        $paginator = new Paginator($dql);
-
-        $paginator->getQuery()
-            ->setFirstResult($limit * ($page - 1))// Offset
-            ->setMaxResults($limit); // Limit
-
-        return $paginator;
-    }
+//    public function paginate($dql, $page = 1, $limit = Comment::NUMBER_OF_DISPLAYED_COMMENTS)
+//    {
+//        $paginator = new Paginator($dql);
+//
+//        $paginator->getQuery()
+//            ->setFirstResult($limit * ($page - 1))// Offset
+//            ->setMaxResults($limit); // Limit
+//
+//        return $paginator;
+//    }
 }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Trick;
+use App\Pagination\PaginateRepositoryTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -16,6 +17,8 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class TrickRepository extends ServiceEntityRepository
 {
+    use PaginateRepositoryTrait;
+
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Trick::class);
@@ -24,7 +27,7 @@ class TrickRepository extends ServiceEntityRepository
     /**
      * @param int $currentPage
      * @param int $categoryId
-     * @return Trick[] Returns an array of Trick objects
+     * @return Paginator
      */
     public function findLatestEdited(int $currentPage = 1, int $categoryId = 0)
     {
@@ -41,22 +44,22 @@ class TrickRepository extends ServiceEntityRepository
 
         $query->orderBy('t.editedAt', 'DESC')
             ->getQuery();
-        $paginator = $this->paginate($query, $currentPage);
+        $paginator = $this->paginate($query,Trick::NUMBER_OF_DISPLAYED_TRICKS, $currentPage);
 
         return $paginator;
 
     }
 
-    public function paginate($dql, $page = 1, $limit = Trick::NUMBER_OF_DISPLAYED_TRICKS)
-    {
-        $paginator = new Paginator($dql);
-
-        $paginator->getQuery()
-            ->setFirstResult($limit * ($page - 1)) // Offset
-            ->setMaxResults($limit); // Limit
-
-        return $paginator;
-    }
+//    public function paginate($dql, $page = 1, $limit = Trick::NUMBER_OF_DISPLAYED_TRICKS)
+//    {
+//        $paginator = new Paginator($dql);
+//
+//        $paginator->getQuery()
+//            ->setFirstResult($limit * ($page - 1)) // Offset
+//            ->setMaxResults($limit); // Limit
+//
+//        return $paginator;
+//    }
 
     public function findBySearchQuery(array $searchTerms)
     {

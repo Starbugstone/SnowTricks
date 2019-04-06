@@ -90,7 +90,6 @@ class TricksByCategoryController extends AbstractController
             'categories' => $categories,
             'categoryId' => $categoryId,
             'slug' => $slug,
-            'totalTricks' => $totalTricks,
             'page' => $page,
             'nextPage' => $nextPage,
         ]);
