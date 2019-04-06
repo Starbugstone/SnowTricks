@@ -39,6 +39,7 @@ class TricksByCategoryController extends AbstractController
 
     /**
      * @Route("/trick/category/{categoryId}-{slug}", name="trick.search", methods={"GET"})
+     * @param Request $request
      * @param string $categoryId
      * @param string $slug
      * @return \Symfony\Component\HttpFoundation\Response

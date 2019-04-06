@@ -39,15 +39,4 @@ class CommentRepository extends ServiceEntityRepository
 
         return $paginator;
     }
-
-//    public function paginate($dql, $page = 1, $limit = Comment::NUMBER_OF_DISPLAYED_COMMENTS)
-//    {
-//        $paginator = new Paginator($dql);
-//
-//        $paginator->getQuery()
-//            ->setFirstResult($limit * ($page - 1))// Offset
-//            ->setMaxResults($limit); // Limit
-//
-//        return $paginator;
-//    }
 }

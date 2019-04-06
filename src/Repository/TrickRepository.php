@@ -50,16 +50,31 @@ class TrickRepository extends ServiceEntityRepository
 
     }
 
-//    public function paginate($dql, $page = 1, $limit = Trick::NUMBER_OF_DISPLAYED_TRICKS)
-//    {
-//        $paginator = new Paginator($dql);
-//
-//        $paginator->getQuery()
-//            ->setFirstResult($limit * ($page - 1)) // Offset
-//            ->setMaxResults($limit); // Limit
-//
-//        return $paginator;
-//    }
+    /**
+     * @param int $currentPage
+     * @param int $tagId
+     * @return Paginator
+     */
+    public function findLatestEditedByTag(int $currentPage = 1, int $tagId = 0)
+    {
+        if($currentPage <1){
+            throw new \InvalidArgumentException("Current page can not be lower than one");
+        }
+
+        $query = $this->createQueryBuilder('t');
+
+        if($tagId>0){
+            $query->where('t.tag = :tagId')
+                ->setParameter('tagId', $tagId);
+        }
+
+        $query->orderBy('t.editedAt', 'DESC')
+            ->getQuery();
+        $paginator = $this->paginate($query,Trick::NUMBER_OF_DISPLAYED_TRICKS, $currentPage);
+
+        return $paginator;
+
+    }
 
     public function findBySearchQuery(array $searchTerms)
     {
