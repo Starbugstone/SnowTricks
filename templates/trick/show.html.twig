@@ -95,19 +95,20 @@
 
         <!-- List comments -->
         <div id="trick-comments">
-            {% for comment in trick.comments %}
+            {% for comment in comments %}
 
                 {% include 'comment/_comment-line.html.twig' with {'comment': comment} %}
 
             {% endfor %}
         </div>
 
-        <div class="row valign-wrapper pb-5">
-            <div class="col s12 my-3 center-align">
-                <a href="" class="btn">Load More</a>
+        {% set url =  path('trick.show', {'page': nextPage, 'id': trick.id, 'slug': trick.slug}) %}
+        {#{% include 'trick/_loadMoreButton.html.twig' with {'nextPage': nextPage, 'url': url} %}#}
+        {% if nextPage > 0 %}
+            <div class="center-align mb-4">
+                <a href="{{ url }}" class="btn-large" id="load-more-dis">Load more</a>
             </div>
-
-        </div>
+        {% endif %}
     </div>
 
 

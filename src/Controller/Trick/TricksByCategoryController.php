@@ -40,8 +40,6 @@ class TricksByCategoryController extends AbstractController
      */
     public function search(Request $request, $categoryId = "", $slug = "")
     {
-        $page = $request->get('page') ?? 1;
-
         if ($categoryId !== "") {
             $category = $this->categoryRepository->find($categoryId);
             if ($category->getSlug() !== $slug) {
@@ -52,6 +50,7 @@ class TricksByCategoryController extends AbstractController
             }
         }
 
+        $page = $request->get('page') ?? 1;
 
         /** @var Paginator $tricks */
         $tricks = $this->trickRepository->findLatestEdited($page, (int)$categoryId);

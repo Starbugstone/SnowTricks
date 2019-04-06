@@ -29,7 +29,7 @@ class HomeController extends AbstractController
      */
     public function index(Request $request)
     {
-        $page = $request->get('page')??1;
+        $page = $request->get('page') ?? 1;
 
         /** @var Paginator $tricks */
         $tricks = $this->repository->findLatestEdited($page);
@@ -44,7 +44,7 @@ class HomeController extends AbstractController
             $nextPage = $page + 1;
         }
 
-        if ($request->isXmlHttpRequest()){
+        if ($request->isXmlHttpRequest()) {
             $render = $this->renderView('trick/_trick-card.html.twig', [
                 'tricks' => $tricks,
             ]);
@@ -57,7 +57,7 @@ class HomeController extends AbstractController
             return new JsonResponse($jsonResponse);
         }
 
-            return $this->render('trick/index.html.twig', [
+        return $this->render('trick/index.html.twig', [
             'tricks' => $tricks,
             'totalTricks' => $totalTricks,
             'page' => $page,

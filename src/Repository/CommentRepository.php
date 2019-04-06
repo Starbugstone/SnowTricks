@@ -20,16 +20,16 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    public function findLatestComment(int $trickId, int $currentPage = 1)
+    public function findLatestEdited(int $trickId, int $currentPage = 1)
     {
         if ($currentPage < 1) {
             throw new \InvalidArgumentException("Current page can not be lower than one");
         }
 
         $query = $this->createQueryBuilder('c')
-            ->where('c.trickId = :trickId')
+            ->where('c.trick = :trickId')
             ->setParameter('trickId', $trickId)
-            ->orderBy('c.editedAt', 'DESC')
+            ->orderBy('c.createdAt', 'DESC')
             ->getQuery();
 
         $paginator = $this->paginate($query, $currentPage);
