@@ -1,27 +1,40 @@
-<div class="row valign-wrapper my-3 mr-3 mr-l-0" id="comment-{{ comment.id }}">
-    <div class="col s2 hide-on-med-and-down"></div>
-    <div class="col s3 l2">
-        <p>{% include 'user/_user-profile-image.html.twig' with {'user': comment.user} %}</p>
-        <p class="center-align">{{ comment.user.userName }}</p>
-    </div>
-    <div class="col s8 l7 z-depth-1 px-4 py-3 mr-s-2">
-        <div>
-            {{ comment.comment|nl2br }}
-            <p class="right-align m-0"> {{ comment.CreatedAt|date }}</p>
-            {% if comment.user == app.user or is_granted('ROLE_ADMIN') %}
-                <form action="{{ path('comment.delete', {id: comment.id}) }}" method="post" onsubmit="return confirm('are you sure you wish to delete this comment ?')">
-                    <input type="hidden" name="_token" value="{{ csrf_token('delete-comment'~comment.id) }}"/>
-                    <p class="right-align m-0 mt-1">
-                        <a href="{{ path('comment.edit', {id: comment.id}) }}"
-                           class="btn-floating btn-small waves-effect waves-light"><i
-                                    class="material-icons">mode_edit</i></a>
-                        {#<a href="{{ path('comment.delete', {id: comment.id}) }}" class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">delete_forever</i></a>#}
-                        <button type="submit" class="btn-floating btn-small waves-effect waves-light red"><i
-                                    class="material-icons">delete_forever</i></button>
-                    </p>
-                </form>
-            {% endif %}
+{% for comment in comments %}
+    <div class="row valign-wrapper my-3 mr-3 mr-l-0" id="comment-{{ comment.id }}">
+
+        <div class="col s2 hide-on-med-and-down"></div>
+
+        <div class="col s3 l2">
+            <p>{% include 'user/_user-profile-image.html.twig' with {'user': comment.user} %}</p>
+            <p class="center-align">{{ comment.user.userName }}</p>
         </div>
+
+        <div class="col s8 l7 z-depth-1 px-4 py-3 mr-s-2">
+
+            <div>
+
+                {{ comment.comment|nl2br }}
+                <p class="right-align m-0"> {{ comment.CreatedAt|date }}</p>
+
+                {% if comment.user == app.user or is_granted('ROLE_ADMIN') %}
+                    <form action="{{ path('comment.delete', {id: comment.id}) }}" method="post"
+                          onsubmit="return confirm('are you sure you wish to delete this comment ?')">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete-comment'~comment.id) }}"/>
+                        <p class="right-align m-0 mt-1">
+                            <a href="{{ path('comment.edit', {id: comment.id}) }}"
+                               class="btn-floating btn-small waves-effect waves-light"><i
+                                        class="material-icons">mode_edit</i></a>
+                            {#<a href="{{ path('comment.delete', {id: comment.id}) }}" class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">delete_forever</i></a>#}
+                            <button type="submit" class="btn-floating btn-small waves-effect waves-light red"><i
+                                        class="material-icons">delete_forever</i></button>
+                        </p>
+                    </form>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <div class="col s2 hide-on-med-and-down"></div>
+
     </div>
-    <div class="col s2 hide-on-med-and-down"></div>
-</div>
+{% endfor %}

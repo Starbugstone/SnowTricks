@@ -47,7 +47,8 @@ class ShowTrickController extends AbstractController
         $comments = $this->repository->findLatestEdited($trick->getId(), $page);
         $totalComments = $comments->count();
 
-        if ($page > ceil($totalComments / Comment::NUMBER_OF_DISPLAYED_COMMENTS)) {
+        if ($totalComments > 0 && $page > ceil($totalComments / Comment::NUMBER_OF_DISPLAYED_COMMENTS)) {
+            //TODO: On refactor add the total > 0 to all tests
             throw new NotFoundHttpException("Page does not exist");
         }
 
@@ -56,18 +57,18 @@ class ShowTrickController extends AbstractController
             $nextPage = $page + 1;
         }
 
-//        if ($request->isXmlHttpRequest()) {
-//            $render = $this->renderView('trick/_trick-card.html.twig', [
-//                'tricks' => $tricks,
-//            ]);
-//            $jsonResponse = array(
-//                'render' => $render,
-//                'nextPage' => $nextPage,
-//                'nextPageUrl' => $this->generateUrl('home', array('page' => $nextPage)),
-//            );
-//
-//            return new JsonResponse($jsonResponse);
-//        }
+        if ($request->isXmlHttpRequest()) {
+            $render = $this->renderView('comment/_comment-line.html.twig', [
+                'comments' => $comments,
+            ]);
+            $jsonResponse = array(
+                'render' => $render,
+                'nextPage' => $nextPage,
+                'nextPageUrl' => $this->generateUrl('trick.show', array('page' => $nextPage, 'id' => $trick->getId(), 'slug' => $trick->getSlug())),
+            );
+
+            return new JsonResponse($jsonResponse);
+        }
 
 
         return $this->render('trick/show.html.twig', [

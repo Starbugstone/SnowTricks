@@ -6,7 +6,7 @@
 
 {% block body %}
 
-    <div class="trick-container container z-depth-1 mt-5" id="trickShowContainer" data-id="{{ trick.id }}">
+    <div class="trick-container container z-depth-1 my-5" id="trickShowContainer" data-id="{{ trick.id }}">
 
         <!-- Header image with edit buttons -->
         <div class="trick-image-header">
@@ -94,21 +94,15 @@
         {% endif %}
 
         <!-- List comments -->
-        <div id="trick-comments">
-            {% for comment in comments %}
+        <div id="card-list">
 
-                {% include 'comment/_comment-line.html.twig' with {'comment': comment} %}
+            {% include 'comment/_comment-line.html.twig' with {'comments': comments} %}
 
-            {% endfor %}
         </div>
 
         {% set url =  path('trick.show', {'page': nextPage, 'id': trick.id, 'slug': trick.slug}) %}
-        {#{% include 'trick/_loadMoreButton.html.twig' with {'nextPage': nextPage, 'url': url} %}#}
-        {% if nextPage > 0 %}
-            <div class="center-align mb-4">
-                <a href="{{ url }}" class="btn-large" id="load-more-dis">Load more</a>
-            </div>
-        {% endif %}
+        {% include 'trick/_loadMoreButton.html.twig' with {'nextPage': nextPage, 'url': url} %}
+
     </div>
 
 

@@ -67,7 +67,7 @@ if (loadMoreElement) {
 
 function loadMoreFunction(linkElement) {
     let url = linkElement.href;
-    let trickCardList = document.querySelector('#trick-card-list');
+    let CardList = document.querySelector('#card-list');
 
     axios.get(url)
         .then(function (res) {
@@ -77,7 +77,7 @@ function loadMoreFunction(linkElement) {
                 linkElement.replaceWith(template);
             }
             loadMoreElement.href = res.data.nextPageUrl;
-            trickCardList.insertAdjacentHTML('beforeend', res.data.render);
+            CardList.insertAdjacentHTML('beforeend', res.data.render);
         })
         .catch(function (err) {
             console.error(err);
