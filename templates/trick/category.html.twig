@@ -37,11 +37,7 @@
             </div>
             <div class="col s12 m8 l9 xl10">
                 <div class="row flex-center" id="trick-card-list">
-                    {% if tricks|length > 0 %}
-                            {% include 'trick/_trick-card.html.twig' with {'tricks': tricks} %}
-                    {% else %}
-                        <p>Sorry, no results found</p>
-                    {% endif %}
+                    {% include 'trick/_trick-card.html.twig' with {'tricks': tricks} %}
                 </div>
 
                 {% set url =  path('trick.search', {'page': nextPage, 'categoryId': categoryId, 'slug': slug}) %}

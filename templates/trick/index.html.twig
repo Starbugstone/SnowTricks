@@ -14,11 +14,7 @@
 
         <!-- The tricks cards -->
         <div class="row mx-xl-5 mt-xl-5 mt-l-3 mt-s-1 flex-center" id="trick-card-list">
-            {% if tricks|length > 0 %}
-                {% include 'trick/_trick-card.html.twig' with {'tricks': tricks} %}
-            {% else %}
-                <p>Sorry, no tricks yet, go and create some</p>
-            {% endif %}
+            {% include 'trick/_trick-card.html.twig' with {'tricks': tricks} %}
         </div>
 
         {% set url =  path('home', {'page': nextPage,}) %}

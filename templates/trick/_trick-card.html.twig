@@ -1,3 +1,4 @@
+{% if tricks|length > 0 %}
 {% for trick in tricks %}
 <div class="col l3 m6 s12 xl5ths">
     <div class="card trick-card">
@@ -24,3 +25,6 @@
     </div>
 </div>
 {% endfor %}
+{% else %}
+    <p>Sorry, no tricks here, go and create some</p>
+{% endif %}
