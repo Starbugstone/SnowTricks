@@ -64,7 +64,8 @@ class TrickRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('t');
 
         if($tagId>0){
-            $query->where('t.tag = :tagId')
+            $query->leftJoin('t.tags', 'tag')
+                ->where('tag = :tagId')
                 ->setParameter('tagId', $tagId);
         }
 

@@ -8,6 +8,7 @@ use App\Pagination\PagePagination;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -52,25 +53,25 @@ class TricksByTagController extends AbstractController
 
         $nextPage = $this->pagePagination->nextPage($tricks, $page, Trick::NUMBER_OF_DISPLAYED_TRICKS);
 
-//        if ($request->isXmlHttpRequest()) {
-//            $render = $this->renderView('trick/_trick-card.html.twig', [
-//                'tricks' => $tricks,
-//            ]);
-//            $jsonResponse = array(
-//                'render' => $render,
-//                'nextPage' => $nextPage,
-//                'nextPageUrl' => $this->generateUrl(
-//                    'trick.search',
-//                    array(
-//                        'page' => $nextPage,
-//                        'categoryId' => $categoryId,
-//                        'slug' => $slug,
-//                    )
-//                ),
-//            );
-//
-//            return new JsonResponse($jsonResponse);
-//        }
+        if ($request->isXmlHttpRequest()) {
+            $render = $this->renderView('trick/_trick-card.html.twig', [
+                'tricks' => $tricks,
+            ]);
+            $jsonResponse = array(
+                'render' => $render,
+                'nextPage' => $nextPage,
+                'nextPageUrl' => $this->generateUrl(
+                    'trick.tag',
+                    array(
+                        'page' => $nextPage,
+                        'id' => $tag->getId(),
+                        'slug' => $slug,
+                    )
+                ),
+            );
+
+            return new JsonResponse($jsonResponse);
+        }
 
         return $this->render('trick/tag.html.twig', [
             'tag' => $tag,
