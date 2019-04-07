@@ -56,6 +56,7 @@ class TrickTypeForm extends AbstractType
                     'class' => 'waves-effect waves-light btn right mr-2'
                 ]
             ])
+            ->add('images')
         ;
     }
 

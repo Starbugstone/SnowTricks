@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber\Trick;
 
+use App\Entity\Image;
 use App\Event\Trick\TrickCreatedEvent;
 use App\Event\Trick\TrickEditedEvent;
 use App\Event\Trick\TrickEvent;
@@ -17,7 +18,17 @@ class TrickCreatedSubscriber extends TrickSubscriber implements EventSubscriberI
     public function registerTrickToDatabase(TrickEvent $event)
     {
         $trick = $event->getEntity();
-        $this->sendToDatabase($event);
+//        dd($trick);
+        if(count($trick->getImages())>0){
+            /** @var Image $image */
+            foreach($trick->getImages() as $image){
+                $image->setTrick($trick);
+                $this->em->persist($image);
+            }
+        }
+//        $this->sendToDatabase($event);
+        $this->em->persist($trick);
+        $this->em->flush();
         $this->addFlash(FlashMessageCategory::SUCCESS, 'Trick ' . $trick->getName() . ' saved');
     }
 
