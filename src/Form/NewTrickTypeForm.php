@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TrickTypeForm extends AbstractType
+class NewTrickTypeForm extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -38,6 +38,10 @@ class TrickTypeForm extends AbstractType
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'Name',
+            ])
+            ->add('images', CollectionType::class, [
+                'entry_type' => ImageTypeForm::class,
+                'allow_add' => true,
             ])
             //Hidden encoded tags
             ->add('tags', TagsType::class)
