@@ -27,12 +27,12 @@ class ImageTypeForm extends AbstractType
                 'download_uri' => false,
                 'image_uri' => false,
             ])
-            ->add('addImage', SubmitType::class, [
-                'label' => $options['add_image_label'],
-                'attr' => [
-                    'class' => 'waves-effect waves-light btn right mr-2'
-                ]
-            ])
+//            ->add('addImage', SubmitType::class, [
+//                'label' => $options['add_image_label'],
+//                'attr' => [
+//                    'class' => 'waves-effect waves-light btn right mr-2'
+//                ]
+//            ])
         ;
     }
 

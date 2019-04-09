@@ -23,3 +23,10 @@ require('./axiosCalls.js');
 require('./scrollButtons.js');
 
 
+let addImageHolder = document.querySelector('#new_trick_type_form_images');
+let addImageHtml = addImageHolder.dataset.prototype;
+
+// let addImageHtmlCode = new DOMParser().parseFromString(addImageHtml, 'text/html');
+// addImageHolder.appendChild(addImageHtml);
+console.log(addImageHtml);
+addImageHolder.insertAdjacentHTML('beforeend', addImageHtml);

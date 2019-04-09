@@ -42,6 +42,7 @@ class NewTrickTypeForm extends AbstractType
             ->add('images', CollectionType::class, [
                 'entry_type' => ImageTypeForm::class,
                 'allow_add' => true,
+                'entry_options' => ['label' => false],
             ])
             //Hidden encoded tags
             ->add('tags', TagsType::class)
