@@ -31,11 +31,13 @@ deleteButton.insertAdjacentHTML('beforeend','<i class="material-icons">delete</i
 
 deleteButton.addEventListener('click', function(){
     // let self = this;
-    console.log('here');
+    console.log('here'); //this doesn't work because the node is cloned after.
+    //TODO: FIXit, probably need an ID
+
     // self.parentNode.parentNode.parentNode.removeChild(self.parentNode.parentNode);
 });
 
-addImageElement.appendChild(deleteButton.cloneNode(true));
+addImageElement.appendChild(deleteButton);
 
 const showButton = document.createElement('a');
 showButton.setAttribute('class', 'btn waves-effect waves-light');
