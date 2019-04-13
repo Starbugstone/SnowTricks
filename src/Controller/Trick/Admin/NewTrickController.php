@@ -2,6 +2,7 @@
 
 namespace App\Controller\Trick\Admin;
 
+use App\Entity\Image;
 use App\Entity\Trick;
 use App\Event\Trick\TrickCreatedEvent;
 use App\Form\NewTrickTypeForm;
@@ -35,8 +36,11 @@ class NewTrickController extends AbstractController
      */
     private $tagSerializer;
 
-    public function __construct(EventDispatcherInterface $dispatcher, TagRepository $tagRepository, TagSerializer $tagSerializer)
-    {
+    public function __construct(
+        EventDispatcherInterface $dispatcher,
+        TagRepository $tagRepository,
+        TagSerializer $tagSerializer
+    ) {
         $this->dispatcher = $dispatcher;
         $this->tagRepository = $tagRepository;
         $this->tagSerializer = $tagSerializer;
@@ -58,6 +62,20 @@ class NewTrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            //TODO: Same for videos
+
+            if (count($trick->getImages()) > 0) {
+                $first = true;
+                /** @var Image $trickImage */
+                foreach ($trick->getImages() as $trickImage) {
+                    if($first){
+                        $trickImage->setPrimaryImage(true); //setting the first image as primary
+                        $first = false;
+                    }
+                    $trickImage->setTrick($trick);
+                }
+            }
+            
             $event = new TrickCreatedEvent($trick);
             $this->dispatcher->dispatch(TrickCreatedEvent::NAME, $event);
 

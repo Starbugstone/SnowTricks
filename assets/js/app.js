@@ -22,24 +22,25 @@ require('./axiosCalls.js');
 //the scroll button functions
 require('./scrollButtons.js');
 
+
+//TODO: move to seperate file, refactor and test if present
+
 const addImageHolder = document.querySelector('#new_trick_type_form_images');
 
-
-
-
-const addImageElement = returnElementFromProto(addImageHolder);
-
-let deleteButton = document.createElement('a');
+const deleteButton = document.createElement('a');
 deleteButton.setAttribute('class', 'btn waves-effect waves-light deleteButton');
 
 deleteButton.insertAdjacentHTML('beforeend','<i class="material-icons">delete</i>');
-
-addImageElement.appendChild(deleteButton);
 
 const showButton = document.createElement('a');
 showButton.setAttribute('class', 'btn waves-effect waves-light');
 showButton.innerText = 'Add image';
 showButton.addEventListener('click', function(){
+
+    let addImageElement = returnElementFromProto(addImageHolder);
+
+    addImageElement.appendChild(deleteButton);
+
     addImageHolder.appendChild(addImageElement.cloneNode(true));
     let addImageDeleteButtons = document.querySelectorAll('#new_trick_type_form_images .deleteButton');
     for(let i=0; i<addImageDeleteButtons.length; i++){
@@ -52,9 +53,19 @@ showButton.addEventListener('click', function(){
 
 addImageHolder.appendChild(showButton);
 
+
 function returnElementFromProto(holder){
+    let elem = holder.dataset.prototype;
+    let index = holder.dataset.index;
+    if(index === undefined){
+        index = 0;
+    }
+    holder.dataset.index = +index + 1;
+    console.log(index);
+    elem = elem.replace(/__name__/g, index);
+
     let wrapper= document.createElement('div');
-    wrapper.innerHTML= holder.dataset.prototype;
+    wrapper.innerHTML= elem;
     return wrapper.firstChild;
 }
 
