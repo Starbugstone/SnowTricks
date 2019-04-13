@@ -40,6 +40,17 @@
         </div>
     {% endif %}
 
+    {% if form.images is defined and form.videos is defined %}
+        <div class="row">
+            <div class="col l6 s12">
+                {{ form_row(form.images) }}
+            </div>
+            <div class="col l6 s12">
+                {{ form_row(form.videos) }}
+            </div>
+        </div>
+    {% endif %}
+
     {{ form_widget(form) }}
     {{ form_end(form) }}
 </div>
