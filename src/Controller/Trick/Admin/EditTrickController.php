@@ -86,6 +86,12 @@ class EditTrickController extends AbstractController
 
         $trickImage = new Image();
         $imageForm = $this->createForm(ImageTypeForm::class, $trickImage);
+        $imageForm->add('addImage', SubmitType::class, [
+            'label' => 'Add Image',
+            'attr' => [
+                'class' => 'waves-effect waves-light btn right mr-2'
+            ]
+        ]);
         $imageForm->handleRequest($request);
 
         if ($imageForm->isSubmitted() && $imageForm->isValid()) {
@@ -100,9 +106,15 @@ class EditTrickController extends AbstractController
         $trickVideo = new Video();
 
         $videoForm = $this->createForm(VideoTypeForm::class, $trickVideo);
+        $videoForm->add('addVideo', SubmitType::class, [
+            'label' => 'Add Video',
+            'attr' => [
+                'class' => 'waves-effect waves-light btn right mr-2'
+            ]
+        ]);
         $videoForm->handleRequest($request);
 
-        if($videoForm->isSubmitted() && $videoForm->isValid()){
+        if ($videoForm->isSubmitted() && $videoForm->isValid()) {
 //            dump($trick);
 //            dump($trickVideo);
 //            dd("TODO : video submitted ");

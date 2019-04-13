@@ -27,12 +27,6 @@ class ImageTypeForm extends AbstractType
                 'download_uri' => false,
                 'image_uri' => false,
             ])
-//            ->add('addImage', SubmitType::class, [
-//                'label' => $options['add_image_label'],
-//                'attr' => [
-//                    'class' => 'waves-effect waves-light btn right mr-2'
-//                ]
-//            ])
         ;
     }
 
@@ -40,7 +34,6 @@ class ImageTypeForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Image::class,
-            'add_image_label' => 'Add Image',
         ]);
     }
 }

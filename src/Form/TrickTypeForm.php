@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TrickTypeForm extends AbstractType
@@ -39,6 +41,31 @@ class TrickTypeForm extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'Name',
             ])
+
+            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event){
+                /** @var Trick $trick */
+                $trick = $event->getData();
+
+                $form = $event->getForm();
+
+                if(!$trick || $trick->getId() === null){
+
+                    $form->add('images', CollectionType::class, [
+                        'entry_type' => ImageTypeForm::class,
+                        'allow_add' => true,
+                        'entry_options' => ['label' => false],
+                    ])
+                    ->add('videos', CollectionType::class, [
+                        'entry_type' => VideoTypeForm::class,
+                        'allow_add' => true,
+                        'entry_options' => ['label' => false],
+                    ])
+                    ;
+                }
+
+            })
+
+
             //Hidden encoded tags
             ->add('tags', TagsType::class)
             //hidden tags data

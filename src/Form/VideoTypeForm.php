@@ -29,12 +29,12 @@ class VideoTypeForm extends AbstractType
                 'class' => VideoType::class,
                 'choice_label' => 'site',
                 ])
-            ->add('addVideo', SubmitType::class, [
-                'label' => $options['add_video_label'],
-                'attr' => [
-                    'class' => 'waves-effect waves-light btn right mr-2'
-                ]
-            ])
+//            ->add('addVideo', SubmitType::class, [
+//                'label' => $options['add_video_label'],
+//                'attr' => [
+//                    'class' => 'waves-effect waves-light btn right mr-2'
+//                ]
+//            ])
         ;
     }
 
@@ -42,7 +42,6 @@ class VideoTypeForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Video::class,
-            'add_video_label' => 'Add Video',
         ]);
     }
 }

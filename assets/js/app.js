@@ -25,7 +25,7 @@ require('./scrollButtons.js');
 
 //TODO: move to seperate file, refactor and test if present
 
-const addImageHolder = document.querySelector('#new_trick_type_form_images');
+const addImageHolder = document.querySelector('#trick_type_form_images');
 
 const deleteButton = document.createElement('a');
 deleteButton.setAttribute('class', 'btn waves-effect waves-light deleteButton');
@@ -42,7 +42,7 @@ showButton.addEventListener('click', function(){
     addImageElement.appendChild(deleteButton);
 
     addImageHolder.appendChild(addImageElement.cloneNode(true));
-    let addImageDeleteButtons = document.querySelectorAll('#new_trick_type_form_images .deleteButton');
+    let addImageDeleteButtons = document.querySelectorAll('#trick_type_form_images .deleteButton');
     for(let i=0; i<addImageDeleteButtons.length; i++){
         addImageDeleteButtons[i].addEventListener('click', function(){
             deleteFormRow(this);
@@ -52,6 +52,7 @@ showButton.addEventListener('click', function(){
 });
 
 addImageHolder.appendChild(showButton);
+
 
 
 function returnElementFromProto(holder){
