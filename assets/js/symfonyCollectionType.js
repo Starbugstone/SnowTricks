@@ -4,7 +4,6 @@ if(addImageHolder){
     addImageHolder.insertAdjacentElement('beforeend', createShowButton(addImageHolder, 'add Image'));
 }
 
-
 const addVideoHolder = document.querySelector('#trick_type_form_videos');
 
 if(addVideoHolder){
@@ -28,16 +27,14 @@ function createShowButton(holder, text){
         if (elems.length > 0) {
             M.FormSelect.init(elems);
         }
-
     });
 
     return showButton;
 }
 
-
 function createDeleteButton(){
     const deleteButton = document.createElement('a');
-    deleteButton.setAttribute('class', 'btn waves-effect waves-light deleteButton my-1');
+    deleteButton.setAttribute('class', 'btn waves-effect waves-light red deleteButton my-3');
 
     deleteButton.insertAdjacentHTML('beforeend','<i class="material-icons">delete</i>');
 
@@ -51,6 +48,7 @@ function createDeleteButton(){
 function getElementFromProto(holder){
     let elem = holder.dataset.prototype;
     let index = holder.dataset.index;
+
     if(index === undefined){
         index = 0;
     }
