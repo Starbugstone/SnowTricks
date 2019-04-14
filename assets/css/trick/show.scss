@@ -1,5 +1,6 @@
 .trick-image-header {
   position: relative;
+  min-height: 100px; /* to stop all the elements cascading one over the other before image loads */
 
   .trick-edit-button {
     position: absolute;
