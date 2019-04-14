@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Event\Comment\CommentCreatedEvent;
 use App\Exception\RedirectException;
+use App\FlashMessage\FlashMessageCategory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -41,6 +42,15 @@ class CreateCommentController extends AbstractController
 
         if (!$this->isCsrfTokenValid('CommentForm', $receivedComment['_token'])) {
             throw new RedirectException($this->generateUrl('home'), 'Bad CSRF Token');
+        }
+
+        if($receivedComment['comment'] === null || trim($receivedComment['comment']) === ''){
+            $this->addFlash(FlashMessageCategory::ALERT, 'comment can not be empty');
+            return $this->redirectToRoute('trick.show', [
+                'id' => $trick->getId(),
+                'slug' => $trick->getSlug(),
+            ]);
+
         }
 
         $comment = new Comment();
