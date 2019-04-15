@@ -98,9 +98,9 @@ class EditTrickController extends AbstractController
             $event = new ImageAddEvent($trickImage, $trick);
             $this->dispatcher->dispatch(ImageAddEvent::NAME, $event);
 
-            //Forcing the next form shown to be a new image
-            $trickImage = new Image();
-            $imageForm = $this->createForm(ImageTypeForm::class, $trickImage);
+            return $this->redirectToRoute('trick.edit', [
+                'id' => $trick->getId(),
+            ]);
         }
 
         $trickVideo = new Video();
@@ -115,16 +115,12 @@ class EditTrickController extends AbstractController
         $videoForm->handleRequest($request);
 
         if ($videoForm->isSubmitted() && $videoForm->isValid()) {
-//            dump($trick);
-//            dump($trickVideo);
-//            dd("TODO : video submitted ");
-
             $event = new VideoAddEvent($trickVideo, $trick);
             $this->dispatcher->dispatch(VideoAddEvent::NAME, $event);
 
-            //resetting
-            $trickVideo = new Video();
-            $videoForm = $this->createForm(VideoTypeForm::class, $trickVideo);
+            return $this->redirectToRoute('trick.edit', [
+                'id' => $trick->getId(),
+            ]);
         }
 
 
