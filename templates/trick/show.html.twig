@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block keywords %}{% for tag in trick.tags %}{{ tag.name }},{% endfor %}{% endblock %}
+{% block header_keywords %}{% for tag in trick.tags %}{{ tag.name }},{% endfor %}{% endblock %}
 
-{% block title %}SnowTricks - Trick Name{% endblock %}
+{% block header_title %}{{ trick.name }}{% endblock %}
+{% block header_description %}{{ trick.text|striptags|length > 155 ? trick.text|striptags|slice(0, 155) ~ '...' : trick.text|striptags  }}{% endblock %}
 
 {% block body %}
 

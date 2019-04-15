@@ -1,6 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}SnowTricks - Categories {% endblock %}
+
+    {% block header_title %}
+        {% if category is defined and category is not null %}
+            {{ category.name }}
+        {% else %}
+            {{ parent() }}
+        {% endif %}
+    {% endblock %}
+
 
 {% block body %}
     <div id="trickSearchContainer">

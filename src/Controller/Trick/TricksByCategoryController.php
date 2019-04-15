@@ -47,6 +47,7 @@ class TricksByCategoryController extends AbstractController
      */
     public function search(Request $request, $categoryId = "", $slug = "")
     {
+        $category = null;
         if ($categoryId !== "") {
             $category = $this->categoryRepository->find($categoryId);
             if ($category->getSlug() !== $slug) {
@@ -93,6 +94,7 @@ class TricksByCategoryController extends AbstractController
             'slug' => $slug,
             'page' => $page,
             'nextPage' => $nextPage,
+            'category' => $category,
         ]);
     }
 }
