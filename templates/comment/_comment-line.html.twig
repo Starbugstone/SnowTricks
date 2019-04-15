@@ -11,9 +11,13 @@
         <div class="col s8 l7 z-depth-1 px-4 py-3 mr-s-2">
 
             <div>
-
-                {{ comment.comment|nl2br }}
-                <p class="right-align m-0"> {{ comment.CreatedAt|date }}</p>
+                <div class="comment" id="comment-{{ comment.id }}">
+                    {{ comment.comment|nl2br }}
+                    <p class="right-align m-0"> {{ comment.CreatedAt|date }}</p>
+                </div>
+                <div id="comment-form-{{ comment.id }}">
+                    {# this will have the generated form #}
+                </div>
 
                 {% if comment.user == app.user or is_granted('ROLE_ADMIN') %}
                     <form action="{{ path('comment.delete', {id: comment.id}) }}" method="post"
@@ -21,9 +25,16 @@
                         <input type="hidden" name="_token" value="{{ csrf_token('delete-comment'~comment.id) }}"/>
                         <p class="right-align m-0 mt-1">
                             <a href="{{ path('comment.edit', {id: comment.id}) }}"
-                               class="btn-floating btn-small waves-effect waves-light"><i
-                                        class="material-icons">mode_edit</i></a>
-                            {#<a href="{{ path('comment.delete', {id: comment.id}) }}" class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">delete_forever</i></a>#}
+                               class="btn-floating btn-small waves-effect waves-light"
+                               id="coment-add-form-button-{{ comment.id }}"
+                               onclick="addEditForm(event, this )" data-commentid="{{ comment.id }}">
+                                <i class="material-icons">mode_edit</i>
+                            </a>
+                            <a class="btn-floating btn-small waves-effect waves-light"
+                               id="coment-remove-form-button-{{ comment.id }}"
+                               onclick="removeEditForm(event, this )" data-commentid="{{ comment.id }}">
+                                <i class="material-icons">close</i>
+                            </a>
                             <button type="submit" class="btn-floating btn-small waves-effect waves-light red"><i
                                         class="material-icons">delete_forever</i></button>
                         </p>

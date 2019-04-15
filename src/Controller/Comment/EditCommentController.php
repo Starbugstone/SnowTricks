@@ -9,6 +9,7 @@ use App\Form\CommentTypeForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -32,13 +33,25 @@ class EditCommentController extends AbstractController
     /**
      * @Route("/comment/edit/{id}", name="comment.edit", methods={"GET"})
      */
-    public function editComment(Comment $comment)
+    public function editComment(Comment $comment, Request $request)
     {
         $this->checkSecurity($comment);
         $commentForm = $this->createForm(CommentTypeForm::class, $comment, [
             'save_button_label' => 'Update',
         ]);
 
+        if($request->isXmlHttpRequest()){
+            $render = $this->renderView('comment/_comment-form.html.twig', [
+                'comment' => $comment,
+                'commentForm' => $commentForm->createView(),
+//                'actionPath' => $this->generateUrl('comment.edit'),
+            ]);
+            $jsonResponse = array(
+                'render' => $render,
+            );
+
+            return new JsonResponse($jsonResponse);
+        }
         return $this->render('comment/edit.html.twig', [
             'comment' => $comment,
             'commentForm' => $commentForm->createView(),
