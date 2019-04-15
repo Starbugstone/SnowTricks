@@ -3,7 +3,7 @@
 {% block header_keywords %}{% for tag in trick.tags %}{{ tag.name }},{% endfor %}{% endblock %}
 
 {% block header_title %}{{ trick.name }}{% endblock %}
-{% block header_description %}{{ trick.text|striptags|length > 155 ? trick.text|striptags|slice(0, 155) ~ '...' : trick.text|striptags  }}{% endblock %}
+{% block header_description %}{{ trick.text|striptags|length > 155 ? trick.text|striptags|slice(0, 155) ~ '...' : trick.text|striptags }}{% endblock %}
 
 {% block body %}
 
@@ -72,7 +72,11 @@
 
         <!-- Add comment -->
         {% if is_granted('ROLE_USER') %}
-            {% include 'comment/_comment-form.html.twig' with {'commentForm': commentForm, 'actionPath': actionPath} %}
+            <div class="row">
+                <div class="col m6 s12 offset-m2">
+                    {% include 'comment/_comment-form.html.twig' with {'commentForm': commentForm, 'actionPath': actionPath} %}
+                </div>
+            </div>
             <hr class="seperator">
         {% endif %}
 

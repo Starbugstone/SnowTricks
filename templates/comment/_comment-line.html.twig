@@ -11,7 +11,7 @@
         <div class="col s8 l7 z-depth-1 px-4 py-3 mr-s-2">
 
             <div>
-                <div class="comment" id="comment-{{ comment.id }}">
+                <div class="comment" id="comment-text-{{ comment.id }}">
                     {{ comment.comment|nl2br }}
                     <p class="right-align m-0"> {{ comment.CreatedAt|date }}</p>
                 </div>
@@ -27,12 +27,15 @@
                             <a href="{{ path('comment.edit', {id: comment.id}) }}"
                                class="btn-floating btn-small waves-effect waves-light"
                                id="coment-add-form-button-{{ comment.id }}"
-                               onclick="addEditForm(event, this )" data-commentid="{{ comment.id }}">
+                               onclick="addEditForm(event, this )"
+                               data-commentid="{{ comment.id }}">
                                 <i class="material-icons">mode_edit</i>
                             </a>
                             <a class="btn-floating btn-small waves-effect waves-light"
                                id="coment-remove-form-button-{{ comment.id }}"
-                               onclick="removeEditForm(event, this )" data-commentid="{{ comment.id }}">
+                               onclick="removeEditForm(event, this )"
+                               style="display: none"
+                               data-commentid="{{ comment.id }}">
                                 <i class="material-icons">close</i>
                             </a>
                             <button type="submit" class="btn-floating btn-small waves-effect waves-light red"><i

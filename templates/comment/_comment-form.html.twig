@@ -7,16 +7,18 @@
     }) }}
 {% endif %}
 
-<div class="row">
-    <div class="input-field col m6 s12 offset-m2">
+
+    <div class="input-field row">
         <i class="material-icons prefix">mode_edit</i>
         {{ form_widget(commentForm.comment) }}
         {{ form_label(commentForm.comment, 'comment') }}
-    </div>
-    <div class="col m2 s12 valign-wrapper my-3">
+
         {{ form_widget(commentForm.save) }}
     </div>
-</div>
+
+
+
+
 
 
 {{ form_end(commentForm) }}

@@ -96,22 +96,72 @@ function loadMoreFunction(linkElement) {
 //This is ugly, should be adding some eventlisteners, would need to call from the onload
 Window.prototype.addEditForm =  function(e, linkElement){
     e.preventDefault();
+
     let commentId = linkElement.dataset.commentid;
     let url = linkElement.href;
 
+    // toggleEditForm(commentId);
+    let commentShowElement = document.querySelector('#comment-text-'+commentId);
+    let commentRemoveFormButton = document.querySelector('#coment-remove-form-button-'+commentId);
+    // let commentFormElement = document.querySelector('#comment_type_form_comment-'+commentId);
+    let commentFormElement = document.querySelector('#comment_type_form_comment-3963');
+
+    linkElement.classList.add('pulse');
+    // linkElement.disabled = true; //this doesn't work
+
     axios.get(url)
         .then(res=>{
-            console.log(res.data.render);
+            // let commentId = linkElement.dataset.commentid;
+            // let commentShowElement = document.querySelector('#comment-text-'+commentId);
+            // let commentFormElement = document.querySelector('#comment_type_form_comment-'+commentId);
+            // console.log(commentFormElement);
+            let elem = res.data.render;
+            elem = elem.replace(/comment_type_form_comment/g, 'comment_type_form_comment-'+commentId);
+
+            // commentShowElement.insertAdjacentHTML('afterend', elem);
+
+            var parser = new DOMParser();
+            var wrapper = parser.parseFromString(elem, "text/html");
+            // commentFormElement.appendChild(wrapper.getRootNode().body);
+
+
+            console.log(elem);
+        })
+        .catch(err=>{
+            console.error(err);
+            linkElement.classList.add('red');
+        })
+        .then(final=>{
+            linkElement.classList.remove('pulse');
+            linkElement.disabled = false;
+
         })
     ;
 
-    console.log("called add "+commentId+' '+ url,linkElement);
 };
 Window.prototype.removeEditForm =  function(e, linkElement){
     e.preventDefault();
     let commentId = linkElement.dataset.commentid;
 
+    // toggleEditForm(commentId, false);
 
-    console.log("called remove "+commentId,linkElement);
 };
 
+function toggleEditForm(commentId, displayForm = true){
+    let commentShowElement = document.querySelector('#comment-text-'+commentId);
+    let commentAddFormButton = document.querySelector('#coment-add-form-button-'+commentId);
+    let commentRemoveFormButton = document.querySelector('#coment-remove-form-button-'+commentId);
+    let commentFormElement = document.querySelector('#comment_type_form_comment-'+commentId);
+
+    if (displayForm){
+        commentShowElement.style.display = "none";
+        commentAddFormButton.style.display = "none";
+        commentRemoveFormButton.style.display = "inline-block";
+        return;
+    }
+    commentShowElement.style.display = "inline-block";
+    commentAddFormButton.style.display = "inline-block";
+    commentRemoveFormButton.style.display = "none";
+    commentFormElement.style.display = "none";
+
+}
