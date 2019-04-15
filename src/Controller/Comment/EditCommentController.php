@@ -44,7 +44,7 @@ class EditCommentController extends AbstractController
             $render = $this->renderView('comment/_comment-form.html.twig', [
                 'comment' => $comment,
                 'commentForm' => $commentForm->createView(),
-//                'actionPath' => $this->generateUrl('comment.edit'),
+                'actionPath' => $this->generateUrl('comment.edit', ['id' => $comment->getId()]),
             ]);
             $jsonResponse = array(
                 'render' => $render,

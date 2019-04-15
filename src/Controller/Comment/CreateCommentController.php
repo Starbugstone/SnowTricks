@@ -49,6 +49,7 @@ class CreateCommentController extends AbstractController
             return $this->redirectToRoute('trick.show', [
                 'id' => $trick->getId(),
                 'slug' => $trick->getSlug(),
+                '_fragment' => 'end-trick',
             ]);
 
         }

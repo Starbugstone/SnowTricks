@@ -71,6 +71,7 @@ class ShowTrickController extends AbstractController
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
             'commentForm' => $commentForm->createView(),
+            'actionPath'=>$this->generateUrl('comment.create', ['id' => $trick->getId()]),
             'comments' => $comments,
             'nextPage' => $nextPage,
         ]);
