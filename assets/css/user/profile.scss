@@ -1,7 +1,13 @@
 .profile-title {
   word-wrap: break-word;
-  text-align: center;
-  img {
-    max-height: 150px;
+  .profile-image{
+    text-align: right;
+    img {
+      max-height: 150px;
+    }
   }
+  h1{
+    text-align: left;
+  }
+
 }
