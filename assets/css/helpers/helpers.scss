@@ -47,18 +47,18 @@ d-text-shadow {
   0 20px 20px rgba(0, 0, 0, .15);
 }
 
-//Forces the row to display in flex and horizontally centers elements. Here only needed in tablet and above view.
-@media only screen and (min-width: 600px){
-  .row.flex-center {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+//Forces the row to display in flex and horizontally centers elements.
 
-    .col {
-      margin-left: 0; // Removing the margin-left auto from the materialize grid system
+.row.flex-center {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 
-    }
+  .col {
+    margin-left: 0; // Removing the margin-left auto from the materialize grid system
+
   }
 }
+
 
 
