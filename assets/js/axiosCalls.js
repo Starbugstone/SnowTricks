@@ -93,6 +93,10 @@ function loadMoreFunction(linkElement) {
     ;
 }
 
+// ----------------------------------
+// Edit the comments
+// ----------------------------------
+
 //This is ugly, should be adding some eventlisteners, would need to call from the onload
 Window.prototype.addEditForm =  function(e, linkElement){
     e.preventDefault();
@@ -100,68 +104,83 @@ Window.prototype.addEditForm =  function(e, linkElement){
     let commentId = linkElement.dataset.commentid;
     let url = linkElement.href;
 
-    // toggleEditForm(commentId);
-    let commentShowElement = document.querySelector('#comment-text-'+commentId);
-    let commentRemoveFormButton = document.querySelector('#coment-remove-form-button-'+commentId);
-    // let commentFormElement = document.querySelector('#comment_type_form_comment-'+commentId);
-    let commentFormElement = document.querySelector('#comment_type_form_comment-3963');
+    let commentButtons = document.querySelector('#comment-buttons-'+commentId);
 
-    linkElement.classList.add('pulse');
-    // linkElement.disabled = true; //this doesn't work
+    if(commentButtons.dataset.status === 'read'){
 
-    axios.get(url)
-        .then(res=>{
-            // let commentId = linkElement.dataset.commentid;
-            // let commentShowElement = document.querySelector('#comment-text-'+commentId);
-            // let commentFormElement = document.querySelector('#comment_type_form_comment-'+commentId);
-            // console.log(commentFormElement);
-            let elem = res.data.render;
-            elem = elem.replace(/comment_type_form_comment/g, 'comment_type_form_comment-'+commentId);
+        commentButtons.dataset.status = 'ajax';
 
-            // commentShowElement.insertAdjacentHTML('afterend', elem);
+        linkElement.classList.add('pulse');
 
-            var parser = new DOMParser();
-            var wrapper = parser.parseFromString(elem, "text/html");
-            // commentFormElement.appendChild(wrapper.getRootNode().body);
+        axios.get(url)
+            .then(res=>{
+                let commentId = linkElement.dataset.commentid;
+                let elem = res.data.render;
+                elem = elem.replace(/comment_type_form_comment/g, 'comment_type_form_comment-'+commentId); //adding the ID to the form
+
+                var parser = new DOMParser();
+                var wrapper = parser.parseFromString(elem, "text/html");
+
+                showForm(commentId, wrapper.getRootNode().body)
+                commentButtons.dataset.status = "read";
+            })
+            .catch(err=>{
+                console.error(err);
+                commentButtons.dataset.status = 'error';
+                linkElement.classList.add('red');
+            })
+            .then(final=>{
+                linkElement.classList.remove('pulse');
+                commentButtons.dataset.status = 'edit';
+
+                M.updateTextFields();//initialise the text fields to avoid the label over input text
+            })
+        ;
+    }
 
 
-            console.log(elem);
-        })
-        .catch(err=>{
-            console.error(err);
-            linkElement.classList.add('red');
-        })
-        .then(final=>{
-            linkElement.classList.remove('pulse');
-            linkElement.disabled = false;
-
-        })
-    ;
 
 };
 Window.prototype.removeEditForm =  function(e, linkElement){
     e.preventDefault();
     let commentId = linkElement.dataset.commentid;
 
-    // toggleEditForm(commentId, false);
+    let commentButtons = document.querySelector('#comment-buttons-'+commentId);
+
+    if(commentButtons.dataset.status === 'edit'){
+        showComment(commentId);
+        commentButtons.dataset.status = 'read';
+    }
+
 
 };
 
-function toggleEditForm(commentId, displayForm = true){
-    let commentShowElement = document.querySelector('#comment-text-'+commentId);
-    let commentAddFormButton = document.querySelector('#coment-add-form-button-'+commentId);
-    let commentRemoveFormButton = document.querySelector('#coment-remove-form-button-'+commentId);
-    let commentFormElement = document.querySelector('#comment_type_form_comment-'+commentId);
+function showForm(commentId, form){
+    let commentReadBlock = document.querySelector('#comment-text-'+commentId);
+    let commentFormElement = document.querySelector('#comment-form-'+commentId);
+    let commentAddFormButton = document.querySelector('#comment-add-form-button-'+commentId);
+    let commentRemoveFormButton = document.querySelector('#comment-remove-form-button-'+commentId);
 
-    if (displayForm){
-        commentShowElement.style.display = "none";
-        commentAddFormButton.style.display = "none";
-        commentRemoveFormButton.style.display = "inline-block";
-        return;
+    commentReadBlock.style.display = 'none';
+    commentAddFormButton.style.display = 'none';
+    commentRemoveFormButton.style.display = 'inline-block';
+
+    commentFormElement.appendChild(form);
+}
+
+function showComment(commentId){
+    let commentReadBlock = document.querySelector('#comment-text-'+commentId);
+    let commentFormElement = document.querySelector('#comment-form-'+commentId);
+    let commentAddFormButton = document.querySelector('#comment-add-form-button-'+commentId);
+    let commentRemoveFormButton = document.querySelector('#comment-remove-form-button-'+commentId);
+
+    commentReadBlock.style.display = 'block';
+    commentAddFormButton.style.display = 'inline-block';
+    commentRemoveFormButton.style.display = 'none';
+
+    //deleating the form
+    while (commentFormElement.firstChild) {
+        commentFormElement.removeChild(commentFormElement.firstChild);
     }
-    commentShowElement.style.display = "inline-block";
-    commentAddFormButton.style.display = "inline-block";
-    commentRemoveFormButton.style.display = "none";
-    commentFormElement.style.display = "none";
 
 }

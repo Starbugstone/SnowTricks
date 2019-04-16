@@ -23,16 +23,17 @@
                     <form action="{{ path('comment.delete', {id: comment.id}) }}" method="post"
                           onsubmit="return confirm('are you sure you wish to delete this comment ?')">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete-comment'~comment.id) }}"/>
-                        <p class="right-align m-0 mt-1">
+                        <p class="right-align m-0 mt-1" id="comment-buttons-{{ comment.id }}" data-status="read">
                             <a href="{{ path('comment.edit', {id: comment.id}) }}"
                                class="btn-floating btn-small waves-effect waves-light"
-                               id="coment-add-form-button-{{ comment.id }}"
+                               id="comment-add-form-button-{{ comment.id }}"
                                onclick="addEditForm(event, this )"
-                               data-commentid="{{ comment.id }}">
+                               data-commentid="{{ comment.id }}"
+                               data-status="">
                                 <i class="material-icons">mode_edit</i>
                             </a>
                             <a class="btn-floating btn-small waves-effect waves-light"
-                               id="coment-remove-form-button-{{ comment.id }}"
+                               id="comment-remove-form-button-{{ comment.id }}"
                                onclick="removeEditForm(event, this )"
                                style="display: none"
                                data-commentid="{{ comment.id }}">
