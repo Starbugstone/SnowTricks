@@ -12,6 +12,9 @@ require('../css/app.scss');
 // const $ = require('jquery');
 //
 
+//the show hide images on mobile view
+require('./showTrickImages.js');
+
 //all the materialize calls
 require('./materializeInitialisers.js');
 
@@ -23,3 +26,6 @@ require('./scrollButtons.js');
 
 //the JS to create the symfony sub forms
 require('./symfonyCollectionType');
+
+
+

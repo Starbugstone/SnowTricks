@@ -27,7 +27,14 @@
         </div>
 
         <!-- Images and videos -->
-        <div class="row flex-center valign-wrapper" id="trick-images">
+        {% if trick.images|length > 0 %}
+            <div class="hide-on-med-and-up center">
+                <button class="waves-effect waves-light btn" id="view-trick-images">
+                    <i class="material-icons left">insert_photo</i>View photos
+                </button>
+            </div>
+        {% endif %}
+        <div class="row flex-center valign-wrapper hide-on-small-only" id="trick-images">
             {% for image in trick.images %}
                 <div class="col xl2 l3 m6 s12 mt-3">
                     {% include 'media/_trick-image.html.twig' with {'image': image} %}
@@ -40,6 +47,7 @@
                 </div>
             {% endfor %}
         </div>
+
 
         <article class="px-5 trick-article">
             {{ trick.text|escape|markdown }}
