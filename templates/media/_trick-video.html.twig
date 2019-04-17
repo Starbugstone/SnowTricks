@@ -10,6 +10,7 @@
     </a>
 
     {% if edit %}
+        <p class="center-align edit-image-label">{{ video.title }}</p>
         <div class="image-delete-button mr-1">
             <form action="{{ path('video.deleteFromTrick', {id:video.id}) }}" method="post"
                   onsubmit="return confirm('are you sure you wish to delete {{ video.title }} ?')">

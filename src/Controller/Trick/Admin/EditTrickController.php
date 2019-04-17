@@ -3,16 +3,10 @@
 namespace App\Controller\Trick\Admin;
 
 
-use App\Entity\Image;
 use App\Entity\Trick;
-use App\Entity\Video;
-use App\Event\Image\ImageAddEvent;
 use App\Event\Trick\TrickDeletedEvent;
 use App\Event\Trick\TrickEditedEvent;
-use App\Event\Video\VideoAddEvent;
-use App\Form\ImageTypeForm;
 use App\Form\TrickTypeForm;
-use App\Form\VideoTypeForm;
 use App\History\TrickHistory;
 use App\Repository\TagRepository;
 use App\Serializer\TagSerializer;
@@ -84,46 +78,6 @@ class EditTrickController extends AbstractController
 
         $form->handleRequest($request);
 
-        $trickImage = new Image();
-        $imageForm = $this->createForm(ImageTypeForm::class, $trickImage);
-        $imageForm->add('addImage', SubmitType::class, [
-            'label' => 'Add Image',
-            'attr' => [
-                'class' => 'waves-effect waves-light btn right mr-2'
-            ]
-        ]);
-        $imageForm->handleRequest($request);
-
-        if ($imageForm->isSubmitted() && $imageForm->isValid()) {
-            $event = new ImageAddEvent($trickImage, $trick);
-            $this->dispatcher->dispatch(ImageAddEvent::NAME, $event);
-
-            return $this->redirectToRoute('trick.edit', [
-                'id' => $trick->getId(),
-            ]);
-        }
-
-        $trickVideo = new Video();
-
-        $videoForm = $this->createForm(VideoTypeForm::class, $trickVideo);
-        $videoForm->add('addVideo', SubmitType::class, [
-            'label' => 'Add Video',
-            'attr' => [
-                'class' => 'waves-effect waves-light btn right mr-2'
-            ]
-        ]);
-        $videoForm->handleRequest($request);
-
-        if ($videoForm->isSubmitted() && $videoForm->isValid()) {
-            $event = new VideoAddEvent($trickVideo, $trick);
-            $this->dispatcher->dispatch(VideoAddEvent::NAME, $event);
-
-            return $this->redirectToRoute('trick.edit', [
-                'id' => $trick->getId(),
-            ]);
-        }
-
-
         if ($form->getClickedButton() && $form->getClickedButton()->getName() === 'delete') {
 
             $event = new TrickDeletedEvent($trick);
@@ -142,12 +96,10 @@ class EditTrickController extends AbstractController
                 'slug' => $trick->getSlug(),
             ]);
         }
-
+        dump($form);
         return $this->render('trick/admin/edit.html.twig', [
             'trick' => $trick,
             'form' => $form->createView(),
-            'imageForm' => $imageForm->createView(),
-            'videoForm' => $videoForm->createView(),
         ]);
     }
 

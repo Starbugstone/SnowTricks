@@ -54,7 +54,7 @@ function getElementFromProto(holder){
     }
     holder.dataset.index = +index + 1;
 
-    elem = elem.replace(/__name__/g, index);
+    elem = elem.replace(/__name__/g, 'js-added-'+index);
 
     let wrapper= document.createElement('div');
     wrapper.innerHTML= elem;

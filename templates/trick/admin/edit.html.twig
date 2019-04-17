@@ -37,20 +37,6 @@
             {% endfor %}
         </div>
 
-        <!-- Add image and video -->
-        <div class="row">
-            <div class="col m4 offset-m1">
-                {{ form_start(imageForm) }}
-                {{ form_widget(imageForm) }}
-                {{ form_end(imageForm) }}
-            </div>
-            <div class="col m4 offset-m1">
-                {{ form_start(videoForm) }}
-                {{ form_widget(videoForm) }}
-                {{ form_end(videoForm) }}
-            </div>
-        </div>
-
         {% include 'trick/admin/_edit-trick-form.html.twig' with {'form': form} %}
 
         {# Getting the logs #}

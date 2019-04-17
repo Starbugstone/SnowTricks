@@ -10,6 +10,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class TrickCreatedSubscriber extends TrickSubscriber implements EventSubscriberInterface
 {
+
     /**
      * Send trick to the database and set a flash message
      * @param TrickEvent $event
@@ -26,9 +27,14 @@ class TrickCreatedSubscriber extends TrickSubscriber implements EventSubscriberI
      */
     public static function getSubscribedEvents()
     {
+        //TODO: set primary image
         return [
-            TrickCreatedEvent::NAME => 'registerTrickToDatabase',
-            TrickEditedEvent::NAME => 'registerTrickToDatabase',
+            TrickCreatedEvent::NAME => [
+                ['registerTrickToDatabase', 30],
+            ],
+            TrickEditedEvent::NAME => [
+                ['registerTrickToDatabase', 30],
+            ],
         ];
     }
 }
