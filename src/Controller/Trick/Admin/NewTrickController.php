@@ -69,7 +69,7 @@ class NewTrickController extends AbstractController
                 'slug' => $trick->getSlug(),
             ]);
         }
-        dump($form);
+
         return $this->render('trick/admin/new.html.twig', [
             'form' => $form->createView(),
             'trick' => $trick,
