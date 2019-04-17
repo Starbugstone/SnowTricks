@@ -16,7 +16,7 @@ class CommentTypeForm extends AbstractType{
         $builder
             ->add('comment', TextareaType::class, [
                 'label' => 'New Comment',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => 'materialize-textarea'
                 ]

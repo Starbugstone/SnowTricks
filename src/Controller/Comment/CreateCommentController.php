@@ -44,16 +44,6 @@ class CreateCommentController extends AbstractController
             throw new RedirectException($this->generateUrl('home'), 'Bad CSRF Token');
         }
 
-        if($receivedComment['comment'] === null || trim($receivedComment['comment']) === ''){
-            $this->addFlash(FlashMessageCategory::ALERT, 'comment can not be empty');
-            return $this->redirectToRoute('trick.show', [
-                'id' => $trick->getId(),
-                'slug' => $trick->getSlug(),
-                '_fragment' => 'end-trick',
-            ]);
-
-        }
-
         $comment = new Comment();
 
         //Set the user to the current logged in user
