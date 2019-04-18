@@ -6,7 +6,6 @@ use App\Entity\Video;
 use App\Entity\VideoType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,12 +28,6 @@ class VideoTypeForm extends AbstractType
                 'class' => VideoType::class,
                 'choice_label' => 'site',
                 ])
-//            ->add('addVideo', SubmitType::class, [
-//                'label' => $options['add_video_label'],
-//                'attr' => [
-//                    'class' => 'waves-effect waves-light btn right mr-2'
-//                ]
-//            ])
         ;
     }
 
