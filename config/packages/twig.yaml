@@ -10,3 +10,6 @@ twig:
         DEFAULT_PAGE_TITLE: '%env(DEFAULT_PAGE_TITLE)%'
         DEFAULT_PAGE_DESCRIPTION: '%env(DEFAULT_PAGE_DESCRIPTION)%'
         DEFAULT_PAGE_KEYWORDS: '%env(DEFAULT_PAGE_KEYWORDS)%'
+
+    form_themes:
+        - 'Form/vich_fields.html.twig'
