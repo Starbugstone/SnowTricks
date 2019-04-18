@@ -4,7 +4,7 @@ namespace App\Event\User;
 
 use App\Entity\User;
 
-abstract class UserPasswordEvent extends UserEvent
+abstract class AbstractUserPasswordEvent extends AbstractUserEvent
 {
     const NAME = 'user.defineMe';
 

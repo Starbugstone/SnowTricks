@@ -6,7 +6,6 @@ use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Event\Comment\CommentCreatedEvent;
 use App\Exception\RedirectException;
-use App\FlashMessage\FlashMessageCategory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

@@ -2,7 +2,7 @@
 
 namespace App\Event\User;
 
-class UserRegisteredEvent extends UserPasswordEvent
+class UserRegisteredEvent extends AbstractUserPasswordEvent
 {
     const NAME = 'user.registered';
 

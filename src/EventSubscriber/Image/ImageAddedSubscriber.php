@@ -6,17 +6,17 @@ namespace App\EventSubscriber\Image;
 use App\Entity\Image;
 use App\Entity\Trick;
 use App\Event\Image\ImageAddEvent;
-use App\Event\Image\ImageEvent;
+use App\Event\Image\AbstractImageEvent;
 use App\FlashMessage\FlashMessageCategory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ImageAddedSubscriber extends ImageSubscriber implements EventSubscriberInterface
+class ImageAddedSubscriber extends AbstractImageSubscriber implements EventSubscriberInterface
 {
     /**
      * Send Image to the database and set a flash message
-     * @param ImageEvent $event
+     * @param AbstractImageEvent $event
      */
-    public function registerImageToDatabase(ImageEvent $event)
+    public function registerImageToDatabase(AbstractImageEvent $event)
     {
         /**@var Image $image*/
         $image = $event->getEntity();

@@ -12,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
  * @Vich\Uploadable
  */
-class Image extends AppEntity
+class Image extends AbstractAppEntity
 {
     /**
      * @ORM\Id()

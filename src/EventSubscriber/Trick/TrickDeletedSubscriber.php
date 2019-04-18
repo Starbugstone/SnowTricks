@@ -2,12 +2,11 @@
 
 namespace App\EventSubscriber\Trick;
 
-use App\Entity\Trick;
 use App\Event\Trick\TrickDeletedEvent;
 use App\FlashMessage\FlashMessageCategory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class TrickDeletedSubscriber extends TrickSubscriber implements EventSubscriberInterface
+class TrickDeletedSubscriber extends AbstractTrickSubscriber implements EventSubscriberInterface
 {
     /**
      * Send trick to the database and set a flash message

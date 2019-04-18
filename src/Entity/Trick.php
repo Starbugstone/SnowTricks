@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @Gedmo\Loggable
  * @UniqueEntity(fields="name", message="this trick already exists")
  */
-class Trick extends AppEntity
+class Trick extends AbstractAppEntity
 {
 
     const NUMBER_OF_DISPLAYED_TRICKS = 10;

@@ -19,7 +19,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @UniqueEntity(fields={"verifiedHash"}, message="Hash already exists")
  * @Vich\Uploadable
  */
-class User extends AppEntity implements UserInterface, \Serializable
+class User extends AbstractAppEntity implements UserInterface, \Serializable
 {
 
     const HASH_VALIDATION_TIME_LIMIT = 1; //number of days that the validation link is active

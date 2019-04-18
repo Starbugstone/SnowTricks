@@ -3,13 +3,13 @@
 namespace App\EventSubscriber\User;
 
 use App\Event\User\UserDeleteAccountEvent;
-use App\Event\User\UserEvent;
+use App\Event\User\AbstractUserEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
-class UserDeleteAccountSubscriber extends UserSubscriber implements EventSubscriberInterface
+class UserDeleteAccountSubscriber extends AbstractUserSubscriber implements EventSubscriberInterface
 {
 
     /**
@@ -27,7 +27,7 @@ class UserDeleteAccountSubscriber extends UserSubscriber implements EventSubscri
         $this->tokenStorage = $tokenStorage;
     }
 
-    public function deleteAccount(UserEvent $event)
+    public function deleteAccount(AbstractUserEvent $event)
     {
         $this->deleteFromDatabase($event);
     }

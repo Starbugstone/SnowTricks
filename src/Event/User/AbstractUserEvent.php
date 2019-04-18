@@ -2,11 +2,11 @@
 
 namespace App\Event\User;
 
-use App\Entity\AppEntity;
+use App\Entity\AbstractAppEntity;
 use App\Entity\User;
-use App\Event\AppEvent;
+use App\Event\AbstractAppEvent;
 
-abstract class UserEvent extends AppEvent
+abstract class AbstractUserEvent extends AbstractAppEvent
 {
     const NAME = 'user.defineMe';
 
@@ -23,7 +23,7 @@ abstract class UserEvent extends AppEvent
     /**
      * @return User
      */
-    public function getEntity(): AppEntity
+    public function getEntity(): AbstractAppEntity
     {
         return $this->entity;
     }

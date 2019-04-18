@@ -2,12 +2,11 @@
 
 namespace App\EventSubscriber;
 
-use App\Event\AppEvent;
+use App\Event\AbstractAppEvent;
 use App\FlashMessage\AddFlashTrait;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
-abstract class AppSubscriber
+abstract class AbstractAppSubscriber
 {
     use AddFlashTrait;
 
@@ -22,24 +21,24 @@ abstract class AppSubscriber
     abstract public static function getSubscribedEvents();
 
     /**
-     * @param AppEvent $event
+     * @param AbstractAppEvent $event
      * Registers the trick into the database
      */
-    public function sendToDatabase(AppEvent $event)
+    public function sendToDatabase(AbstractAppEvent $event)
     {
         $entity = $event->getEntity();
         $this->em->persist($entity);
         $this->em->flush();
     }
 
-    public function deleteFromDatabase(AppEvent $event)
+    public function deleteFromDatabase(AbstractAppEvent $event)
     {
         $entity = $event->getEntity();
         $this->em->remove($entity);
         $this->em->flush();
     }
 
-    public function persist(AppEvent $event)
+    public function persist(AbstractAppEvent $event)
     {
         $entity = $event->getEntity();
         $this->em->persist($entity);

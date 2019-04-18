@@ -2,13 +2,13 @@
 
 namespace App\Event\Image;
 
-use App\Entity\AppEntity;
+use App\Entity\AbstractAppEntity;
 
 use App\Entity\Image;
 use App\Entity\Trick;
-use App\Event\AppEvent;
+use App\Event\AbstractAppEvent;
 
-abstract class ImageEvent extends AppEvent
+abstract class AbstractImageEvent extends AbstractAppEvent
 {
     const NAME = 'user.defineMe';
 
@@ -31,7 +31,7 @@ abstract class ImageEvent extends AppEvent
     /**
      * @return Image
      */
-    public function getEntity(): AppEntity
+    public function getEntity(): AbstractAppEntity
     {
         return $this->entity;
     }

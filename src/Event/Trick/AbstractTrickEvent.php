@@ -2,12 +2,11 @@
 
 namespace App\Event\Trick;
 
-use App\Entity\AppEntity;
-
+use App\Entity\AbstractAppEntity;
 use App\Entity\Trick;
-use App\Event\AppEvent;
+use App\Event\AbstractAppEvent;
 
-abstract class TrickEvent extends AppEvent
+abstract class AbstractTrickEvent extends AbstractAppEvent
 {
     const NAME = 'user.defineMe';
 
@@ -24,7 +23,7 @@ abstract class TrickEvent extends AppEvent
     /**
      * @return Trick
      */
-    public function getEntity(): AppEntity
+    public function getEntity(): AbstractAppEntity
     {
         return $this->entity;
     }

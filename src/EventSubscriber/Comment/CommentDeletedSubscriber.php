@@ -7,7 +7,7 @@ use App\Event\Comment\CommentDeletedEvent;
 use App\FlashMessage\FlashMessageCategory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class CommentDeletedSubscriber extends CommentSubscriber implements EventSubscriberInterface
+class CommentDeletedSubscriber extends AbstractCommentSubscriber implements EventSubscriberInterface
 {
     /**
      * Deletes a comment
