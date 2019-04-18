@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Comment extends AbstractAppEntity
 {
 
-    const NUMBER_OF_DISPLAYED_COMMENTS = 2;
+    const NUMBER_OF_DISPLAYED_COMMENTS = 8;
 
     /**
      * @ORM\Id()
