@@ -132,7 +132,7 @@ Window.prototype.addEditForm =  function(e, linkElement){
             .then(final=>{
                 linkElement.classList.remove('pulse');
                 commentButtons.dataset.status = 'edit';
-
+                M.textareaAutoResize(document.querySelector('#comment_type_form_comment-'+commentId));
                 M.updateTextFields();//initialise the text fields to avoid the label over input text
             })
         ;
