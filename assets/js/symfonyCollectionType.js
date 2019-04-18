@@ -1,10 +1,10 @@
-const addImageHolder = document.querySelector('#trick_type_form_images');
+const addImageHolder = document.querySelector('#trick_form_type_images');
 
 if(addImageHolder){
     addImageHolder.insertAdjacentElement('beforeend', createShowButton(addImageHolder, 'add Image'));
 }
 
-const addVideoHolder = document.querySelector('#trick_type_form_videos');
+const addVideoHolder = document.querySelector('#trick_form_type_videos');
 
 if(addVideoHolder){
     addVideoHolder.insertAdjacentElement('beforeend', createShowButton(addVideoHolder, 'add video'));

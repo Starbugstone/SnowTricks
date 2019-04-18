@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TrickTypeForm extends AbstractType
+class TrickFormType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -40,13 +40,13 @@ class TrickTypeForm extends AbstractType
                 'choice_label' => 'Name',
             ])
             ->add('images', CollectionType::class, [
-                'entry_type' => ImageTypeForm::class,
+                'entry_type' => ImageFormType::class,
                 'allow_add' => true,
                 'by_reference' => false,
                 'entry_options' => ['label' => false],
             ])
             ->add('videos', CollectionType::class, [
-                'entry_type' => VideoTypeForm::class,
+                'entry_type' => VideoFormType::class,
                 'allow_add' => true,
                 'by_reference' => false,
                 'entry_options' => ['label' => false],

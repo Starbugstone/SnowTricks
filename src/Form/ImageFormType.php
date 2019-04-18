@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 
-class ImageTypeForm extends AbstractType
+class ImageFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

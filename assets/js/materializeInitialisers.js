@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function chipInput() {
         var elem = document.getElementById('chips1');
 
-        var tagInput = document.getElementById('trick_type_form_tags');
+        var tagInput = document.getElementById('trick_form_type_tags');
         var instance = M.Chips.getInstance(elem);
         var tagData = instance.chipsData;
         var tags = [];

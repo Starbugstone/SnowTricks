@@ -6,7 +6,7 @@ namespace App\Controller\Trick\Admin;
 use App\Entity\Trick;
 use App\Event\Trick\TrickDeletedEvent;
 use App\Event\Trick\TrickEditedEvent;
-use App\Form\TrickTypeForm;
+use App\Form\TrickFormType;
 use App\History\TrickHistory;
 use App\Repository\TagRepository;
 use App\Serializer\TagSerializer;
@@ -63,7 +63,7 @@ class EditTrickController extends AbstractController
     public function edit(Trick $trick, Request $request)
     {
         /** @var Form $form */
-        $form = $this->createForm(TrickTypeForm::class, $trick, [
+        $form = $this->createForm(TrickFormType::class, $trick, [
             'all_tags_json' => $this->tagSerializer->allTagsJson(),
             'trick_tags_json' => $trick->getTagsJson(),
         ]);

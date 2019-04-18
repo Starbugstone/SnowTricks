@@ -116,7 +116,7 @@ Window.prototype.addEditForm =  function(e, linkElement){
             .then(res=>{
                 let commentId = linkElement.dataset.commentid;
                 let elem = res.data.render;
-                elem = elem.replace(/comment_type_form_comment/g, 'comment_type_form_comment-'+commentId); //adding the ID to the form
+                elem = elem.replace(/comment_form_comment/g, 'comment_form_comment-'+commentId); //adding the ID to the form
 
                 var parser = new DOMParser();
                 var wrapper = parser.parseFromString(elem, "text/html");
@@ -132,7 +132,7 @@ Window.prototype.addEditForm =  function(e, linkElement){
             .then(final=>{
                 linkElement.classList.remove('pulse');
                 commentButtons.dataset.status = 'edit';
-                M.textareaAutoResize(document.querySelector('#comment_type_form_comment-'+commentId));
+                M.textareaAutoResize(document.querySelector('#comment_form_comment-'+commentId));
                 M.updateTextFields();//initialise the text fields to avoid the label over input text
             })
         ;

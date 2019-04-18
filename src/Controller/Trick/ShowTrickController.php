@@ -4,14 +4,13 @@ namespace App\Controller\Trick;
 
 use App\Entity\Comment;
 use App\Entity\Trick;
-use App\Form\CommentTypeForm;
+use App\Form\CommentFormType;
 use App\Pagination\PagePagination;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ShowTrickController extends AbstractController
@@ -45,7 +44,7 @@ class ShowTrickController extends AbstractController
             ], 301);
         }
 
-        $commentForm = $this->createForm(CommentTypeForm::class);
+        $commentForm = $this->createForm(CommentFormType::class);
 
         $page = $request->get('page')??1;
 
