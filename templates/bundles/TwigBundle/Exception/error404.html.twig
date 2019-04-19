@@ -1,0 +1,18 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="center-align">
+            <h1 class="font-coiny bordered-text">404 Page not found</h1>
+            <p>
+                Looks like you got lost. Checkout for any URL
+                misspelling or <a href="{{ path('home') }}">return to the homepage</a>.
+            </p>
+            <img src="{{ asset('img/404.jpg') }}" alt="Got lost" class="responsive-img z-depth-2">
+        </div>
+
+
+    </div>
+
+{% endblock %}
