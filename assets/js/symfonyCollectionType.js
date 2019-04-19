@@ -34,7 +34,7 @@ function createShowButton(holder, text){
 
 function createDeleteButton(){
     const deleteButton = document.createElement('a');
-    deleteButton.setAttribute('class', 'btn waves-effect waves-light red deleteButton my-3');
+    deleteButton.setAttribute('class', 'btn waves-effect waves-light red lighten-2 deleteButton my-3');
 
     deleteButton.insertAdjacentHTML('beforeend','<i class="material-icons">delete</i>');
 

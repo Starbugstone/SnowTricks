@@ -71,7 +71,7 @@ class EditTrickController extends AbstractController
             ->add('delete', SubmitType::class, [
                 'label' => 'Delete',
                 'attr' => [
-                    'class' => 'waves-effect waves-light btn right mr-2',
+                    'class' => 'waves-effect waves-light btn red lighten-2 right mr-2',
                     'onclick' => 'return confirm(\'are you sure?\')',
                 ]
             ]);
