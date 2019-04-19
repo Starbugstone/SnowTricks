@@ -4,6 +4,8 @@ namespace App\Security;
 
 
 use App\Entity\User;
+use DateTime;
+use Exception;
 
 class UserSetHash
 {
@@ -11,7 +13,7 @@ class UserSetHash
     /**
      * @param User $user
      * @return string
-     * @throws \Exception
+     * @throws Exception
      * Sets a new hash to the verifiedDateTimeField of the passed user
      */
     public function set(User $user): string
@@ -19,7 +21,7 @@ class UserSetHash
         $hash = bin2hex(random_bytes(16));
         $user->setVerifiedHash($hash);
 
-        $user->setVerifiedDateTime(new \DateTime());
+        $user->setVerifiedDateTime(new DateTime());
 
         return $hash;
     }

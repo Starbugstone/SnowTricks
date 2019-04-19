@@ -8,6 +8,8 @@ use App\Exception\RedirectException;
 use App\FlashMessage\AddFlashTrait;
 use App\FlashMessage\FlashMessageCategory;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Exception;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UserValidator
@@ -38,7 +40,7 @@ class UserValidator
      * @param string $token
      * @return bool
      * Check if the passed token is valid to register the mail
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function isUserTokenValid(string $token):bool
     {
@@ -57,7 +59,7 @@ class UserValidator
      * @param string $token
      * @return bool
      * Check if the reset password token is valid
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function doesResetpasswordTokenValidateEmail(string $token):bool
     {
@@ -72,7 +74,7 @@ class UserValidator
     /**
      * @param string $token
      * @return User|null
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      * gets the user from the token and redirects on error
      */
     public function retrieveUserFromToken(string $token): ?User
@@ -90,7 +92,7 @@ class UserValidator
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      * Checks if the token is still valid
      */
     private function isUserVerifiedDateTime():bool

@@ -11,6 +11,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -42,7 +43,7 @@ class TricksByCategoryController extends AbstractController
      * @param Request $request
      * @param string $categoryId
      * @param string $slug
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * show tricks in category
      */
     public function search(Request $request, $categoryId = "", $slug = "")

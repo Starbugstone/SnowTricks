@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Pagination\PaginateRepositoryTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use InvalidArgumentException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -26,7 +27,7 @@ class CommentRepository extends ServiceEntityRepository
     public function findLatestEdited(int $trickId, int $currentPage = 1)
     {
         if ($currentPage < 1) {
-            throw new \InvalidArgumentException("Current page can not be lower than one");
+            throw new InvalidArgumentException("Current page can not be lower than one");
         }
 
         $query = $this->createQueryBuilder('c')

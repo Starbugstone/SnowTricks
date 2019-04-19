@@ -8,6 +8,7 @@ use App\Repository\TrickRepository;
 use App\Search\TrickSearch;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SearchTrickController extends AbstractController
@@ -36,7 +37,7 @@ class SearchTrickController extends AbstractController
     /**
      * @Route("/search", name="trick.searchTrick", methods={"POST"})
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * Get the results from the search query
      */
     public function searchTrick(Request $request)

@@ -9,7 +9,9 @@ use App\Repository\TrickRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TricksByTagController extends AbstractController
@@ -35,7 +37,7 @@ class TricksByTagController extends AbstractController
      * @Route("/trick/tag/{id}-{slug}", name="trick.tag", methods={"GET"})
      * @param Tag $tag
      * @param string $slug
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function showTricksByTag(Request $request, Tag $tag, string $slug)
     {

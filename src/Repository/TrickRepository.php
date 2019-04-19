@@ -6,6 +6,7 @@ use App\Entity\Trick;
 use App\Pagination\PaginateRepositoryTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
+use InvalidArgumentException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -32,7 +33,7 @@ class TrickRepository extends ServiceEntityRepository
     public function findLatestEdited(int $currentPage = 1, int $categoryId = 0)
     {
         if($currentPage <1){
-            throw new \InvalidArgumentException("Current page can not be lower than one");
+            throw new InvalidArgumentException("Current page can not be lower than one");
         }
 
         $query = $this->createQueryBuilder('t');
@@ -58,7 +59,7 @@ class TrickRepository extends ServiceEntityRepository
     public function findLatestEditedByTag(int $currentPage = 1, int $tagId = 0)
     {
         if($currentPage <1){
-            throw new \InvalidArgumentException("Current page can not be lower than one");
+            throw new InvalidArgumentException("Current page can not be lower than one");
         }
 
         $query = $this->createQueryBuilder('t');

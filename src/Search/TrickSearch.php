@@ -11,6 +11,7 @@ use App\Repository\ImageRepository;
 use App\Repository\TagRepository;
 use App\Repository\TrickRepository;
 use App\Repository\VideoRepository;
+use function count;
 
 class TrickSearch
 {
@@ -56,7 +57,7 @@ class TrickSearch
         $query = $this->sanitizeSearchQuery($query);
         $searchTerms = $this->extractSearchTerms($query);
 
-        if (\count($searchTerms) === 0) {
+        if (count($searchTerms) === 0) {
             return $this->trickRepository->findAll();
         }
 

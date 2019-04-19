@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use UnexpectedValueException;
 
 class TrickFormType extends AbstractType
 {
@@ -22,7 +23,7 @@ class TrickFormType extends AbstractType
     {
 
         if($options['all_tags_json'] === '' || $options['trick_tags_json'] === ''){
-            throw new \UnexpectedValueException("all_tags_json or trick_tags_json not defined in the form constructor");
+            throw new UnexpectedValueException("all_tags_json or trick_tags_json not defined in the form constructor");
         }
 
         $builder

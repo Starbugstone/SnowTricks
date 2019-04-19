@@ -3,6 +3,7 @@
 namespace App\History;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Gedmo\Loggable\Entity\LogEntry;
 
 class TrickHistory
 {
@@ -22,7 +23,7 @@ class TrickHistory
 
     /**
      * @param $id
-     * @return \Gedmo\Loggable\Entity\LogEntry[]
+     * @return LogEntry[]
      * Get the modification history of a trick
      */
     public function getHistory($id)
