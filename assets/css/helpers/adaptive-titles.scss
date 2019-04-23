@@ -36,19 +36,3 @@ $max_width: 1200px;
 h1.responsive-header {
   @include fluid-type($min_width, $max_width, 40px, 60px);
 }
-
-//h1.responsive-header{
-//  font-size:40px;
-//}
-//
-//@media screen and (min-width: 6000px) {
-//  h1.responsive-header{
-//    font-size:calc(40px + .4vw);
-//  }
-//}
-//
-//@media screen and (min-width: 1200px) {
-//  h1.responsive-header{
-//    font-size: 64px;
-//  }
-//}

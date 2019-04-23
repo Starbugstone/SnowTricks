@@ -2,6 +2,8 @@
     {{ form_start(form) }}
 
     {% if form.name is defined %}
+        <hr class="mt-3 seperator">
+        <h2 class="small-title grey-text text-lighten-1 mt-1 mb-2">Edit the Trick</h2>
         <div class="row">
             <div class="input-field col l8 m10 s12">
                 {{ form_row(form.name) }}
@@ -22,7 +24,8 @@
     {% endif %}
 
     {% if form.category is defined %}
-        <hr class="my-3 seperator">
+        <hr class="mt-3 seperator">
+        <h2 class="small-title grey-text text-lighten-1 mt-1 mb-2">Select the category</h2>
         <div class="row">
             <div class="input-field col l6 m9 s12">
                 {{ form_row(form.category) }}
@@ -32,7 +35,8 @@
 
 
     {% if form.tags is defined %}
-        <hr class="my-3 seperator">
+        <hr class="mt-3 seperator">
+        <h2 class="small-title grey-text text-lighten-1 mt-1 mb-2">Add or remove some tags</h2>
         <div class="row">
             <div class="chips" id="chips1">
                 <input class="custom-class"> {# Materialize for adding chips #}
@@ -43,7 +47,8 @@
     {% endif %}
 
     {% if form.images is defined and form.videos is defined %}
-        <hr class="my-3 seperator">
+        <hr class="mt-3 seperator">
+        <h2 class="small-title grey-text text-lighten-1 mt-1 mb-2">Add and remove images and videos</h2>
         <div class="row">
             <div class="col l6 s12">
                 {{ form_row(form.images) }}
