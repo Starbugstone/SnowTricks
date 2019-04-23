@@ -6,8 +6,11 @@ use App\Entity\Video;
 use App\Entity\VideoType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VideoFormType extends AbstractType
@@ -28,6 +31,15 @@ class VideoFormType extends AbstractType
                 'class' => VideoType::class,
                 'choice_label' => 'site',
                 ])
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event){
+                $video = $event->getData();
+
+                $form = $event->getForm();
+                if ($video && $video->getId() !== null){
+                    $form->add('videoIntegrationImage', HiddenType::class, ['image_property' => 'videoIntegrationImage'])
+                        ;
+                }
+            })
         ;
     }
 

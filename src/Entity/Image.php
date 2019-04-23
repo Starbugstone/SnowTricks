@@ -17,6 +17,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Image extends AbstractAppEntity
 {
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -83,6 +84,12 @@ class Image extends AbstractAppEntity
     {
         return $this->image;
     }
+
+    public function getWebImage(): ?string
+    {
+        return '/uploads/trick_images/'.$this->image;
+    }
+
 
     public function setImage(?string $image): self
     {
@@ -152,5 +159,4 @@ class Image extends AbstractAppEntity
 
         return $this;
     }
-
 }

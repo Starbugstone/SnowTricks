@@ -7,6 +7,7 @@ use App\Entity\Image;
 use App\Entity\Trick;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -29,7 +30,6 @@ class ImageFormType extends AbstractType
                 'required' => true,
             ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-                /** @var Trick $trick */
                 $image = $event->getData();
 
                 $form = $event->getForm();
@@ -46,7 +46,7 @@ class ImageFormType extends AbstractType
                 //could do with js call and use hidden field but risk edit hack
                 //or create a custom form type but still called on submit.
                 else {
-                    $form->add('image', TextType::class);
+                    $form->add('image', HiddenType::class, ['image_property' => 'webImage']);
                 }
 
             });
@@ -58,25 +58,5 @@ class ImageFormType extends AbstractType
             'data_class' => Image::class,
             'file_uri' => null,
         ]);
-    }
-
-    public function buildView(FormView $view, FormInterface $form, array $options)
-        //adding the uri to image to the form view.
-        //todo: since this is in a collection, need to override the default form view
-    {
-        /**
-         * @var $entity Image
-         */
-        $entity = $form->getData();
-        if ($entity) {
-            $view->vars['file_url'] = ($entity->getImage() === null)
-                ? null
-                : '/uploads/trick_image/' . $entity->getImage() //TODO: reset with env variable for uploaded images
-            ;
-        }
-
-//        dump($form->getData()); //this has the image in ModelData/image, also has the ID
-//        dump($view);
-
     }
 }

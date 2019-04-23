@@ -1,0 +1,13 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block hidden_widget %}
+    {% spaceless %}
+
+        {%- set type = type|default('hidden') -%}
+        {{ block('form_widget_simple') }}
+        {% if image_url is defined and image_url is not null %}
+            <img src="{{ asset(image_url) }}" class="responsive-img"/>
+        {% endif %}
+
+    {% endspaceless %}
+{% endblock %}
