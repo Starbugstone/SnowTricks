@@ -1,24 +1,19 @@
 <?php
 
-namespace App\Form\Extension;
+namespace App\Form\Type;
 
-use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class ImageTypeExtension extends AbstractTypeExtension{
-
-    public static function getExtendedTypes()
-    {
-        return [HiddenType::class];
-    }
+class ShowImageType extends AbstractType{
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        // makes it legal for FileType fields to have an image_property option
+        // makes it legal for our field to have an image_property option
         $resolver->setDefined(['image_property']);
     }
 
@@ -41,7 +36,10 @@ class ImageTypeExtension extends AbstractTypeExtension{
 
             // sets an "image_url" variable that will be available when rendering this field
             $view->vars['image_url'] = $imageUrl;
-//            dd($view);
         }
+    }
+
+    public function getParent(){
+        return TextType::class;
     }
 }

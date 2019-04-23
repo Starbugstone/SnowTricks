@@ -4,9 +4,9 @@ namespace App\Form;
 
 use App\Entity\Video;
 use App\Entity\VideoType;
+use App\Form\Type\ShowImageType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -18,6 +18,19 @@ class VideoFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event){
+                $video = $event->getData();
+
+                $form = $event->getForm();
+                if ($video && $video->getId() !== null){
+                    $form->add('vidImage', ShowImageType::class, [
+                        'image_property' => 'videoIntegrationImage',
+                        'mapped' => false,
+                        'label' => false,
+                    ])
+                    ;
+                }
+            })
             ->add('title', TextType::class, [
                 'label' => 'title of the Video',
                 'required' => true,
@@ -31,18 +44,6 @@ class VideoFormType extends AbstractType
                 'class' => VideoType::class,
                 'choice_label' => 'site',
                 ])
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event){
-                $video = $event->getData();
-
-                $form = $event->getForm();
-                if ($video && $video->getId() !== null){
-                    $form->add('vidImage', HiddenType::class, [
-                        'image_property' => 'videoIntegrationImage',
-                        "mapped" => false,
-                    ])
-                        ;
-                }
-            })
         ;
     }
 

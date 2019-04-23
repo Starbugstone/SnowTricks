@@ -1,14 +1,11 @@
 {% extends 'form_div_layout.html.twig' %}
 
-{% block hidden_widget %}
-    {% spaceless %}
-
-        {%- set type = type|default('hidden') -%}
-        {{ block('form_widget_simple') }}
-        {% if image_url is defined and image_url is not null %}
+{% block show_image_widget %}
+    {% if image_url is defined and image_url is not null %}
+        <div class="center-align mt-3">
             <img src="{{ asset(image_url) }}" class="responsive-img"/>
-            <hr class="my-3 seperator">
-        {% endif %}
+        </div>
 
-    {% endspaceless %}
+        <hr class="my-3 seperator">
+    {% endif %}
 {% endblock %}
