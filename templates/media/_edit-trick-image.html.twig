@@ -9,7 +9,7 @@
         <form action="{{ path('image.deleteFromTrick', {id:image.id}) }}" method="post"
               onsubmit="return confirm('are you sure you wish to delete {{ image.title }} ?')">
             <input type="hidden" name="_token" value="{{ csrf_token('delete-image'~image.id) }}"/>
-            <button class="btn-small wave-effect waves-light px-2 mt-1" name="delete_{{ image.id }}"><i
+            <button class="btn-small red lighten-2 wave-effect waves-light px-2 mt-1" name="delete_{{ image.id }}"><i
                         class="material-icons">delete</i></button>
         </form>
     </div>

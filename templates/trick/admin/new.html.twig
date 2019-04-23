@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
+{% block header_title %}
     New Trick
 {% endblock %}
 
 {% block body %}
     <div class="trick-container container z-depth-1 mt-5" id="trickNewContainer">
-        <h1 class="center font-coiny bordered-text">New trick</h1>
+        <h1 class="center font-coiny bordered-text responsive-header">New trick</h1>
 
         {% include 'trick/admin/_edit-trick-form.html.twig' with {'form': form} %}
 

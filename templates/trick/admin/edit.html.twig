@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
+{% block header_title %}
     Edit trick {{ trick.name }}
 {% endblock %}
 
@@ -19,7 +19,7 @@
             <!-- Header image -->
             {% include 'media/_trick-primary-image.html.twig' with {'trick': trick} %}
 
-            <h1 class="trick-name center-align w100 font-coiny m-0 bordered-text">EDIT :<br>{{ trick.name }}</h1>
+            <h1 class="trick-name center-align w100 font-coiny m-0 bordered-text responsive-header">EDIT :<br>{{ trick.name }}</h1>
         </div>
 
         <!-- Images and videos -->
