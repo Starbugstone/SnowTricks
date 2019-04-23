@@ -36,7 +36,10 @@ class VideoFormType extends AbstractType
 
                 $form = $event->getForm();
                 if ($video && $video->getId() !== null){
-                    $form->add('videoIntegrationImage', HiddenType::class, ['image_property' => 'videoIntegrationImage'])
+                    $form->add('vidImage', HiddenType::class, [
+                        'image_property' => 'videoIntegrationImage',
+                        "mapped" => false,
+                    ])
                         ;
                 }
             })

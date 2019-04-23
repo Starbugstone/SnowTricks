@@ -42,11 +42,10 @@ class ImageFormType extends AbstractType
                         'image_uri' => false,
                     ]);
                 }
-                //TODO: Add image view
-                //could do with js call and use hidden field but risk edit hack
-                //or create a custom form type but still called on submit.
                 else {
-                    $form->add('image', HiddenType::class, ['image_property' => 'webImage']);
+                    $form->add('image', HiddenType::class, [
+                        'image_property' => 'webImage',
+                    ]);
                 }
 
             });
