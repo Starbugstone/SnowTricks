@@ -100,3 +100,9 @@ function removeVideo(instances) {
     var iframeSrc = iframe.src;
     iframe.src = iframeSrc; //force a reload so stops video
 }
+
+//init collapsable for the history
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.collapsible');
+    var instances = M.Collapsible.init(elems);
+});

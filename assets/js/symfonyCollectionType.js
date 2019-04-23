@@ -47,7 +47,7 @@ function createShowButton(holder, text){
 function createDeleteButton(askConfirm = false){
     const deleteButton = document.createElement('a');
     deleteButton.setAttribute('class', 'btn waves-effect waves-light red lighten-2 deleteButton my-3');
-    
+
     if(askConfirm){
         deleteButton.dataset.askConfirm = "true";
     }
