@@ -3,7 +3,10 @@
 {% block show_image_widget %}
     {% if image_url is defined and image_url is not null %}
         <div class="center-align mt-3">
-            <img src="{{ asset(image_url) }}" class="responsive-img"/>
+            <div class="thumbnail">
+                <img src="{{ asset(image_url) }}" class="responsive-img materialboxed"/>
+            </div>
+
         </div>
 
         <hr class="my-3 seperator">

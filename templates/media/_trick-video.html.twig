@@ -11,14 +11,6 @@
 
     {% if edit %}
         <p class="center-align edit-image-label">{{ video.title }}</p>
-        <div class="image-delete-button mr-1">
-            <form action="{{ path('video.deleteFromTrick', {id:video.id}) }}" method="post"
-                  onsubmit="return confirm('are you sure you wish to delete {{ video.title }} ?')">
-                <input type="hidden" name="_token" value="{{ csrf_token('delete-video'~video.id) }}"/>
-                <button class="btn-small red lighten-2 wave-effect waves-light px-2 mt-1" name="delete_{{ video.id }}"><i
-                            class="material-icons">delete</i></button>
-            </form>
-        </div>
     {% endif %}
 </div>
 <!-- Modal Structure -->

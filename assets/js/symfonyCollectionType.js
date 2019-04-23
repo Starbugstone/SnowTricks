@@ -1,13 +1,24 @@
 const addImageHolder = document.querySelector('#trick_form_images');
 
 if(addImageHolder){
-    addImageHolder.insertAdjacentElement('beforeend', createShowButton(addImageHolder, 'add Image'));
+    addImageHolder.insertAdjacentElement('afterend', createShowButton(addImageHolder, 'add Image'));
+
+    //adding the delete button on existing elements
+    const imageElements = document.querySelectorAll('#trick_form_images>div>div');
+    imageElements.forEach(function(elem){
+        elem.insertAdjacentElement('afterend', createDeleteButton(true));
+    });
 }
 
 const addVideoHolder = document.querySelector('#trick_form_videos');
 
 if(addVideoHolder){
-    addVideoHolder.insertAdjacentElement('beforeend', createShowButton(addVideoHolder, 'add video'));
+    addVideoHolder.insertAdjacentElement('afterend', createShowButton(addVideoHolder, 'add video'));
+    //adding the delete button on existing elements
+    const imageElements = document.querySelectorAll('#trick_form_videos>div>div');
+    imageElements.forEach(function(elem){
+        elem.insertAdjacentElement('afterend', createDeleteButton(true));
+    });
 }
 
 function createShowButton(holder, text){
@@ -20,7 +31,7 @@ function createShowButton(holder, text){
 
         addElement.appendChild(createDeleteButton());
 
-        holder.insertAdjacentElement('beforebegin', addElement);
+        holder.insertAdjacentElement('beforeend', addElement);
 
         // Initialising the materialize select
         let elems = document.querySelectorAll('select');
@@ -32,9 +43,14 @@ function createShowButton(holder, text){
     return showButton;
 }
 
-function createDeleteButton(){
+// Creating the delete button, set the askConfirm to true for a delete confirmation
+function createDeleteButton(askConfirm = false){
     const deleteButton = document.createElement('a');
     deleteButton.setAttribute('class', 'btn waves-effect waves-light red lighten-2 deleteButton my-3');
+    
+    if(askConfirm){
+        deleteButton.dataset.askConfirm = "true";
+    }
 
     deleteButton.insertAdjacentHTML('beforeend','<i class="material-icons">delete</i>');
 
@@ -62,6 +78,13 @@ function getElementFromProto(holder){
 }
 
 function deleteFormRow(self){
-    console.log('here', self);
-    self.parentNode.parentNode.removeChild(self.parentNode);
+
+    let safeDelete = true;
+    if(self.dataset.askConfirm){
+        safeDelete = confirm("Are you sure you want to delete this element ?")
+    }
+    if(safeDelete){
+        self.parentNode.parentNode.removeChild(self.parentNode);
+    }
+
 }
