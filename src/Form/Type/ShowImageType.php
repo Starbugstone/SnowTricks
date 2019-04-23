@@ -22,17 +22,17 @@ class ShowImageType extends AbstractType{
 
         if(isset($options['image_property'])){
 
-            // this will be whatever class/entity is bound to your form (e.g. Media)
-            $parentData = $form->getParent()->getData();
+                // this will be whatever class/entity is bound to your form (e.g. Media)
+                $parentData = $form->getParent()->getData();
 
-            $imageUrl = null;
+                $imageUrl = null;
 
-            if (null !== $parentData) {
-                $accessor = PropertyAccess::createPropertyAccessor();
+                if (null !== $parentData) {
+                    $accessor = PropertyAccess::createPropertyAccessor();
 
-                $imageUrl = $accessor->getValue($parentData, $options['image_property']);
+                    $imageUrl = $accessor->getValue($parentData, $options['image_property']);
 
-            }
+                }
 
             // sets an "image_url" variable that will be available when rendering this field
             $view->vars['image_url'] = $imageUrl;
