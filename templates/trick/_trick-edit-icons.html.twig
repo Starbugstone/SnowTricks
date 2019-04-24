@@ -5,6 +5,6 @@
             <i class="material-icons">create</i>
         </a>
         <input type="hidden" name="_token" value="{{ csrf_token('delete-trick'~trick.id) }}" />
-        <button class="btn-small wave-effect waves-light px-2 mt-1" name="delete_{{ trick.id }}"><i class="material-icons">delete</i></button>
+        <button class="btn-small red lighten-2 wave-effect waves-light px-2 mt-1" name="delete_{{ trick.id }}"><i class="material-icons">delete</i></button>
     </form>
 {% endif %}

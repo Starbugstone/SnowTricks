@@ -2,7 +2,7 @@
 
 namespace App\Event\Video;
 
-class VideoDeleteEvent extends VideoEvent
+class VideoDeleteEvent extends AbstractVideoEvent
 {
     const NAME = 'video.delete';
 }

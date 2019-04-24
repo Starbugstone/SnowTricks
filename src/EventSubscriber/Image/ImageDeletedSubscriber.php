@@ -7,7 +7,7 @@ use App\Event\Image\ImageDeleteEvent;
 use App\FlashMessage\FlashMessageCategory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ImageDeletedSubscriber extends ImageSubscriber implements EventSubscriberInterface
+class ImageDeletedSubscriber extends AbstractImageSubscriber implements EventSubscriberInterface
 {
 
     public function deleteImageFromDatabase(ImageDeleteEvent $event)
@@ -21,7 +21,7 @@ class ImageDeletedSubscriber extends ImageSubscriber implements EventSubscriberI
         $this->em->flush();
 
 
-        $this->addFlash(FlashMessageCategory::SUCCESS, 'image ' . $image->getTitle() . ' deleted');
+        $this->addFlashMessage(FlashMessageCategory::SUCCESS, 'image ' . $image->getTitle() . ' deleted');
 
     }
 

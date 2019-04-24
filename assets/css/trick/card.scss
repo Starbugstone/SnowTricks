@@ -1,3 +1,19 @@
-.trick-card{
+.trick-card {
   height: 92%;
+
+  .card-image, .card-content{
+    height: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center
+  }
+
+  .trick-card-icons{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 1px;
+    margin-right: 5px;
+  }
 }

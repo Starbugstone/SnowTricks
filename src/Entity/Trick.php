@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Serializer\TagSerializer;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @Gedmo\Loggable
  * @UniqueEntity(fields="name", message="this trick already exists")
  */
-class Trick extends AppEntity
+class Trick extends AbstractAppEntity
 {
 
     const NUMBER_OF_DISPLAYED_TRICKS = 10;
@@ -139,24 +140,24 @@ class Trick extends AppEntity
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getEditedAt(): ?\DateTimeInterface
+    public function getEditedAt(): ?DateTimeInterface
     {
         return $this->editedAt;
     }
 
-    public function setEditedAt(\DateTimeInterface $editedAt): self
+    public function setEditedAt(DateTimeInterface $editedAt): self
     {
         $this->editedAt = $editedAt;
 

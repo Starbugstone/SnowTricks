@@ -7,6 +7,7 @@ use App\Event\Trick\TrickDeletedEvent;
 use App\Exception\RedirectException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -34,7 +35,7 @@ class DeleteTrickController extends AbstractController
      * @Route("/trick/delete/{id}", name="trick.delete", methods={"POST"})
      * @param Trick $trick
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     public function delete(Trick $trick, Request $request)
     {

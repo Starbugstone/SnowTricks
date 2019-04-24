@@ -1,16 +1,8 @@
-<div class="trick-image-box">
+<div class="trick-image-box w100">
 
-    <a href="{{ path('image.setprimary', {'image': image.id, 'trick': trick.id}) }}" class="waves-effect waves-light hoverable {{ image.primaryImage ? 'primary-trick-image' : 'trick-image' }}">
+    <a href="{{ path('image.setprimary', {'image': image.id, 'trick': trick.id}) }}" class="js-set-primary-image waves-effect waves-light w100 hoverable trick-image {{ image.primaryImage ? 'primary-trick-image'}}">
         {% include 'media/_trick-image.html.twig' with {'image': image} %}
     </a>
-
-    <div class="image-delete-button mr-1">
-        <form action="{{ path('image.deleteFromTrick', {id:image.id}) }}" method="post"
-              onsubmit="return confirm('are you sure you wish to delete {{ image.title }} ?')">
-            <input type="hidden" name="_token" value="{{ csrf_token('delete-image'~image.id) }}"/>
-            <button class="btn-small wave-effect waves-light px-2 mt-1" name="delete_{{ image.id }}"><i
-                        class="material-icons">delete</i></button>
-        </form>
-    </div>
+    <p class="center-align edit-image-label">{{ image.title }}</p>
 
 </div>

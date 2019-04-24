@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VideoRepository")
  */
-class Video extends AppEntity
+class Video extends AbstractAppEntity
 {
     /**
      * @ORM\Id()

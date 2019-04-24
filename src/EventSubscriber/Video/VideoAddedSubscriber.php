@@ -2,20 +2,18 @@
 
 namespace App\EventSubscriber\Video;
 
-use App\Entity\Video;
-use App\Entity\Trick;
 use App\Event\Video\VideoAddEvent;
-use App\Event\Video\VideoEvent;
+use App\Event\Video\AbstractVideoEvent;
 use App\FlashMessage\FlashMessageCategory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class VideoAddedSubscriber extends VideoSubscriber implements EventSubscriberInterface
+class VideoAddedSubscriber extends AbstractVideoSubscriber implements EventSubscriberInterface
 {
     /**
      * Send Image to the database and set a flash message
-     * @param VideoEvent $event
+     * @param AbstractVideoEvent $event
      */
-    public function registerVideoToDatabase(VideoEvent $event)
+    public function registerVideoToDatabase(AbstractVideoEvent $event)
     {
         $video = $event->getEntity();
 
@@ -25,7 +23,7 @@ class VideoAddedSubscriber extends VideoSubscriber implements EventSubscriberInt
         $this->em->persist($trick);
         $this->em->flush();
 
-        $this->addFlash(FlashMessageCategory::SUCCESS, 'Video '. $video->getTitle() .' Added');
+        $this->addFlashMessage(FlashMessageCategory::SUCCESS, 'Video '. $video->getTitle() .' Added');
     }
 
     /**

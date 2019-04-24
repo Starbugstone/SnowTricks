@@ -6,7 +6,7 @@ use App\Entity\Image;
 use App\Event\Image\ImageSetPrimaryEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ImageSetPrimarySubscriber extends ImageSubscriber implements EventSubscriberInterface
+class ImageSetPrimarySubscriber extends AbstractImageSubscriber implements EventSubscriberInterface
 {
 
     public function resetPrimaryImages(ImageSetPrimaryEvent $event)

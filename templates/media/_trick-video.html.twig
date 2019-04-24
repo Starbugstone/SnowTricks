@@ -5,19 +5,12 @@
 <!-- Video icon -->
 <div class="video-display">
     <a href="#modal{{ video.id }}" class="modal-trigger hoverable" title="{{ video.title }}">
-        <img src="{{ video.videoIntegrationImage }}" alt="{{ video.title }}" class="responsive-img w100 z-depth-2">
+        <img src="{{ video.videoIntegrationImage }}" alt="trick video {{ video.title }}" title="{{ video.title }}" class="responsive-img w100 z-depth-2">
         <i class="material-icons video-play-icon large">play_circle_outline</i>
     </a>
 
     {% if edit %}
-        <div class="image-delete-button mr-1">
-            <form action="{{ path('video.deleteFromTrick', {id:video.id}) }}" method="post"
-                  onsubmit="return confirm('are you sure you wish to delete {{ video.title }} ?')">
-                <input type="hidden" name="_token" value="{{ csrf_token('delete-video'~video.id) }}"/>
-                <button class="btn-small wave-effect waves-light px-2 mt-1" name="delete_{{ video.id }}"><i
-                            class="material-icons">delete</i></button>
-            </form>
-        </div>
+        <p class="center-align edit-image-label">{{ video.title }}</p>
     {% endif %}
 </div>
 <!-- Modal Structure -->

@@ -6,7 +6,7 @@ use App\Entity\User;
 use App\Event\User\UserValidatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class UserValidatedSubscriber extends UserSubscriber implements EventSubscriberInterface
+class UserValidatedSubscriber extends AbstractUserSubscriber implements EventSubscriberInterface
 {
 
 
@@ -20,7 +20,7 @@ class UserValidatedSubscriber extends UserSubscriber implements EventSubscriberI
 
     public function sendFlash()
     {
-        $this->addFlash('success', 'Account is verified');
+        $this->addFlashMessage('success', 'Account is verified');
     }
 
 

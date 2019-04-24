@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+
+    {% block header_title %}
+        {% if category is defined and category is not null %}
+            {{ category.name }}
+        {% else %}
+            {{ parent() }}
+        {% endif %}
+    {% endblock %}
+
+
+{% block body %}
+    <div id="trickSearchContainer">
+        <div class="row">
+            <form method="post" action="{{ path('trick.searchTrick') }}">
+                <div class="input-field col s8 offset-s2 center">
+                    <i class="material-icons prefix">search</i>
+                    <input placeholder="search tricks" id="search_trick" name="search_trick" type="text"
+                           class="validate" value="{{ searchTerm is defined ? searchTerm }}">
+                </div>
+                <input type="hidden" name="_token" value="{{ csrf_token('search-trick') }}"/>
+            </form>
+
+        </div>
+
+        {% if is_granted('ROLE_USER') %}
+            <div class="hide-on-med-and-up center">
+                <p><a href="{{ path('trick.new') }}" class="btn">Create a new trick</a></p>
+            </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col s12 m4 l3 xl2 w100">
+                <p class="center">Categories</p>
+                <div class="collection">
+
+                    <a href="{{ path('trick.search', {'categoryId':"", 'slug':""}) }}"
+                       class="collection-item {{ categoryId == "" ? 'active' }}">All</a>
+                    {% for category in categories %}
+                        <a href="{{ path('trick.search', {'categoryId':category.id, 'slug':category.slug}) }}"
+                           class="collection-item {{ categoryId == category.id ? 'active' }}">{{ category.Name }}</a>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            <div class="col s12 m8 l9 xl10">
+                <div class="row mx-xl-5 mt-xl-5 mt-l-3 mt-s-1 flex-center" id="card-list">
+                    {% include 'trick/_trick-card.html.twig' with {'tricks': tricks} %}
+                </div>
+            </div>
+
+
+            {% set url =  path('trick.search', {'page': nextPage, 'categoryId': categoryId, 'slug': slug}) %}
+            {% include 'trick/_loadMoreButton.html.twig' with {'nextPage': nextPage, 'url': url} %}
+
+        </div>
+    </div>
+
+
+{% endblock %}

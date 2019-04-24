@@ -4,18 +4,33 @@ namespace App\Form;
 
 use App\Entity\Video;
 use App\Entity\VideoType;
+use App\Form\Type\ShowImageType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class VideoTypeForm extends AbstractType
+class VideoFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event){
+                $video = $event->getData();
+
+                $form = $event->getForm();
+                if ($video && $video->getId() !== null){
+                    $form->add('vidImage', ShowImageType::class, [
+                        'image_property' => 'videoIntegrationImage',
+                        'mapped' => false,
+                        'label' => false,
+                    ])
+                    ;
+                }
+            })
             ->add('title', TextType::class, [
                 'label' => 'title of the Video',
                 'required' => true,
@@ -29,12 +44,6 @@ class VideoTypeForm extends AbstractType
                 'class' => VideoType::class,
                 'choice_label' => 'site',
                 ])
-            ->add('addVideo', SubmitType::class, [
-                'label' => $options['add_video_label'],
-                'attr' => [
-                    'class' => 'waves-effect waves-light btn right mr-2'
-                ]
-            ])
         ;
     }
 
@@ -42,7 +51,6 @@ class VideoTypeForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Video::class,
-            'add_video_label' => 'Add Video',
         ]);
     }
 }

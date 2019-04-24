@@ -4,9 +4,9 @@ namespace App\EventSubscriber\User;
 
 use App\Entity\User;
 use App\Event\User\UserChangepasswordEvent;
-use App\Event\User\UserEvent;
+use App\Event\User\AbstractUserEvent;
 use App\Event\User\UserForgotpasswordEvent;
-use App\Event\User\UserPasswordEvent;
+use App\Event\User\AbstractUserPasswordEvent;
 use App\Event\User\UserRegisteredEvent;
 use App\Event\User\UserResetpasswordEvent;
 use App\Event\User\UserUpdateAccountEvent;
@@ -17,7 +17,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
-class UserAccountSubscriber extends UserSubscriber implements EventSubscriberInterface
+class UserAccountSubscriber extends AbstractUserSubscriber implements EventSubscriberInterface
 {
 
     /**
@@ -44,7 +44,7 @@ class UserAccountSubscriber extends UserSubscriber implements EventSubscriberInt
         $this->mail = $mail;
     }
 
-    public function setPassword(UserPasswordEvent $event)
+    public function setPassword(AbstractUserPasswordEvent $event)
     {
         /** @var User $user */
         $user = $event->getEntity();
@@ -60,7 +60,7 @@ class UserAccountSubscriber extends UserSubscriber implements EventSubscriberInt
         $this->persist($event);
     }
 
-    public function registerHash(UserEvent $event)
+    public function registerHash(AbstractUserEvent $event)
     {
         /** @var User $user */
         $user = $event->getEntity();
@@ -68,12 +68,12 @@ class UserAccountSubscriber extends UserSubscriber implements EventSubscriberInt
         $this->persist($event);
     }
 
-    public function updateUser(UserEvent $event)
+    public function updateUser(AbstractUserEvent $event)
     {
         $this->persist($event);
     }
 
-    public function sendForgotpasswordMail(UserEvent $event)
+    public function sendForgotpasswordMail(AbstractUserEvent $event)
     {
         /** @var User $user */
         $user = $event->getEntity();
@@ -85,7 +85,7 @@ class UserAccountSubscriber extends UserSubscriber implements EventSubscriberInt
         );
     }
 
-    public function sendResetpasswordMail(UserEvent $event)
+    public function sendResetpasswordMail(AbstractUserEvent $event)
     {
         /** @var User $user */
         $user = $event->getEntity();
@@ -98,7 +98,7 @@ class UserAccountSubscriber extends UserSubscriber implements EventSubscriberInt
     }
 
 
-    public function sendValidationMail(UserEvent $event)
+    public function sendValidationMail(AbstractUserEvent $event)
     {
         /** @var User $user */
         $user = $event->getEntity();
@@ -110,11 +110,11 @@ class UserAccountSubscriber extends UserSubscriber implements EventSubscriberInt
         );
 
         if ($mailSent) {
-            $this->addFlash(FlashMessageCategory::SUCCESS, "A validation mail has been sent to " . $user->getEmail());
+            $this->addFlashMessage(FlashMessageCategory::SUCCESS, "A validation mail has been sent to " . $user->getEmail());
             return;
         }
 
-        $this->addFlash(FlashMessageCategory::ERROR, "Error sending email");
+        $this->addFlashMessage(FlashMessageCategory::ERROR, "Error sending email");
     }
 
     /**

@@ -2,11 +2,11 @@
 
 namespace App\Event\Comment;
 
-use App\Entity\AppEntity;
+use App\Entity\AbstractAppEntity;
 use App\Entity\Comment;
-use App\Event\AppEvent;
+use App\Event\AbstractAppEvent;
 
-abstract class CommentEvent extends AppEvent
+abstract class AbstractCommentEvent extends AbstractAppEvent
 {
     const NAME = 'user.defineMe';
 
@@ -23,7 +23,7 @@ abstract class CommentEvent extends AppEvent
     /**
      * @return Comment
      */
-    public function getEntity(): AppEntity
+    public function getEntity(): AbstractAppEntity
     {
         return $this->entity;
     }

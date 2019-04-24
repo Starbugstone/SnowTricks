@@ -31,7 +31,7 @@ class RedirectExceptionSubscriber implements EventSubscriberInterface
             $redirectResponse = new RedirectResponse($event->getException()->getRedirectResponse());
 
             if($event->getException()->getMessage() !== ""){
-                $this->addFlash(FlashMessageCategory::ERROR, $event->getException()->getMessage());
+                $this->addFlashMessage(FlashMessageCategory::ERROR, $event->getException()->getMessage());
             }
 
             $event->setResponse($redirectResponse);

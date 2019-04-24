@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
+{% block header_title %}
     Edit trick {{ trick.name }}
 {% endblock %}
 
@@ -19,10 +19,11 @@
             <!-- Header image -->
             {% include 'media/_trick-primary-image.html.twig' with {'trick': trick} %}
 
-            <h1 class="trick-name center-align w100 font-coiny m-0 text-shadow">{{ trick.name }}</h1>
+            <h1 class="trick-name center-align w100 font-coiny m-0 bordered-text responsive-header">EDIT :<br>{{ trick.name }}</h1>
         </div>
 
         <!-- Images and videos -->
+        <h2 class="small-title grey-text text-lighten-1 mt-1 mb-2">Set the main image</h2>
         <div class="row flex-center valign-wrapper" id="trick-images">
             {% for image in trick.images %}
                 <div class="col xl2 l3 m6 s12 mt-3">
@@ -36,22 +37,6 @@
                 </div>
             {% endfor %}
         </div>
-
-        <!-- Add image and video -->
-        <div class="row">
-            <div class="col m4 offset-m1">
-                {{ form_start(imageForm) }}
-                {{ form_widget(imageForm) }}
-                {{ form_end(imageForm) }}
-            </div>
-            <div class="col m4 offset-m1">
-                {{ form_start(videoForm) }}
-                {{ form_widget(videoForm) }}
-                {{ form_end(videoForm) }}
-            </div>
-        </div>
-
-        <h1>edit {{ trick.name }}</h1>
 
         {% include 'trick/admin/_edit-trick-form.html.twig' with {'form': form} %}
 

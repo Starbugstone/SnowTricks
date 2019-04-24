@@ -1,4 +1,4 @@
-{% if primary_image_carouse is same as("true") and trick.primaryImages|length >1 %} {# We want a carousel and have at least two image #}
+{% if app_primary_image_carouse is same as("true") and trick.primaryImages|length >1 %} {# We want a carousel and have at least two image #}
     <div class="carousel">
         {% for primaryImage in trick.primaryImages %}
             <a class="carousel-item" href="#{{ primaryImage.id }}!"><img src="{{ vich_uploader_asset(primaryImage, 'imageFile') }}"></a>
@@ -7,9 +7,26 @@
 {% else %}
     {% set primaryImage = trick.primaryImages|first %}
     {% if primaryImage %}
-        <img src="{{ vich_uploader_asset(primaryImage, 'imageFile') }}" alt="{{ primaryImage.title }}" class="responsive-img w100">
+        <img id="trick-primary-image" src="{{ vich_uploader_asset(primaryImage, 'imageFile') }}" alt="snow trick image {{ primaryImage.title }}" title="{{ trick.name }} - {{ primaryImage.title }}" class="responsive-img w100">
     {% else %}
-        <img src="{{ app_default_trick_image }}" alt="" class="responsive-img w100">
+        <img id="trick-primary-image" src="{{ app_default_trick_image }}" alt="Default Trick image" title="{{ trick.name }}" class="responsive-img w100">
     {% endif %}
+
+    {#Preloader image#}
+    <div class="center-align mt-4" id="primary-image-preloader" style="display: none">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                    <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 {% endif %}
 

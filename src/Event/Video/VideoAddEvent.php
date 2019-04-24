@@ -2,7 +2,7 @@
 
 namespace App\Event\Video;
 
-class VideoAddEvent extends VideoEvent
+class VideoAddEvent extends AbstractVideoEvent
 {
     const NAME = 'video.add';
 }

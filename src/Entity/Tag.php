@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
  * @UniqueEntity(fields="name", message="this Tag already exists")
  */
-class Tag
+class Tag extends AbstractAppEntity
 {
     /**
      * @ORM\Id()

@@ -3,7 +3,7 @@
 namespace App\Event\Trick;
 
 
-class TrickEditedEvent extends TrickEvent
+class TrickEditedEvent extends AbstractTrickEvent
 {
     const NAME = 'trick.edited';
 

@@ -3,7 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Comment;
+use App\Pagination\PaginateRepositoryTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use InvalidArgumentException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -14,37 +17,27 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class CommentRepository extends ServiceEntityRepository
 {
+    use PaginateRepositoryTrait;
+
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Comment::class);
     }
 
-    // /**
-    //  * @return Comment[] Returns an array of Comment objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findLatestEdited(int $trickId, int $currentPage = 1)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        if ($currentPage < 1) {
+            throw new InvalidArgumentException("Current page can not be lower than one");
+        }
 
-    /*
-    public function findOneBySomeField($value): ?Comment
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $query = $this->createQueryBuilder('c')
+            ->where('c.trick = :trickId')
+            ->setParameter('trickId', $trickId)
+            ->orderBy('c.createdAt', 'DESC')
+            ->getQuery();
+
+        $paginator = $this->paginate($query,Comment::NUMBER_OF_DISPLAYED_COMMENTS, $currentPage);
+
+        return $paginator;
     }
-    */
 }

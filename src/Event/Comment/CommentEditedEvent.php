@@ -2,7 +2,7 @@
 
 namespace App\Event\Comment;
 
-class CommentEditedEvent extends CommentEvent
+class CommentEditedEvent extends AbstractCommentEvent
 {
     const NAME = 'comment.edited';
 

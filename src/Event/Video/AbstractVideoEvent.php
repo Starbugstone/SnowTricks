@@ -2,13 +2,12 @@
 
 namespace App\Event\Video;
 
-use App\Entity\AppEntity;
-
+use App\Entity\AbstractAppEntity;
 use App\Entity\Trick;
 use App\Entity\Video;
-use App\Event\AppEvent;
+use App\Event\AbstractAppEvent;
 
-abstract class VideoEvent extends AppEvent
+abstract class AbstractVideoEvent extends AbstractAppEvent
 {
     const NAME = 'user.defineMe';
 
@@ -31,7 +30,7 @@ abstract class VideoEvent extends AppEvent
     /**
      * @return Video
      */
-    public function getEntity(): AppEntity
+    public function getEntity(): AbstractAppEntity
     {
         return $this->entity;
     }

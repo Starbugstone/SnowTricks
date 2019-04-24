@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -12,8 +15,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
  * @Vich\Uploadable
  */
-class Image extends AppEntity
+class Image extends AbstractAppEntity
 {
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -81,6 +85,12 @@ class Image extends AppEntity
         return $this->image;
     }
 
+    public function getWebImage(): ?string
+    {
+        return '/uploads/trick_images/'.$this->image;
+    }
+
+
     public function setImage(?string $image): self
     {
         $this->image = $image;
@@ -100,12 +110,12 @@ class Image extends AppEntity
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -123,12 +133,12 @@ class Image extends AppEntity
     /**
      * @param File $imageFile
      * @return Image
-     * @throws \Exception
+     * @throws Exception
      */
     public function setImageFile(File $imageFile): Image
     {
         $this->imageFile = $imageFile;
-        $this->updatedAt = new \DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
 
         return $this;
     }
@@ -149,5 +159,4 @@ class Image extends AppEntity
 
         return $this;
     }
-
 }

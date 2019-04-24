@@ -6,5 +6,15 @@ twig:
         app_default_user_image: '%env(DEFAULT_IMAGE_PATH)%/%env(DEFAULT_USER_IMAGE)%'
         app_default_trick_image: '%env(DEFAULT_IMAGE_PATH)%/%env(DEFAULT_TRICK_IMAGE)%'
         app_menu_logo: '%env(DEFAULT_IMAGE_PATH)%/%env(DEFAULT_MENU_LOGO)%'
-        primary_image_carouse: '%env(PRIMARY_IMAGE_CAROUSEL)%'
+        app_frontpage_image: '%env(DEFAULT_IMAGE_PATH)%/%env(DEFAULT_FRONTPAGE_IMAGE)%'
+        app_frontpage_text: '%env(DEFAULT_FRONTPAGE_TEXT)%'
+        app_primary_image_carouse: '%env(PRIMARY_IMAGE_CAROUSEL)%'
+        app_default_page_title: '%env(DEFAULT_PAGE_TITLE)%'
+        app_default_page_description: '%env(DEFAULT_PAGE_DESCRIPTION)%'
+        app_default_page_keywords: '%env(DEFAULT_PAGE_KEYWORDS)%'
+        app_default_upload_trick_image_path: '%env(DEFAULT_UPLOAD_TRICK_IMAGE_PATH)%'
 
+
+    form_themes:
+        - 'Form/vich_fields.html.twig'
+        - 'Form/fields.html.twig'

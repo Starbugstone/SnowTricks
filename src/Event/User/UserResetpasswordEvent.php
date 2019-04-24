@@ -2,9 +2,7 @@
 
 namespace App\Event\User;
 
-use App\Entity\User;
-
-class UserResetpasswordEvent extends UserPasswordEvent
+class UserResetpasswordEvent extends AbstractUserPasswordEvent
 {
     const NAME = 'user.resetpassword';
 

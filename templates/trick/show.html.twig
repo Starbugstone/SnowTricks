@@ -1,12 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block keywords %}{% for tag in trick.tags %}{{ tag.name }},{% endfor %}{% endblock %}
+{% block header_keywords %}{% for tag in trick.tags %}{{ tag.name }},{% endfor %}{% endblock %}
 
-{% block title %}SnowTricks - Trick Name{% endblock %}
+{% block header_title %}{{ trick.name }}{% endblock %}
+{% block header_description %}{{ trick.text|striptags|length > 155 ? trick.text|striptags|slice(0, 155) ~ '...' : trick.text|striptags }}{% endblock %}
 
 {% block body %}
 
-    <div class="trick-container container z-depth-1 mt-5" id="trickShowContainer" data-id="{{ trick.id }}">
+    <div class="trick-container container z-depth-1 my-5 pb-1" id="trickShowContainer" data-id="{{ trick.id }}">
 
         <!-- Header image with edit buttons -->
         <div class="trick-image-header">
@@ -22,11 +23,18 @@
             <!-- Header image -->
             {% include 'media/_trick-primary-image.html.twig' with {'trick': trick} %}
 
-            <h1 class="trick-name center-align w100 font-coiny m-0 text-shadow">{{ trick.name }}</h1>
+            <h1 class="trick-name center-align w100 font-coiny m-0 bordered-text responsive-header">{{ trick.name }}</h1>
         </div>
 
         <!-- Images and videos -->
-        <div class="row flex-center valign-wrapper" id="trick-images">
+        {% if trick.images|length > 0 %}
+            <div class="hide-on-med-and-up center">
+                <button class="waves-effect waves-light btn" id="view-trick-images">
+                    <i class="material-icons left">insert_photo</i>View photos
+                </button>
+            </div>
+        {% endif %}
+        <div class="row flex-center valign-wrapper hide-on-small-only" id="trick-images">
             {% for image in trick.images %}
                 <div class="col xl2 l3 m6 s12 mt-3">
                     {% include 'media/_trick-image.html.twig' with {'image': image} %}
@@ -40,19 +48,20 @@
             {% endfor %}
         </div>
 
+
         <article class="px-5 trick-article">
             {{ trick.text|escape|markdown }}
         </article>
 
         <!-- Info tags -->
         <div class="row flex-center mt-3">
-            <div class="col s3 mx-2 p-1 z-depth-1 valign-wrapper">
+            <div class="col s12 l3 mx-2 p-1 z-depth-1 valign-wrapper">
                 <p class="center w100">Page created at : <br>{{ trick.createdAt |date('d/m/y') }}</p>
             </div>
-            <div class="col s3 mx-2 p-1 z-depth-1 valign-wrapper">
+            <div class="col s12 mt-2 mt-l-0 l3 mx-2 p-1 z-depth-1 valign-wrapper">
                 <p class="center w100">Category : <br>{{ trick.category.name }}</p>
             </div>
-            <div class="col s3 mx-2 p-1 z-depth-1 valign-wrapper">
+            <div class="col s12 l3 mt-2 mt-l-0 mx-2 p-1 z-depth-1 valign-wrapper">
                 <p class="center w100">Last modification : <br>{{ trick.editedAt | date('d/m/y') }}</p>
             </div>
         </div>
@@ -67,47 +76,28 @@
         </div>
 
 
-        <hr class="mt-3 seperator">
+        <hr class="mt-3 seperator" id="end-trick">
 
         <!-- Add comment -->
         {% if is_granted('ROLE_USER') %}
-            {{ form_start(commentForm, {
-                action:path('comment.create',{'id':trick.id}),
-                method:'POST',
-            }) }}
-
             <div class="row">
-                <div class="input-field col m6 s12 offset-m2">
-                    <i class="material-icons prefix">mode_edit</i>
-                    {{ form_widget(commentForm.comment) }}
-                    {{ form_label(commentForm.comment, 'comment') }}
-                </div>
-                <div class="col m2 s12 valign-wrapper my-3">
-                    {{ form_widget(commentForm.save) }}
+                <div class="col m6 s12 offset-m2">
+                    {% include 'comment/_comment-form.html.twig' with {'commentForm': commentForm, 'actionPath': actionPath} %}
                 </div>
             </div>
-
-
-            {{ form_end(commentForm) }}
-
             <hr class="seperator">
         {% endif %}
 
         <!-- List comments -->
-        <div id="trick-comments">
-            {% for comment in trick.comments %}
+        <div id="card-list">
 
-                {% include 'comment/_comment-line.html.twig' with {'comment': comment} %}
-
-            {% endfor %}
-        </div>
-
-        <div class="row valign-wrapper pb-5">
-            <div class="col s12 my-3 center-align">
-                <a href="" class="btn">Load More</a>
-            </div>
+            {% include 'comment/_comment-line.html.twig' with {'comments': comments} %}
 
         </div>
+
+        {% set url =  path('trick.show', {'page': nextPage, 'id': trick.id, 'slug': trick.slug}) %}
+        {% include 'trick/_loadMoreButton.html.twig' with {'nextPage': nextPage, 'url': url} %}
+
     </div>
 
 
