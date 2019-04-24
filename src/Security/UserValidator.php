@@ -47,7 +47,7 @@ class UserValidator
         $this->retrieveUserFromToken($token);
 
         if($this->isUserVerified()){
-            $this->addFlash(FlashMessageCategory::ERROR, 'Mail already verified');
+            $this->addFlashMessage(FlashMessageCategory::ERROR, 'Mail already verified');
             throw new RedirectException($this->urlGenerator->generate('app_login'));
         }
 
@@ -65,7 +65,7 @@ class UserValidator
     {
         $this->retrieveUserFromToken($token);
         if(!$this->isUserVerifiedDateTime()){
-            $this->addFlash(FlashMessageCategory::ERROR, 'Token is too old, please use this form to resend a link');
+            $this->addFlashMessage(FlashMessageCategory::ERROR, 'Token is too old, please use this form to resend a link');
             throw new RedirectException($this->urlGenerator->generate('app_forgotpassword'));
         }
         return !$this->isUserVerified();
@@ -82,7 +82,7 @@ class UserValidator
         $user = $this->em->getRepository(User::class)->findUserByhash($token);
         if (!$user) {
             //no user found
-            $this->addFlash(FlashMessageCategory::ERROR, 'Invalid Token, please use this form to resend a link');
+            $this->addFlashMessage(FlashMessageCategory::ERROR, 'Invalid Token, please use this form to resend a link');
             throw new RedirectException($this->urlGenerator->generate('app_forgotpassword'));
         }
 

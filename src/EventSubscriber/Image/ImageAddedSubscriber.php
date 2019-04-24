@@ -27,7 +27,7 @@ class ImageAddedSubscriber extends AbstractImageSubscriber implements EventSubsc
         $this->em->persist($trick);
         $this->em->flush();
 
-        $this->addFlash(FlashMessageCategory::SUCCESS, 'Image Added');
+        $this->addFlashMessage(FlashMessageCategory::SUCCESS, 'Image Added');
     }
 
     /**

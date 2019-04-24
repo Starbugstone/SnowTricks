@@ -21,7 +21,7 @@ class ImageDeletedSubscriber extends AbstractImageSubscriber implements EventSub
         $this->em->flush();
 
 
-        $this->addFlash(FlashMessageCategory::SUCCESS, 'image ' . $image->getTitle() . ' deleted');
+        $this->addFlashMessage(FlashMessageCategory::SUCCESS, 'image ' . $image->getTitle() . ' deleted');
 
     }
 

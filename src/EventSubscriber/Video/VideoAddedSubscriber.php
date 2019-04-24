@@ -23,7 +23,7 @@ class VideoAddedSubscriber extends AbstractVideoSubscriber implements EventSubsc
         $this->em->persist($trick);
         $this->em->flush();
 
-        $this->addFlash(FlashMessageCategory::SUCCESS, 'Video '. $video->getTitle() .' Added');
+        $this->addFlashMessage(FlashMessageCategory::SUCCESS, 'Video '. $video->getTitle() .' Added');
     }
 
     /**

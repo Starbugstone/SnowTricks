@@ -20,7 +20,7 @@ class UserValidatedSubscriber extends AbstractUserSubscriber implements EventSub
 
     public function sendFlash()
     {
-        $this->addFlash('success', 'Account is verified');
+        $this->addFlashMessage('success', 'Account is verified');
     }
 
 

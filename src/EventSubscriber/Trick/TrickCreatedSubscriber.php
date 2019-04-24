@@ -35,7 +35,7 @@ class TrickCreatedSubscriber extends AbstractTrickSubscriber implements EventSub
     {
         $trick = $event->getEntity();
         $this->sendToDatabase($event);
-        $this->addFlash(FlashMessageCategory::SUCCESS, 'Trick ' . $trick->getName() . ' saved');
+        $this->addFlashMessage(FlashMessageCategory::SUCCESS, 'Trick ' . $trick->getName() . ' saved');
     }
 
     /**

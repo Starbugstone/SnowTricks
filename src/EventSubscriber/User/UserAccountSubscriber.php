@@ -110,11 +110,11 @@ class UserAccountSubscriber extends AbstractUserSubscriber implements EventSubsc
         );
 
         if ($mailSent) {
-            $this->addFlash(FlashMessageCategory::SUCCESS, "A validation mail has been sent to " . $user->getEmail());
+            $this->addFlashMessage(FlashMessageCategory::SUCCESS, "A validation mail has been sent to " . $user->getEmail());
             return;
         }
 
-        $this->addFlash(FlashMessageCategory::ERROR, "Error sending email");
+        $this->addFlashMessage(FlashMessageCategory::ERROR, "Error sending email");
     }
 
     /**

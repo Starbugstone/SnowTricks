@@ -16,7 +16,7 @@ class TrickDeletedSubscriber extends AbstractTrickSubscriber implements EventSub
     {
         $trick = $event->getEntity();
         $this->deleteFromDatabase($event);
-        $this->addFlash(FlashMessageCategory::SUCCESS, 'Trick ' . $trick->getName() . ' Deleted');
+        $this->addFlashMessage(FlashMessageCategory::SUCCESS, 'Trick ' . $trick->getName() . ' Deleted');
     }
 
     /**

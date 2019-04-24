@@ -17,7 +17,7 @@ class CommentCreatedSubscriber extends AbstractCommentSubscriber implements Even
     public function registerCommentToDatabase(AbstractCommentEvent $event)
     {
         $this->sendToDatabase($event);
-        $this->addFlash(FlashMessageCategory::SUCCESS, 'Comment saved');
+        $this->addFlashMessage(FlashMessageCategory::SUCCESS, 'Comment saved');
     }
 
     /**

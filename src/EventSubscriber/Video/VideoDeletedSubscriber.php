@@ -23,7 +23,7 @@ class VideoDeletedSubscriber extends AbstractVideoSubscriber implements EventSub
         $this->em->persist($trick);
         $this->em->flush();
 
-        $this->addFlash(FlashMessageCategory::SUCCESS, 'Video '. $video->getTitle() .' deleted');
+        $this->addFlashMessage(FlashMessageCategory::SUCCESS, 'Video '. $video->getTitle() .' deleted');
     }
 
     /**

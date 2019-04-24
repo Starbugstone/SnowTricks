@@ -50,7 +50,7 @@ class RevertHistoryTrickController extends AbstractController
         $version = $request->request->get('_version');
         $this->trickHistory->revertToHistory($trick->getId(), $version);
 
-        $this->addFlash(FlashMessageCategory::SUCCESS, 'Reverted ' . $trick->getName());
+        $this->addFlashMessage(FlashMessageCategory::SUCCESS, 'Reverted ' . $trick->getName());
         return $this->redirectToRoute('trick.show', [
             'id' => $trick->getId(),
             'slug' => $trick->getSlug(),

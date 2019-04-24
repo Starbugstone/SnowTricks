@@ -13,7 +13,7 @@ trait AddFlashTrait{
      * @param string $type
      * @param string $message
      */
-    public function addFlash(string $type, string $message)
+    public function addFlashMessage(string $type, string $message)
     {
         $this->flashBag->add($type, $message);
     }

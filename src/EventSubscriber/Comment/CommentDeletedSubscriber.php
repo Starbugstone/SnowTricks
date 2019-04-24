@@ -16,7 +16,7 @@ class CommentDeletedSubscriber extends AbstractCommentSubscriber implements Even
     public function deleteCommentFromDatabase(CommentDeletedEvent $event)
     {
         $this->deleteFromDatabase($event);
-        $this->addFlash(FlashMessageCategory::SUCCESS, 'Comment Deleted');
+        $this->addFlashMessage(FlashMessageCategory::SUCCESS, 'Comment Deleted');
     }
 
     /**
