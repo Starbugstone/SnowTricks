@@ -1,4 +1,4 @@
-{% if primary_image_carouse is same as("true") and trick.primaryImages|length >1 %} {# We want a carousel and have at least two image #}
+{% if app_primary_image_carouse is same as("true") and trick.primaryImages|length >1 %} {# We want a carousel and have at least two image #}
     <div class="carousel">
         {% for primaryImage in trick.primaryImages %}
             <a class="carousel-item" href="#{{ primaryImage.id }}!"><img src="{{ vich_uploader_asset(primaryImage, 'imageFile') }}"></a>

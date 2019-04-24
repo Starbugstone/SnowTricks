@@ -8,11 +8,11 @@ twig:
         app_menu_logo: '%env(DEFAULT_IMAGE_PATH)%/%env(DEFAULT_MENU_LOGO)%'
         app_frontpage_image: '%env(DEFAULT_IMAGE_PATH)%/%env(DEFAULT_FRONTPAGE_IMAGE)%'
         app_frontpage_text: '%env(DEFAULT_FRONTPAGE_TEXT)%'
-        primary_image_carouse: '%env(PRIMARY_IMAGE_CAROUSEL)%'
-        DEFAULT_PAGE_TITLE: '%env(DEFAULT_PAGE_TITLE)%'
-        DEFAULT_PAGE_DESCRIPTION: '%env(DEFAULT_PAGE_DESCRIPTION)%'
-        DEFAULT_PAGE_KEYWORDS: '%env(DEFAULT_PAGE_KEYWORDS)%'
-        DEFAULT_UPLOAD_TRICK_IMAGE_PATH: '%env(DEFAULT_UPLOAD_TRICK_IMAGE_PATH)%'
+        app_primary_image_carouse: '%env(PRIMARY_IMAGE_CAROUSEL)%'
+        app_default_page_title: '%env(DEFAULT_PAGE_TITLE)%'
+        app_default_page_description: '%env(DEFAULT_PAGE_DESCRIPTION)%'
+        app_default_page_keywords: '%env(DEFAULT_PAGE_KEYWORDS)%'
+        app_default_upload_trick_image_path: '%env(DEFAULT_UPLOAD_TRICK_IMAGE_PATH)%'
 
 
     form_themes:
