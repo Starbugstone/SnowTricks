@@ -6,6 +6,8 @@ twig:
         app_default_user_image: '%env(DEFAULT_IMAGE_PATH)%/%env(DEFAULT_USER_IMAGE)%'
         app_default_trick_image: '%env(DEFAULT_IMAGE_PATH)%/%env(DEFAULT_TRICK_IMAGE)%'
         app_menu_logo: '%env(DEFAULT_IMAGE_PATH)%/%env(DEFAULT_MENU_LOGO)%'
+        app_frontpage_image: '%env(DEFAULT_IMAGE_PATH)%/%env(DEFAULT_FRONTPAGE_IMAGE)%'
+        app_frontpage_text: '%env(DEFAULT_FRONTPAGE_TEXT)%'
         primary_image_carouse: '%env(PRIMARY_IMAGE_CAROUSEL)%'
         DEFAULT_PAGE_TITLE: '%env(DEFAULT_PAGE_TITLE)%'
         DEFAULT_PAGE_DESCRIPTION: '%env(DEFAULT_PAGE_DESCRIPTION)%'
