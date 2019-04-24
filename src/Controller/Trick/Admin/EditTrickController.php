@@ -67,14 +67,6 @@ class EditTrickController extends AbstractController
             'all_tags_json' => $this->tagSerializer->allTagsJson(),
             'trick_tags_json' => $trick->getTagsJson(),
         ]);
-        $form
-            ->add('delete', SubmitType::class, [
-                'label' => 'Delete',
-                'attr' => [
-                    'class' => 'waves-effect waves-light btn red lighten-2 right mr-2',
-                    'onclick' => 'return confirm(\'are you sure?\')',
-                ]
-            ]);
 
         $form->handleRequest($request);
 
