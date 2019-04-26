@@ -53,14 +53,4 @@ class VisitorPageTest extends WebTestCase
         //making sure we are on the login page
         $this->assertGreaterThan(0, $crawler->filter('form#login-form')->count());
     }
-
-    public function testAdminRejected()
-    {
-        $this->client->request('GET', '/admin');
-        $this->assertTrue($this->client->getResponse()->isRedirect()); //not authed, should be a redirect
-        $crawler = $this->client->followRedirect();
-
-        //making sure we are on the login page
-        $this->assertGreaterThan(0, $crawler->filter('form#login-form')->count());
-    }
 }
