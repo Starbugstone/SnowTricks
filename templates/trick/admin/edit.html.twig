@@ -40,15 +40,6 @@
 
         {% include 'trick/admin/_edit-trick-form.html.twig' with {'form': form} %}
 
-        {# Getting the logs #}
-        {% if is_granted('ROLE_ADMIN') %}
-            <div class="row center">
-                <a class="btn waves-effect waves-light mb-3"
-                   href="{{ path('trick.history', {'id': trick.id}) }}">view {{ trick.name }} history</a>
-            </div>
-
-        {% endif %}
-
     </div>
 {% endblock %}
 
