@@ -50,7 +50,7 @@
 
 
         <article class="px-5 trick-article">
-            {{ trick.text|nl2br }}
+            {{ trick.text|escape|markdown }}
         </article>
 
         <!-- Info tags -->
