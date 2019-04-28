@@ -70,6 +70,7 @@ class UserAccountSubscriber extends AbstractUserSubscriber implements EventSubsc
 
     public function updateUser(AbstractUserEvent $event)
     {
+//        dd($event);
         $this->persist($event);
     }
 

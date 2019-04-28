@@ -1,5 +1,7 @@
-{% if vich_uploader_asset(user, 'imageFile') is not null %}
-    {% set imageUrl = vich_uploader_asset(user, 'imageFile') %}
+{#{% if vich_uploader_asset(user, 'imageFile') is not null %}#}
+{#    {% set imageUrl = vich_uploader_asset(user, 'imageFile') %}#}
+{% if user.image is not null %}
+    {% set imageUrl = '/uploads/user_images/'~user.image %}
 {% else %}
     {% set imageUrl = app_default_user_image %}
 {% endif %}

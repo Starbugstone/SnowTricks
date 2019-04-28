@@ -16,14 +16,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use App\Uploader\Annotation\UploadableField;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  * @UniqueEntity(fields={"userName"}, message="There is already an account with this username")
  * @UniqueEntity(fields={"verifiedHash"}, message="Hash already exists")
- * @Vich\Uploadable
  */
 class User extends AbstractAppEntity implements UserInterface, Serializable
 {
@@ -66,7 +65,7 @@ class User extends AbstractAppEntity implements UserInterface, Serializable
     private $image = "";
 
     /**
-     * @Vich\UploadableField(mapping="user_images", fileNameProperty="image")
+     * @UploadableField(filename="image", path="/uploads/user_images")
      * @var File
      */
     private $imageFile;
@@ -219,7 +218,6 @@ class User extends AbstractAppEntity implements UserInterface, Serializable
     public function setImageFile(File $imageFile = null): self
     {
         $this->imageFile = $imageFile;
-
         // VERY IMPORTANT:
         // It is required that at least one field changes if you are using Doctrine,
         // otherwise the event listeners won't be called and the file is lost
