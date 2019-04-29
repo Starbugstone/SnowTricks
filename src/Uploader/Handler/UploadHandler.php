@@ -22,10 +22,12 @@ class UploadHandler {
     public function uploadFile($entity, $property, $annotation) {
         $file = $this->accessor->getValue($entity, $property);
         if ($file instanceof UploadedFile) {
+            dump($annotation);
             $this->removeOldFile($entity, $annotation);
             $filename = $file->getClientOriginalName();
-            $file->move($annotation->getPath(), $filename);
+            $file->move($annotation->getPath(), $filename);//this doesn't seam right
             $this->accessor->setValue($entity, $annotation->getFilename(), $filename);
+            dd($filename);
         }
     }
 
