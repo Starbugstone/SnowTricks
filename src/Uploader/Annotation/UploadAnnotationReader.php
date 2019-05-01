@@ -16,7 +16,7 @@ class UploadAnnotationReader {
     }
 
     /**
-     * Liste les champs uploadable d'une entité (sous forme de tableau associatif)
+     * List uploadable fields from an entity as a table
      */
     public function getUploadableFields($entity): array {
         $reflection = new \ReflectionClass(get_class($entity));

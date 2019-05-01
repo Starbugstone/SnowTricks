@@ -65,8 +65,7 @@ class User extends AbstractAppEntity implements UserInterface, Serializable
     private $image = "";
 
     /**
-     * %app.path.user_images%
-     * @UploadableField(filename="image", path="/uploads/user_images")
+     * @UploadableField(filename="image", path="uploads/user_images")
      * @var File
      */
     private $imageFile;

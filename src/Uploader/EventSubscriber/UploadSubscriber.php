@@ -33,20 +33,14 @@ class UploadSubscriber implements EventSubscriber {
             Events::preUpdate,
             Events::postLoad,
             Events::postRemove,
-//            'prePersist',
-//            'preUpdate',
-//            'postLoad',
-//            'postRemove'
         ];
     }
 
     public function prePersist(EventArgs $event) {
-        dd('prePersist');
         $this->preEvent($event);
     }
 
     public function preUpdate(EventArgs $event) {
-//        dd('preUpdate');
         $this->preEvent($event);
     }
 
@@ -59,18 +53,13 @@ class UploadSubscriber implements EventSubscriber {
     }
 
     public function postLoad(EventArgs $event) {
-
         $entity = $event->getEntity();
         foreach ($this->reader->getUploadableFields($entity) as $property => $annotation) {
             $this->handler->setFileFromFilename($entity, $property, $annotation);
-//            dump($property);
-//            dump($annotation);
         }
-//        dd('postLoad');
     }
 
     public function postRemove(EventArgs $event) {
-        dd('postRemove');
         $entity = $event->getEntity();
         foreach ($this->reader->getUploadableFields($entity) as $property => $annotation) {
             $this->handler->removeFile($entity, $property);
