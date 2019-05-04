@@ -1,13 +1,13 @@
 {% if app_primary_image_carouse is same as("true") and trick.primaryImages|length >1 %} {# We want a carousel and have at least two image #}
     <div class="carousel">
         {% for primaryImage in trick.primaryImages %}
-            <a class="carousel-item" href="#{{ primaryImage.id }}!"><img src="{{ vich_uploader_asset(primaryImage, 'imageFile') }}"></a>
+            <a class="carousel-item" href="#{{ primaryImage.id }}!"><img src="/uploads/trick_images/{{ primaryImage.image }}"></a>
         {% endfor %}
     </div>
 {% else %}
     {% set primaryImage = trick.primaryImages|first %}
     {% if primaryImage %}
-        <img id="trick-primary-image" src="{{ vich_uploader_asset(primaryImage, 'imageFile') }}" alt="snow trick image {{ primaryImage.title }}" title="{{ trick.name }} - {{ primaryImage.title }}" class="responsive-img w100">
+        <img id="trick-primary-image" src="/uploads/trick_images/{{ primaryImage.image }}" alt="snow trick image {{ primaryImage.title }}" title="{{ trick.name }} - {{ primaryImage.title }}" class="responsive-img w100">
     {% else %}
         <img id="trick-primary-image" src="{{ app_default_trick_image }}" alt="Default Trick image" title="{{ trick.name }}" class="responsive-img w100">
     {% endif %}

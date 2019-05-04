@@ -26,9 +26,11 @@
         <h2 class="small-title grey-text text-lighten-1 mt-1 mb-2">Set the main image</h2>
         <div class="row flex-center valign-wrapper" id="trick-images">
             {% for image in trick.images %}
+                {% if image.id is not null %} {# if null, we had an upload problem #}
                 <div class="col xl2 l3 m6 s12 mt-3">
                     {% include 'media/_edit-trick-image.html.twig' with {'image': image, 'edit': true, 'trick': trick} %}
                 </div>
+                {% endif %}
             {% endfor %}
 
             {% for video in trick.videos %}

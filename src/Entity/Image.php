@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Uploader\Annotation\UploadableField;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -42,13 +43,13 @@ class Image extends AbstractAppEntity
     private $image;
 
     /**
-     * @Vich\UploadableField(mapping="trick_images", fileNameProperty="image")
+     * @UploadableField(filename="image", path="uploads/trick_images")
      * @var File
      */
     private $imageFile;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="images")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="images", cascade={"persist"})
      */
     private $trick;
 
