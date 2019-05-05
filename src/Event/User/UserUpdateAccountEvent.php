@@ -2,7 +2,7 @@
 
 namespace App\Event\User;
 
-class UserUpdateAccountEvent extends UserEvent
+class UserUpdateAccountEvent extends AbstractUserEvent
 {
     const NAME = 'user.updateAccount';
 

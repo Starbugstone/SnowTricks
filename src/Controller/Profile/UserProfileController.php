@@ -2,6 +2,7 @@
 
 namespace App\Controller\Profile;
 
+use App\Entity\User;
 use App\Event\User\UserChangepasswordEvent;
 use App\Event\User\UserUpdateAccountEvent;
 use App\Form\UserChangePasswordFormType;
@@ -39,7 +40,7 @@ class UserProfileController extends AbstractController
         //Force login, we do not allow the remember me cookie for profile admin.
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        /** @var \App\Entity\User $user */
+        /** @var User $user */
         $user = $this->getUser();
 
         $form = $this->createForm(UserProfileFormType::class, $user);

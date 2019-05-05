@@ -5,14 +5,14 @@
 {% block body %}
 
     <div class="row mx-3 mx-m-0" id="trickLoginContainer">
-        <div class="col s12 m6 l4 offset-m3 offset-l4 px-m-4 px-s-1 pb-2 mt-3 mt-m-5 z-depth-2">
+        <div class="col s12 m6 xl4 offset-m3 offset-xl4 px-m-4 px-s-1 pb-2 mt-3 mt-m-5 z-depth-2">
             <form method="post" id="login-form">
                 <div class="row center">
                     {% if error %}
                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                     {% endif %}
 
-                    <h1 class="mb-1">Login</h1>
+                    <h1 class="mb-1 font-coiny bordered-text responsive-header">Login</h1>
 
                     <div class="input-field col s12">
                         <label for="inputEmail">Email</label>

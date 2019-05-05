@@ -45,12 +45,14 @@ class TagFixtures extends Fixture implements DependentFixtureInterface
             if($maxTags >0){
                 for($i=0; $i<=$maxTags; $i++){
 
-                    $tagName = $faker->words(rand(1,3), true);
+                    $tagName = strtolower($faker->words(rand(1,3), true));
                     //Avoid duplicate tags
                     $tag = $tagRepository->findOneBy(['name'=>$tagName]);
                     if($tag === null){
                         $tag=new Tag();
                         $tag->setName($tagName);
+                        $manager->persist($tag);
+                        $manager->flush(); //create the tag in DB
                     }
 
                     $trick->addTag($tag);

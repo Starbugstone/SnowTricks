@@ -6,11 +6,13 @@ use App\Entity\Category;
 use App\Entity\Tag;
 use App\Entity\Trick;
 use App\Repository\CategoryRepository;
+use App\Repository\ImageRepository;
 use App\Repository\TagRepository;
 use App\Repository\TrickRepository;
+use App\Repository\VideoRepository;
 use App\Search\TrickSearch;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityRepository;
+
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 class SearchTest extends TestCase
@@ -81,7 +83,7 @@ class SearchTest extends TestCase
         $this->assertSame($trick3, $foundTricks[2]);
     }
 
-    private function getMockedSearch($trickResults = [], $categoryResults = [], $tagResults = [])
+    private function getMockedSearch($trickResults = [], $categoryResults = [], $tagResults = [], $imageResults = [], $videoResults = [])
     {
         $trickRepository = $this->getMockBuilder(TrickRepository::class)
         ->disableOriginalConstructor()
@@ -107,7 +109,22 @@ class SearchTest extends TestCase
             ->method('findBySearchQuery')
             ->will($this->returnValue(new ArrayCollection($tagResults)));
 
+        $imageRepository = $this->getMockBuilder(ImageRepository::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        return new TrickSearch($trickRepository, $categoryRepository, $tagRepository);
+        $imageRepository->expects($this->any())
+            ->method('findBySearchQuery')
+            ->will($this->returnValue(new ArrayCollection($imageResults)));
+
+        $videorepository = $this->getMockBuilder(VideoRepository::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $videorepository->expects($this->any())
+            ->method('findBySearchQuery')
+            ->will($this->returnValue(new ArrayCollection($videoResults)));
+
+        return new TrickSearch($trickRepository, $categoryRepository, $tagRepository, $imageRepository, $videorepository);
     }
 }

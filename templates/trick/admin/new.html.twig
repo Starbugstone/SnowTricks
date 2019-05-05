@@ -1,67 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
+{% block header_title %}
     New Trick
 {% endblock %}
 
 {% block body %}
     <div class="trick-container container z-depth-1 mt-5" id="trickNewContainer">
-        <h1>New trick</h1>
+        <h1 class="center font-coiny bordered-text responsive-header">New trick</h1>
 
         {% include 'trick/admin/_edit-trick-form.html.twig' with {'form': form} %}
 
     </div>
-
-{% endblock %}
-
-{% block javascripts %}
-
-    <script>
-        //init chips
-        document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('.chips');
-            var instances = M.Chips.init(elems, {
-                placeholder: "Add some tags",
-                secondaryPlaceholder: "keep adding Tags",
-                onChipAdd: chipInput,
-                onChipDelete: chipInput,
-                data: [
-                    {% for trickTag in trick.tags %}
-                    {
-                        tag: '{{ trickTag }}'
-                    },
-                    {% endfor %}
-                ],
-                autocompleteOptions: {
-                    data: {
-                        {% for definedTag in allTags %}
-                        '{{ definedTag }}': null,
-                        {% endfor %}
-                    },
-                    limit: Infinity,
-                    minLength: 3
-                }
-            });
-
-            function chipInput(){
-                var elem = document.getElementById('chips1');
-                var tagInput = document.getElementById('trick_tags');
-                var instance = M.Chips.getInstance(elem);
-                var tagData = instance.chipsData;
-
-                var tags = [];
-                for(var $i=0; $i<tagData.length; $i++){
-                    tags.push( tagData[$i].tag);
-                }
-
-                tagInput.value =JSON.stringify(tags);
-            }
-
-        });
-
-
-
-    </script>
 
 {% endblock %}
 

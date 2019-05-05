@@ -37,10 +37,10 @@ class AuthedUserPageTest extends WebTestCase
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         //Filling out the form
-        $form = $crawler->selectButton('trick_save')->form();
+        $form = $crawler->selectButton('trick_form_save')->form();
 
-        $form['trick[name]'] = $this->dummyTitle;
-        $form['trick[text]'] = $this->dummyText;
+        $form['trick_form[name]'] = $this->dummyTitle;
+        $form['trick_form[text]'] = $this->dummyText;
 
         //Submitting the form and following redirect
         $this->client->submit($form);
@@ -68,9 +68,9 @@ class AuthedUserPageTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('div#trickEditContainer')->count());
 
         //Edit the trick via the form
-        $form = $crawler->selectButton('trick[save]')->form();
-        $form['trick[name]'] = $this->dummyTitleEdit;
-        $form['trick[text]'] = $this->dummyTextEdit;
+        $form = $crawler->selectButton('trick_form[save]')->form();
+        $form['trick_form[name]'] = $this->dummyTitleEdit;
+        $form['trick_form[text]'] = $this->dummyTextEdit;
 
         $this->client->submit($form);
 

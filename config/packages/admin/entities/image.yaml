@@ -1,0 +1,24 @@
+easy_admin:
+  entities:
+    Image:
+      class: App\Entity\Image
+      list:
+        fields:
+          - {property: 'id'}
+          - {property: 'title'}
+          - {property: 'image', type: 'image', base_path: '%app.path.trick_images%' }
+          - {property: 'updatedAt'}
+          - {property: 'trick'}
+      form:
+        fields:
+          - {property: 'title'}
+          - {property: 'imageFile', type: 'file'}
+          - {property: 'updatedAt'}
+          - {property: 'trick'}
+      show:
+        fields:
+          - {property: 'id'}
+          - {property: 'title'}
+          - {property: 'image', type: 'image', base_path: '%app.path.trick_images%' }
+          - {property: 'updatedAt'}
+          - {property: 'trick'}

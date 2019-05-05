@@ -4,8 +4,9 @@ namespace App\Controller\Trick\Admin;
 
 use App\Entity\Trick;
 use App\Event\Trick\TrickCreatedEvent;
-use App\Form\TrickType;
+use App\Form\TrickFormType;
 use App\Repository\TagRepository;
+use App\Serializer\TagSerializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,11 +30,19 @@ class NewTrickController extends AbstractController
      * @var TagRepository
      */
     private $tagRepository;
+    /**
+     * @var TagSerializer
+     */
+    private $tagSerializer;
 
-    public function __construct(EventDispatcherInterface $dispatcher, TagRepository $tagRepository)
-    {
+    public function __construct(
+        EventDispatcherInterface $dispatcher,
+        TagRepository $tagRepository,
+        TagSerializer $tagSerializer
+    ) {
         $this->dispatcher = $dispatcher;
         $this->tagRepository = $tagRepository;
+        $this->tagSerializer = $tagSerializer;
     }
 
     /**
@@ -43,7 +52,10 @@ class NewTrickController extends AbstractController
     {
         $trick = new Trick();
 
-        $form = $this->createForm(TrickType::class, $trick);
+        $form = $this->createForm(TrickFormType::class, $trick, [
+            'all_tags_json' => $this->tagSerializer->allTagsJson(),
+            'trick_tags_json' => $trick->getTagsJson(),
+        ]);
 
         $form->handleRequest($request);
 
@@ -60,7 +72,6 @@ class NewTrickController extends AbstractController
 
         return $this->render('trick/admin/new.html.twig', [
             'form' => $form->createView(),
-            'allTags' => $this->tagRepository->findAll(),
             'trick' => $trick,
         ]);
     }

@@ -2,7 +2,7 @@
 
 namespace App\Event\User;
 
-class UserDeleteAccountEvent extends UserEvent
+class UserDeleteAccountEvent extends AbstractUserEvent
 {
     const NAME = 'user.deleteAccount';
 

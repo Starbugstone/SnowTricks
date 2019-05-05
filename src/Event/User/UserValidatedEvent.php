@@ -3,7 +3,7 @@
 namespace App\Event\User;
 
 
-class UserValidatedEvent extends UserEvent
+class UserValidatedEvent extends AbstractUserEvent
 {
     const NAME = 'user.validated';
 }

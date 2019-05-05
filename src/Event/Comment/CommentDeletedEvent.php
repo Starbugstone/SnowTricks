@@ -2,7 +2,7 @@
 
 namespace App\Event\Comment;
 
-class CommentDeletedEvent extends CommentEvent
+class CommentDeletedEvent extends AbstractCommentEvent
 {
     const NAME = 'comment.deleted';
 

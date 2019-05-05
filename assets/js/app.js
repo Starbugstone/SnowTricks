@@ -10,17 +10,22 @@ require('../css/app.scss');
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 // const $ = require('jquery');
+//
 
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+//the show hide images on mobile view
+require('./showTrickImages.js');
 
-//init collapsable accordeon
-document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.collapsible');
-    var instances = M.Collapsible.init(elems);
-});
+//all the materialize calls
+require('./materializeInitialisers.js');
 
-//init select elements
-document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('select');
-    var instances = M.FormSelect.init(elems);
-});
+//our ajax library calls
+require('./axiosCalls.js');
+
+//the scroll button functions
+require('./scrollButtons.js');
+
+//the JS to create the symfony sub forms
+require('./symfonyCollectionType');
+
+
+

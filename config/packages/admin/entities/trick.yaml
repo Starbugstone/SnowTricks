@@ -11,6 +11,8 @@ easy_admin:
           - {property: 'editedAt'}
           - {property: 'tags'}
           - {property: 'comments'}
+          - {property: 'images'}
+          - {property: 'videos'}
       form:
         fields:
           - {property: 'name'}

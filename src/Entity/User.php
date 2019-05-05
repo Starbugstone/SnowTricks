@@ -2,10 +2,16 @@
 
 namespace App\Entity;
 
+use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
+use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -19,7 +25,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @UniqueEntity(fields={"verifiedHash"}, message="Hash already exists")
  * @Vich\Uploadable
  */
-class User extends AppEntity implements UserInterface, \Serializable
+class User extends AbstractAppEntity implements UserInterface, Serializable
 {
 
     const HASH_VALIDATION_TIME_LIMIT = 1; //number of days that the validation link is active
@@ -60,6 +66,7 @@ class User extends AppEntity implements UserInterface, \Serializable
     private $image = "";
 
     /**
+     * @Assert\Image()
      * @Vich\UploadableField(mapping="user_images", fileNameProperty="image")
      * @var File
      */
@@ -88,13 +95,13 @@ class User extends AppEntity implements UserInterface, \Serializable
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", cascade={"remove"})
      */
-    private $Comments;
+    private $comments;
 
     public function __construct()
     {
-        $this->Comments = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -184,7 +191,7 @@ class User extends AppEntity implements UserInterface, \Serializable
 
     public function getImage()
     {
-        if($this->image === ""){
+        if ($this->image === "") {
             return "";
         }
         return $this->image;
@@ -206,9 +213,9 @@ class User extends AppEntity implements UserInterface, \Serializable
     }
 
     /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $imageFile
+     * @param File|UploadedFile $imageFile
      * @return User
-     * @throws \Exception
+     * @throws Exception
      */
     public function setImageFile(File $imageFile = null): self
     {
@@ -218,18 +225,16 @@ class User extends AppEntity implements UserInterface, \Serializable
         // It is required that at least one field changes if you are using Doctrine,
         // otherwise the event listeners won't be called and the file is lost
         if ($imageFile) {
-            // if 'updatedAt' is not defined in your entity, use another property
-//            $this->updatedAt = new \DateTime('now');
-            $this->updatedAt = new \DateTimeImmutable();
+            $this->updatedAt = new DateTimeImmutable();
         }
 
         return $this;
     }
 
     /**
-     * @return \DateTimeInterface|null
+     * @return DateTimeInterface|null
      */
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
@@ -269,12 +274,12 @@ class User extends AppEntity implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getVerifiedDateTime(): ?\DateTimeInterface
+    public function getVerifiedDateTime(): ?DateTimeInterface
     {
         return $this->verifiedDateTime;
     }
 
-    public function setVerifiedDateTime(\DateTimeInterface $verifiedDateTime): self
+    public function setVerifiedDateTime(DateTimeInterface $verifiedDateTime): self
     {
         $this->verifiedDateTime = $verifiedDateTime;
 
@@ -283,11 +288,11 @@ class User extends AppEntity implements UserInterface, \Serializable
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function isVerifiedDateTimeValid(): bool
     {
-        $now = new \DateTime();
+        $now = new DateTime();
         return $now->getTimestamp() - $this->getVerifiedDateTime()->getTimestamp() <= self::HASH_VALIDATION_TIME_LIMIT * 60 * 60 * 24;
     }
 
@@ -343,7 +348,7 @@ class User extends AppEntity implements UserInterface, \Serializable
             $this->verified,
             $this->verifiedDateTime,
             $this->updatedAt,
-            )=unserialize($serialized, ['allowed_classes' => false]);
+            ) = unserialize($serialized, ['allowed_classes' => false]);
     }
 
     /**
@@ -351,13 +356,13 @@ class User extends AppEntity implements UserInterface, \Serializable
      */
     public function getComments(): Collection
     {
-        return $this->Comments;
+        return $this->comments;
     }
 
     public function addComment(Comment $comment): self
     {
-        if (!$this->Comments->contains($comment)) {
-            $this->Comments[] = $comment;
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
             $comment->setUser($this);
         }
 
@@ -366,8 +371,8 @@ class User extends AppEntity implements UserInterface, \Serializable
 
     public function removeComment(Comment $comment): self
     {
-        if ($this->Comments->contains($comment)) {
-            $this->Comments->removeElement($comment);
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
             // set the owning side to null (unless already changed)
             if ($comment->getUser() === $this) {
                 $comment->setUser(null);
@@ -375,5 +380,10 @@ class User extends AppEntity implements UserInterface, \Serializable
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getUsername() . ' / ' . $this->getEmail();
     }
 }

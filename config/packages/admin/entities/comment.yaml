@@ -1,0 +1,17 @@
+easy_admin:
+  entities:
+    Comment:
+      class: App\Entity\Comment
+      list:
+        fields:
+          - {property: 'id'}
+          - {property: 'trick'}
+          - {property: 'user'}
+          - {property: 'createdAt'}
+          - {property: 'commentExcerpt'}
+      form:
+        fields:
+          - {property: 'trick'}
+          - {property: 'user'}
+          - {property: 'createdAt'}
+          - {property: 'comment'}

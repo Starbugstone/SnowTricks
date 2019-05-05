@@ -37,7 +37,7 @@ class CreateCommentController extends AbstractController
     public function createComment(Trick $trick, Request $request)
     {
 
-        $receivedComment = $request->request->get('comment');
+        $receivedComment = $request->request->get('comment_form');
 
         if (!$this->isCsrfTokenValid('CommentForm', $receivedComment['_token'])) {
             throw new RedirectException($this->generateUrl('home'), 'Bad CSRF Token');

@@ -24,3 +24,13 @@ easy_admin:
               expanded: true
               choices: {'Administrator': 'ROLE_ADMIN'}
               multiple: true
+      show:
+        fields:
+          - {property: 'id'}
+          - {property: 'email'}
+          - {property: 'userName'}
+          - {property: 'image', type: 'image', base_path: '%app.path.user_images%' }
+          - {property: 'verified'}
+          - {property: 'verifiedDateTime'}
+          - {property: 'updatedAt'}
+          - {property: 'comments', type: 'association'}

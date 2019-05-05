@@ -33,7 +33,7 @@ class UserFixtures extends Fixture
                 'admin'
             ))
             ->setRoles(['ROLE_ADMIN'])
-            ->setImage($faker->image('public/uploads/images',400,300, null, false) )
+            ->setImage($faker->image('public/uploads/user_images',400,300, null, false) )
             ->setVerified(true)
             ->setVerifiedHash(bin2hex(random_bytes(16)));
 
@@ -47,7 +47,7 @@ class UserFixtures extends Fixture
                 $user,
                 'user'
             ))
-            ->setImage($faker->image('public/uploads/images',400,300, null, false) )
+            ->setImage($faker->image('public/uploads/user_images',400,300, null, false) )
             ->setVerified(true)
             ->setVerifiedHash(bin2hex(random_bytes(16)));
 
@@ -84,7 +84,7 @@ class UserFixtures extends Fixture
 
             //Not all users will have an image
             if(rand(0,2)>=1){
-                $user->setImage($faker->image('public/uploads/images',400,300, null, false) );
+                $user->setImage($faker->image('public/uploads/user_images',400,300, null, false) );
             }
             // $product = new Product();
             $manager->persist($user);

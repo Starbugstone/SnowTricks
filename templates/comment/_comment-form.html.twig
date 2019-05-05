@@ -1,0 +1,24 @@
+{% if actionPath is not defined %}
+    {{ form_start(commentForm) }}
+{% else %}
+    {{ form_start(commentForm, {
+        action:actionPath,
+        method:'POST',
+    }) }}
+{% endif %}
+
+
+    <div class="input-field row">
+        <i class="material-icons prefix">mode_edit</i>
+        {{ form_widget(commentForm.comment) }}
+        {{ form_label(commentForm.comment, 'comment') }}
+
+        {{ form_widget(commentForm.save) }}
+    </div>
+
+
+
+
+
+
+{{ form_end(commentForm) }}

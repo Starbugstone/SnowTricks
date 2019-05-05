@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -40,7 +41,7 @@ class UserRepository extends ServiceEntityRepository
      * Get the unique user from it's hash
      * @param $hash
      * @return User|null
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findUserByHash($hash): ?User
     {
@@ -54,7 +55,7 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @param string $userMailName
      * @return User|null
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findUserByMailOrUsername(string $userMailName): ?User
     {

@@ -6,12 +6,14 @@ namespace App\Controller\Trick\Admin;
 use App\Entity\Trick;
 use App\Event\Trick\TrickDeletedEvent;
 use App\Event\Trick\TrickEditedEvent;
-use App\Form\TrickType;
+use App\Form\TrickFormType;
 use App\History\TrickHistory;
 use App\Repository\TagRepository;
+use App\Serializer\TagSerializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -38,12 +40,21 @@ class EditTrickController extends AbstractController
      * @var TagRepository
      */
     private $tagRepository;
+    /**
+     * @var TagSerializer
+     */
+    private $tagSerializer;
 
-    public function __construct(EventDispatcherInterface $dispatcher, TrickHistory $trickHistory, TagRepository $tagRepository )
-    {
+    public function __construct(
+        EventDispatcherInterface $dispatcher,
+        TrickHistory $trickHistory,
+        TagRepository $tagRepository,
+        TagSerializer $tagSerializer
+    ) {
         $this->dispatcher = $dispatcher;
         $this->trickHistory = $trickHistory;
         $this->tagRepository = $tagRepository;
+        $this->tagSerializer = $tagSerializer;
     }
 
     /**
@@ -51,19 +62,13 @@ class EditTrickController extends AbstractController
      */
     public function edit(Trick $trick, Request $request)
     {
-
-        $form = $this->createForm(TrickType::class, $trick);
-        $form
-            ->add('delete', SubmitType::class, [
-                'label' => 'Delete',
-                'attr' => [
-                    'class' => 'waves-effect waves-light btn right mr-2',
-                    'onclick' => 'return confirm(\'are you sure?\')',
-                ]
-            ]);
+        /** @var Form $form */
+        $form = $this->createForm(TrickFormType::class, $trick, [
+            'all_tags_json' => $this->tagSerializer->allTagsJson(),
+            'trick_tags_json' => $trick->getTagsJson(),
+        ]);
 
         $form->handleRequest($request);
-
 
         if ($form->getClickedButton() && $form->getClickedButton()->getName() === 'delete') {
 
@@ -85,7 +90,6 @@ class EditTrickController extends AbstractController
         }
 
         return $this->render('trick/admin/edit.html.twig', [
-            'allTags' => $this->tagRepository->findAll(),
             'trick' => $trick,
             'form' => $form->createView(),
         ]);

@@ -2,14 +2,19 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
  */
-class Comment extends AppEntity
+class Comment extends AbstractAppEntity
 {
+
+    const NUMBER_OF_DISPLAYED_COMMENTS = 8;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -19,6 +24,8 @@ class Comment extends AppEntity
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
+     * @Assert\NotNull
      */
     private $comment;
 
@@ -34,7 +41,7 @@ class Comment extends AppEntity
     private $trick;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="Comments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
      */
     private $user;
 
@@ -55,12 +62,12 @@ class Comment extends AppEntity
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -90,4 +97,14 @@ class Comment extends AppEntity
 
         return $this;
     }
+
+    public function getCommentExcerpt(){
+        return implode(' ', array_slice(explode(' ', $this->getComment()), 0, 10))." ...";
+    }
+
+    public function __toString()
+    {
+        return $this->getCommentExcerpt();
+    }
+
 }

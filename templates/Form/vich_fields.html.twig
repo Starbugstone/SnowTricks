@@ -1,0 +1,23 @@
+{% extends 'VichUploaderBundle:Form:fields.html.twig' %}
+{% block vich_image_widget %}
+    <div class="file-field input-field">
+        <div class="btn">
+            <span>File</span>
+            {{- form_widget(form.file) -}}
+        </div>
+        <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+        </div>
+
+        {%- if form.delete is defined -%}
+            {{- form_row(form.delete) -}}
+        {%- endif -%}
+
+        {%- if image_uri -%}
+            <a href="{{ image_uri }}"><img src="{{ image_uri }}" alt="" /></a>
+        {%- endif -%}
+        {%- if download_uri -%}
+            <a href="{{ download_uri }}">{{ translation_domain is same as(false) ? download_label : download_label|trans({}, translation_domain) }}</a>
+        {%- endif -%}
+    </div>
+{% endblock %}

@@ -6,6 +6,7 @@ use App\Entity\Trick;
 use App\History\TrickHistory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -28,7 +29,7 @@ class TrickHistoryController extends AbstractController
 
     /**
      * @Route("/trick/edit/history/{id}", name="trick.history")
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function index(Trick $trick)
     {

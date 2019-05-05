@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
+{% block header_title %}
     Edit trick {{ trick.name }}
 {% endblock %}
 
@@ -9,87 +9,50 @@
 
         <!-- Header image with edit buttons -->
         <div class="trick-image-header">
+            <div class="trick-edit-button px-3 mt-3 mr-2">
+                <a href="{{ path('trick.show', {id:trick.id, slug:trick.slug}) }}"
+                   class="waves-effect waves-light btn-small px-2 mt-1">
+                    <i class="material-icons">visibility</i>
+                </a>
+            </div>
 
-            <img src="https://via.placeholder.com/350x150" alt="" class="responsive-img w100">
-            <h1 class="trick-name center-align w100 font-coiny m-0 text-shadow">{{ trick.name }}</h1>
+            <!-- Header image -->
+            {% include 'media/_trick-primary-image.html.twig' with {'trick': trick} %}
+
+            <h1 class="trick-name center-align w100 font-coiny m-0 bordered-text responsive-header">EDIT
+                :<br>{{ trick.name }}</h1>
         </div>
 
         <!-- Images and videos -->
-        <div class="row flex-center" id="trick-images">
-            {% for i in 0..10 %}
-                <div class="col xl2 l3 m6 s12 mt-3">
-                    <img src="https://via.placeholder.com/350x150" alt="" class="responsive-img w100 z-depth-2">
-                </div>
-
+        <h2 class="small-title grey-text text-lighten-1 mt-1 mb-2">Set the main image</h2>
+        <div class="row flex-center valign-wrapper" id="trick-images">
+            {% for image in trick.images %}
+                {% if image.id is not null %} {# if null, we had an upload problem #}
+                    <div class="col xl2 l3 m6 s12 mt-3">
+                        {% include 'media/_edit-trick-image.html.twig' with {'image': image, 'edit': true, 'trick': trick} %}
+                    </div>
+                {% endif %}
             {% endfor %}
 
+            {% for video in trick.videos %}
+                <div class="col xl2 l3 m6 s12 mt-3">
+                    {% include 'media/_trick-video.html.twig' with {'video': video, 'edit': true} %}
+                </div>
+            {% endfor %}
         </div>
-
-        <h1>edit {{ trick.name }}</h1>
 
         {% include 'trick/admin/_edit-trick-form.html.twig' with {'form': form} %}
 
         {# Getting the logs #}
         {% if is_granted('ROLE_ADMIN') %}
             <div class="row center">
-                <a class="btn waves-effect waves-light mb-3" href="{{ path('trick.history', {'id': trick.id}) }}">view {{ trick.name }} history</a>
+                <a class="btn waves-effect waves-light mb-3"
+                   href="{{ path('trick.history', {'id': trick.id}) }}">view {{ trick.name }} history</a>
             </div>
 
         {% endif %}
 
     </div>
-
-{% endblock %}
-
-{% block javascripts %}
-
-    <script>
-        //init chips
-        document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('.chips');
-            var instances = M.Chips.init(elems, {
-                placeholder: "Add some tags",
-                secondaryPlaceholder: "keep adding Tags",
-                onChipAdd: chipInput,
-                onChipDelete: chipInput,
-                data: [
-                    {% for trickTag in trick.tags %}
-                    {
-                        tag: '{{ trickTag }}'
-                    },
-                    {% endfor %}
-                ],
-                autocompleteOptions: {
-                    data: {
-                        {% for definedTag in allTags %}
-                            '{{ definedTag }}': null,
-                        {% endfor %}
-                    },
-                    limit: Infinity,
-                    minLength: 3
-                }
-            });
-
-            function chipInput(){
-                var elem = document.getElementById('chips1');
-                var tagInput = document.getElementById('trick_tags');
-                var instance = M.Chips.getInstance(elem);
-                var tagData = instance.chipsData;
-
-                var tags = [];
-                for(var $i=0; $i<tagData.length; $i++){
-                    tags.push( tagData[$i].tag);
-                }
-
-                tagInput.value =JSON.stringify(tags);
-            }
-
-        });
-
-
-
-    </script>
-
 {% endblock %}
 
 

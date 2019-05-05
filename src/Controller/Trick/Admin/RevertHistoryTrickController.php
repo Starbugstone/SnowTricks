@@ -8,6 +8,7 @@ use App\FlashMessage\AddFlashTrait;
 use App\FlashMessage\FlashMessageCategory;
 use App\History\TrickHistory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -36,7 +37,7 @@ class RevertHistoryTrickController extends AbstractController
      * @param Trick $trick
      * @param $historyId
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      * @Route("/trick/revert/{id}/{historyId}", name="trick.revert")
      */
 
@@ -49,7 +50,7 @@ class RevertHistoryTrickController extends AbstractController
         $version = $request->request->get('_version');
         $this->trickHistory->revertToHistory($trick->getId(), $version);
 
-        $this->addFlash(FlashMessageCategory::SUCCESS, 'Reverted ' . $trick->getName());
+        $this->addFlashMessage(FlashMessageCategory::SUCCESS, 'Reverted ' . $trick->getName());
         return $this->redirectToRoute('trick.show', [
             'id' => $trick->getId(),
             'slug' => $trick->getSlug(),
