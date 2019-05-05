@@ -65,8 +65,10 @@ class User extends AbstractAppEntity implements UserInterface, Serializable
     private $image = "";
 
     /**
+     * @Assert\Image()
      * @UploadableField(filename="image", path="uploads/user_images")
      * @var File
+     *
      */
     private $imageFile;
 

@@ -41,8 +41,10 @@ class Image extends AbstractAppEntity
     private $image;
 
     /**
+     * @Assert\Image()
      * @UploadableField(filename="image", path="uploads/trick_images")
      * @var File
+     *
      */
     private $imageFile;
 
