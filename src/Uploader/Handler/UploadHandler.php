@@ -26,7 +26,6 @@ class UploadHandler {
             $filename = md5(uniqid()).'.'.$file->guessExtension();
             $file->move($annotation->getPath(), $filename);
             $this->accessor->setValue($entity, $annotation->getFilename(), $filename);
-            dump($filename);
         }
     }
 

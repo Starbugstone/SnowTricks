@@ -45,6 +45,9 @@ class Image extends AbstractAppEntity
     /**
      * @UploadableField(filename="image", path="uploads/trick_images")
      * @var File
+     * @Assert\File(
+     *     maxSize = "2000K"
+     *     )
      */
     private $imageFile;
 
