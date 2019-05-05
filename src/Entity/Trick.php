@@ -83,6 +83,7 @@ class Trick extends AbstractAppEntity
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="trick", cascade={"remove", "persist"})
+     * @Assert\Valid
      */
     private $images;
 

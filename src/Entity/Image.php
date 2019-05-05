@@ -44,6 +44,9 @@ class Image extends AbstractAppEntity
     /**
      * @Vich\UploadableField(mapping="trick_images", fileNameProperty="image")
      * @var File
+     * @Assert\File(
+     *     maxSize = "2000K"
+     *     )
      */
     private $imageFile;
 
@@ -87,7 +90,7 @@ class Image extends AbstractAppEntity
 
     public function getWebImage(): ?string
     {
-        return '/uploads/trick_images/'.$this->image;
+        return '/uploads/trick_images/' . $this->image;
     }
 
 

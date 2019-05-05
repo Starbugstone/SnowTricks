@@ -19,16 +19,19 @@
             <!-- Header image -->
             {% include 'media/_trick-primary-image.html.twig' with {'trick': trick} %}
 
-            <h1 class="trick-name center-align w100 font-coiny m-0 bordered-text responsive-header">EDIT :<br>{{ trick.name }}</h1>
+            <h1 class="trick-name center-align w100 font-coiny m-0 bordered-text responsive-header">EDIT
+                :<br>{{ trick.name }}</h1>
         </div>
 
         <!-- Images and videos -->
         <h2 class="small-title grey-text text-lighten-1 mt-1 mb-2">Set the main image</h2>
         <div class="row flex-center valign-wrapper" id="trick-images">
             {% for image in trick.images %}
-                <div class="col xl2 l3 m6 s12 mt-3">
-                    {% include 'media/_edit-trick-image.html.twig' with {'image': image, 'edit': true, 'trick': trick} %}
-                </div>
+                {% if image.id is not null %} {# if null, we had an upload problem #}
+                    <div class="col xl2 l3 m6 s12 mt-3">
+                        {% include 'media/_edit-trick-image.html.twig' with {'image': image, 'edit': true, 'trick': trick} %}
+                    </div>
+                {% endif %}
             {% endfor %}
 
             {% for video in trick.videos %}
