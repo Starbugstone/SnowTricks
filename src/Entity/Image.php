@@ -42,11 +42,9 @@ class Image extends AbstractAppEntity
     private $image;
 
     /**
+     * @Assert\Image()
      * @Vich\UploadableField(mapping="trick_images", fileNameProperty="image")
      * @var File
-     * @Assert\File(
-     *     maxSize = "2000K"
-     *     )
      */
     private $imageFile;
 
