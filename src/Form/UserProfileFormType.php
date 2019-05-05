@@ -27,6 +27,7 @@ class UserProfileFormType extends AbstractType
                 //TODO: upload form using materialise
             ->add('imageFile', FileType::class, [
                 'required' => false,
+                'label' => false,
             ])
             ->add('updateProfile', SubmitType::class, [
                 'label' => $options['save_button_label'],

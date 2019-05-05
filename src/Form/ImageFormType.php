@@ -28,6 +28,7 @@ class ImageFormType extends AbstractType
                     $form->add('imageFile', FileType::class, [
                         'required' => false,
                         'error_bubbling' => false,
+                        'label' => false,
                     ]);
                 }
                 else {
