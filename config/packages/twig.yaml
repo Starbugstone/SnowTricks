@@ -16,5 +16,4 @@ twig:
 
 
     form_themes:
-        - 'Form/vich_fields.html.twig'
         - 'Form/fields.html.twig'

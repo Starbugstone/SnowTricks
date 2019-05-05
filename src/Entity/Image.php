@@ -9,12 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
- * @Vich\Uploadable
  */
 class Image extends AbstractAppEntity
 {
@@ -29,10 +27,10 @@ class Image extends AbstractAppEntity
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      * @Assert\Length(
-     *     min=5,
+     *     min=3,
      *     max=255,
-     *     minMessage = "Title must be at least {{ limit }} characters",
-     *     maxMessage = "Title can not exceed {{ limit }} characters"
+     *     minMessage = "Image title must be at least {{ limit }} characters",
+     *     maxMessage = "Image title can not exceed {{ limit }} characters"
      * )
      */
     private $title;
@@ -45,9 +43,6 @@ class Image extends AbstractAppEntity
     /**
      * @UploadableField(filename="image", path="uploads/trick_images")
      * @var File
-     * @Assert\File(
-     *     maxSize = "2000K"
-     *     )
      */
     private $imageFile;
 

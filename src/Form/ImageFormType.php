@@ -6,12 +6,12 @@ namespace App\Form;
 use App\Entity\Image;
 use App\Form\Type\ShowImageType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
 
 class ImageFormType extends AbstractType
@@ -25,11 +25,9 @@ class ImageFormType extends AbstractType
                 $form = $event->getForm();
 
                 if (!$image || $image->getId() === null) {
-                    $form->add('imageFile', VichImageType::class, [
-                        'required' => true,
-                        'allow_delete' => false,
-                        'download_uri' => false,
-                        'image_uri' => false,
+                    $form->add('imageFile', FileType::class, [
+                        'required' => false,
+                        'error_bubbling' => false,
                     ]);
                 }
                 else {
