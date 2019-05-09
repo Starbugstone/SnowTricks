@@ -28,6 +28,7 @@ class Video extends AbstractAppEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="videos", cascade={"persist"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $trick;
 
