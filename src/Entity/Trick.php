@@ -76,19 +76,21 @@ class Trick extends AbstractAppEntity
     private $tags;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="trick", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="trick", cascade={"remove", "persist"}, orphanRemoval=true)
      * @ORM\OrderBy({"createdAt" = "DESC"})
+     *
      */
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="trick", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="trick", cascade={"remove", "persist"}, orphanRemoval=true)
      * @Assert\Valid
      */
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", cascade={"remove", "persist"}, orphanRemoval=true)
+     * @Assert\Valid
      */
     private $videos;
 
