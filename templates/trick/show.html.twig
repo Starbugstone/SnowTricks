@@ -5,6 +5,16 @@
 {% block header_title %}{{ trick.name }}{% endblock %}
 {% block header_description %}{{ trick.text|striptags|length > 155 ? trick.text|striptags|slice(0, 155) ~ '...' : trick.text|striptags }}{% endblock %}
 
+{% block facebook_meta %}
+    <meta property="og:url"
+          content="{{ app.request.getSchemeAndHttpHost() ~ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="{{ trick.name }}"/>
+    <meta property="og:description"
+          content="{{ trick.text|striptags|length > 155 ? trick.text|striptags|slice(0, 155) ~ '...' : trick.text|striptags }}"/>
+    <meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() ~ app_menu_logo }}"/>
+{% endblock %}
+
 {% block body %}
 
     <div class="trick-container container z-depth-1 my-5 pb-1" id="trickShowContainer" data-id="{{ trick.id }}">
