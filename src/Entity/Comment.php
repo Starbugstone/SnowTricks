@@ -37,11 +37,13 @@ class Comment extends AbstractAppEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="comments")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $trick;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $user;
 

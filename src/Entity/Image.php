@@ -49,7 +49,8 @@ class Image extends AbstractAppEntity
     private $imageFile;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="images")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="images", cascade={"persist"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $trick;
 

@@ -95,7 +95,7 @@ class User extends AbstractAppEntity implements UserInterface, Serializable
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", cascade={"remove", "persist"}, orphanRemoval=true)
      */
     private $comments;
 
