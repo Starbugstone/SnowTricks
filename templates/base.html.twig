@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% block facebook_meta %}
+        <meta property="og:url"
+              content="{{ app.request.getSchemeAndHttpHost() ~ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}"/>
+        <meta property="og:title" content="{{ app_default_page_title }}"/>
+        <meta property="og:description" content="{{ app_default_page_description }}"/>
+        <meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() ~ app_menu_logo }}"/>
+    {% endblock %}
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
