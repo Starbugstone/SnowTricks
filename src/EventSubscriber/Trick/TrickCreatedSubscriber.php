@@ -4,6 +4,7 @@ namespace App\EventSubscriber\Trick;
 
 use App\Entity\Image;
 use App\Event\Trick\AbstractTrickEvent;
+use App\Event\Trick\TrickAddPrimaryImageEvent;
 use App\Event\Trick\TrickCreatedEvent;
 use App\Event\Trick\TrickEditedEvent;
 use App\FlashMessage\FlashMessageCategory;
@@ -50,6 +51,9 @@ class TrickCreatedSubscriber extends AbstractTrickSubscriber implements EventSub
             ],
             TrickEditedEvent::NAME => [
                 ['registerTrickToDatabase', 30],
+            ],
+            TrickAddPrimaryImageEvent::NAME => [
+                ['setFirstImageAsPrimary', 50],
             ],
         ];
     }

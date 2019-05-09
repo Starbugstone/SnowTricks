@@ -4,6 +4,7 @@ namespace App\Controller\Trick\Admin;
 
 
 use App\Entity\Trick;
+use App\Event\Trick\TrickAddPrimaryImageEvent;
 use App\Event\Trick\TrickDeletedEvent;
 use App\Event\Trick\TrickEditedEvent;
 use App\Form\TrickFormType;
@@ -62,6 +63,7 @@ class EditTrickController extends AbstractController
      */
     public function edit(Trick $trick, Request $request)
     {
+        $originalTrickImages = $trick->getImages()->count();
         /** @var Form $form */
         $form = $this->createForm(TrickFormType::class, $trick, [
             'all_tags_json' => $this->tagSerializer->allTagsJson(),
@@ -79,7 +81,10 @@ class EditTrickController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            if($originalTrickImages === 0){
+                $addImageEvent = new TrickAddPrimaryImageEvent($trick);
+                $this->dispatcher->dispatch(TrickAddPrimaryImageEvent::NAME, $addImageEvent);
+            }
             $event = new TrickEditedEvent($trick);
             $this->dispatcher->dispatch(TrickEditedEvent::NAME, $event);
 
