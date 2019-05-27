@@ -68,6 +68,7 @@ class User extends AbstractAppEntity implements UserInterface, Serializable
     /**
      * @Assert\Image()
      * @Vich\UploadableField(mapping="user_images", fileNameProperty="image")
+     * @Assert\File(maxSize="1M")
      * @var File
      */
     private $imageFile;

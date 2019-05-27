@@ -10,6 +10,7 @@ use App\Repository\CommentRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -46,7 +47,7 @@ class ShowTrickController extends AbstractController
 
         $commentForm = $this->createForm(CommentFormType::class);
 
-        $page = $request->get('page')??1;
+        $page = $request->get('page') ?? 1;
 
         /** @var Paginator $tricks */
         $comments = $this->repository->findLatestEdited($trick->getId(), $page);
@@ -60,7 +61,8 @@ class ShowTrickController extends AbstractController
             $jsonResponse = array(
                 'render' => $render,
                 'nextPage' => $nextPage,
-                'nextPageUrl' => $this->generateUrl('trick.show', array('page' => $nextPage, 'id' => $trick->getId(), 'slug' => $trick->getSlug())),
+                'nextPageUrl' => $this->generateUrl('trick.show',
+                    array('page' => $nextPage, 'id' => $trick->getId(), 'slug' => $trick->getSlug())),
             );
 
             return new JsonResponse($jsonResponse);
@@ -70,10 +72,24 @@ class ShowTrickController extends AbstractController
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
             'commentForm' => $commentForm->createView(),
-            'actionPath'=>$this->generateUrl('comment.create', ['id' => $trick->getId()]),
+            'actionPath' => $this->generateUrl('comment.create', ['id' => $trick->getId()]),
             'comments' => $comments,
             'nextPage' => $nextPage,
         ]);
+    }
+
+
+    /**
+     * Adding a route with only the ID that redirects to the slugged route
+     * @Route("/trick/{id}", name="trick.show.id", requirements={"id"="\d+"})
+     * @return RedirectResponse
+     */
+    public function showOnlyId(Trick $trick)
+    {
+        return $this->redirectToRoute('trick.show', [
+            'id' => $trick->getId(),
+            'slug' => $trick->getSlug()
+        ], 301);
     }
 
 }
