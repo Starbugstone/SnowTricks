@@ -10,6 +10,7 @@ use App\Repository\CommentRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -80,11 +81,11 @@ class ShowTrickController extends AbstractController
 
     /**
      * Adding a route with only the ID that redirects to the slugged route
-     * @Route("/trick/{id}", name="trick.show.id")
+     * @Route("/trick/{id}", name="trick.show.id", requirements={"id"="\d+"})
+     * @return RedirectResponse
      */
     public function showOnlyId(Trick $trick)
     {
-
         return $this->redirectToRoute('trick.show', [
             'id' => $trick->getId(),
             'slug' => $trick->getSlug()

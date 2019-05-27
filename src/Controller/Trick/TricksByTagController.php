@@ -84,4 +84,15 @@ class TricksByTagController extends AbstractController
             'nextPage' => $nextPage,
         ]);
     }
+
+    /**
+     * @Route("/trick/tag/{id}", name="trick.tag.id", methods={"GET"}, requirements={"id"="\d+"})
+     */
+    public function tagOnlyId(Tag $tag)
+    {
+        return $this->redirectToRoute('trick.tag', [
+            'id' => $tag->getId(),
+            'slug' => $tag->getSlug()
+        ], 301);
+    }
 }
