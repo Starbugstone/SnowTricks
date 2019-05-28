@@ -42,10 +42,7 @@ class TricksByTagController extends AbstractController
     public function showTricksByTag(Request $request, Tag $tag, string $slug)
     {
         if ($tag->getSlug() !== $slug) {
-            return $this->redirectToRoute('trick.tag', [
-                'id' => $tag->getId(),
-                'slug' => $tag->getSlug()
-            ], 301);
+            return $this->correctSlug($tag);
         }
 
         $page = $request->get('page') ?? 1;
@@ -89,6 +86,16 @@ class TricksByTagController extends AbstractController
      * @Route("/trick/tag/{id}", name="trick.tag.id", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function tagOnlyId(Tag $tag)
+    {
+        return $this->correctSlug($tag);
+    }
+
+    /**
+     * Redirecting to the correct url
+     * @param Tag $tag
+     * @return RedirectResponse
+     */
+    private function correctSlug(Tag $tag)
     {
         return $this->redirectToRoute('trick.tag', [
             'id' => $tag->getId(),
