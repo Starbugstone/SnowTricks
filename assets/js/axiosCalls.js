@@ -37,10 +37,16 @@ function setPrimaryImage(image) {
 
             if (data.isPrimary) {
                 image.classList.add('primary-trick-image');
-                primaryImage.src = data.image;
+                if (data.isCarousel === "false"){
+                    primaryImage.src = data.image;
+                }
+
             } else {
                 image.classList.remove('primary-trick-image');
-                primaryImage.src = data.defaultPrimaryImage;
+                if (data.isCarousel === "false"){
+                    primaryImage.src = data.defaultPrimaryImage;
+                }
+
             }
             M.toast({html: 'primary image updated'});
         })
