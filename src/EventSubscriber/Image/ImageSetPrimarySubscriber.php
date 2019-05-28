@@ -11,23 +11,26 @@ class ImageSetPrimarySubscriber extends AbstractImageSubscriber implements Event
 
     public function resetPrimaryImages(ImageSetPrimaryEvent $event)
     {
-        if (getenv('PRIMARY_IMAGE_CAROUSEL') === "false") {
-            $trick = $event->getTrick();
-            $image = $event->getEntity();
 
-            //we only want one front image, so reset others. we could just reset the primary but this corrects bugs if we have 2 primary images if we switch from carousel to uniques
-            //leaving the clicked button on primary so the next step ca take care of the setting / unsetting
-            $trickImages = $trick->getImages();
-
-            /** @var Image $trickImage */
-            foreach ($trickImages as $trickImage) {
-                if ($trickImage->getPrimaryImage() && $trickImage !== $image ) {
-                    $trickImage->setPrimaryImage(false);
-                }
-
-            }
-            $this->em->persist($trick);
+        if (getenv('PRIMARY_IMAGE_CAROUSEL') !== "false") {
+            return;
         }
+
+        $trick = $event->getTrick();
+        $image = $event->getEntity();
+
+        //we only want one front image, so reset others. we could just reset the primary but this corrects bugs if we have 2 primary images if we switch from carousel to uniques
+        //leaving the clicked button on primary so the next step ca take care of the setting / unsetting
+        $trickImages = $trick->getImages();
+
+        /** @var Image $trickImage */
+        foreach ($trickImages as $trickImage) {
+            if ($trickImage->getPrimaryImage() && $trickImage !== $image) {
+                $trickImage->setPrimaryImage(false);
+            }
+        }
+        $this->em->persist($trick);
+
     }
 
     public function setPrimaryImageToggle(ImageSetPrimaryEvent $event)
@@ -41,9 +44,9 @@ class ImageSetPrimarySubscriber extends AbstractImageSubscriber implements Event
         /** @var Image $trickImage */
         foreach ($trickImages as $trickImage) {
             if ($trickImage === $image) {
-                if($trickImage->getPrimaryImage()){
+                if ($trickImage->getPrimaryImage()) {
                     $trickImage->setPrimaryImage(false);
-                }else{
+                } else {
                     $trickImage->setPrimaryImage(true);
                 }
 
