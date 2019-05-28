@@ -75,7 +75,12 @@ function loadMoreFunction(linkElement) {
     let url = linkElement.href;
     let CardList = document.querySelector('#card-list');
 
+    if(linkElement.classList.contains('pulse')){
+        //we are already getting a request, STOP
+        return;
+    }
     linkElement.classList.add('pulse');
+
 
     axios.get(url)
         .then(res=>{
