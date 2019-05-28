@@ -83,7 +83,9 @@ document.addEventListener('DOMContentLoaded', function () {
 //init carousel
 document.addEventListener('DOMContentLoaded', function () {
     var elemCarousel = document.querySelectorAll('.carousel');
-    var instances = M.Carousel.init(elemCarousel);
+    var instances = M.Carousel.init(elemCarousel, {
+        fullWidth: true
+    });
 });
 
 //init modal
