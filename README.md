@@ -31,7 +31,7 @@ To install, you need
 - Apply the migrations with ```php bin/console d:m:m```
 - Load the demo fixtures with ```php bin/console d:f:l```
 - Compile the assets with ```yarn encore dev```
-- Start the symphony server with ```php bin/console server:run```
+- Start the symfony server with ```php bin/console server:run```
 - The default admin user is admin/admin
 - Multiple users created, all with the password &quot;user&quot;
 
