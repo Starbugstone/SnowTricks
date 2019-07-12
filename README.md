@@ -1,5 +1,9 @@
 # SnowTricks comunity site
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Starbugstone/SnowTricks/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/Starbugstone/SnowTricks/?branch=develop)
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/40bf276ce48122ba1375/maintainability)](https://codeclimate.com/github/Starbugstone/SnowTricks/maintainability)
+
 ## How to install
 
 ### Requirements
